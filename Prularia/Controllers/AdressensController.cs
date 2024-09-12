@@ -22,7 +22,7 @@ namespace Prularia.Controllers
         // GET: Adressens
         public async Task<IActionResult> Index()
         {
-            var prulariaContext = _context.Adressens.Include(a => a.Plaats);
+            var prulariaContext = _context.Adressen.Include(a => a.Plaats);
             return View(await prulariaContext.ToListAsync());
         }
 
@@ -34,7 +34,7 @@ namespace Prularia.Controllers
                 return NotFound();
             }
 
-            var adressen = await _context.Adressens
+            var adressen = await _context.Adressen
                 .Include(a => a.Plaats)
                 .FirstOrDefaultAsync(m => m.AdresId == id);
             if (adressen == null)
@@ -48,7 +48,7 @@ namespace Prularia.Controllers
         // GET: Adressens/Create
         public IActionResult Create()
         {
-            ViewData["PlaatsId"] = new SelectList(_context.Plaatsens, "PlaatsId", "PlaatsId");
+            ViewData["PlaatsId"] = new SelectList(_context.Plaatsen, "PlaatsId", "PlaatsId");
             return View();
         }
 
@@ -65,7 +65,7 @@ namespace Prularia.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaatsId"] = new SelectList(_context.Plaatsens, "PlaatsId", "PlaatsId", adressen.PlaatsId);
+            ViewData["PlaatsId"] = new SelectList(_context.Plaatsen, "PlaatsId", "PlaatsId", adressen.PlaatsId);
             return View(adressen);
         }
 
@@ -77,12 +77,12 @@ namespace Prularia.Controllers
                 return NotFound();
             }
 
-            var adressen = await _context.Adressens.FindAsync(id);
+            var adressen = await _context.Adressen.FindAsync(id);
             if (adressen == null)
             {
                 return NotFound();
             }
-            ViewData["PlaatsId"] = new SelectList(_context.Plaatsens, "PlaatsId", "PlaatsId", adressen.PlaatsId);
+            ViewData["PlaatsId"] = new SelectList(_context.Plaatsen, "PlaatsId", "PlaatsId", adressen.PlaatsId);
             return View(adressen);
         }
 
@@ -118,7 +118,7 @@ namespace Prularia.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["PlaatsId"] = new SelectList(_context.Plaatsens, "PlaatsId", "PlaatsId", adressen.PlaatsId);
+            ViewData["PlaatsId"] = new SelectList(_context.Plaatsen, "PlaatsId", "PlaatsId", adressen.PlaatsId);
             return View(adressen);
         }
 
@@ -130,7 +130,7 @@ namespace Prularia.Controllers
                 return NotFound();
             }
 
-            var adressen = await _context.Adressens
+            var adressen = await _context.Adressen
                 .Include(a => a.Plaats)
                 .FirstOrDefaultAsync(m => m.AdresId == id);
             if (adressen == null)
@@ -146,10 +146,10 @@ namespace Prularia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var adressen = await _context.Adressens.FindAsync(id);
+            var adressen = await _context.Adressen.FindAsync(id);
             if (adressen != null)
             {
-                _context.Adressens.Remove(adressen);
+                _context.Adressen.Remove(adressen);
             }
 
             await _context.SaveChangesAsync();
@@ -158,7 +158,7 @@ namespace Prularia.Controllers
 
         private bool AdressenExists(int id)
         {
-            return _context.Adressens.Any(e => e.AdresId == id);
+            return _context.Adressen.Any(e => e.AdresId == id);
         }
     }
 }

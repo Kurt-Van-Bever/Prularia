@@ -11,7 +11,7 @@ public partial class Klanten
 
     public int LeveringsAdresId { get; set; }
 
-    public virtual ICollection<Bestellingen> Bestellingens { get; set; } = new List<Bestellingen>();
+    public virtual ICollection<Bestellingen> Bestellingen { get; set; } = new List<Bestellingen>();
 
     public virtual Adressen FacturatieAdres { get; set; } = null!;
 
@@ -21,5 +21,5 @@ public partial class Klanten
 
     public virtual Rechtspersonen? Rechtspersonen { get; set; }
 
-    public virtual ICollection<Uitgaandeleveringen> Uitgaandeleveringens { get; set; } = new List<Uitgaandeleveringen>();
+    public virtual ICollection<Uitgaandeleveringen> Uitgaandeleveringen { get; set; } = new List<Uitgaandeleveringen>();
 }

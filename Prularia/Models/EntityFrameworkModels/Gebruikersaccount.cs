@@ -13,13 +13,13 @@ public partial class Gebruikersaccount
 
     public bool Disabled { get; set; }
 
-    public virtual ICollection<Chatgesprekken> Chatgesprekkens { get; set; } = new List<Chatgesprekken>();
+    public virtual ICollection<Chatgesprekken> Chatgesprekken { get; set; } = new List<Chatgesprekken>();
 
-    public virtual ICollection<Chatgespreklijnen> Chatgespreklijnens { get; set; } = new List<Chatgespreklijnen>();
+    public virtual ICollection<Chatgespreklijnen> Chatgespreklijnen { get; set; } = new List<Chatgespreklijnen>();
 
-    public virtual ICollection<Contactpersonen> Contactpersonens { get; set; } = new List<Contactpersonen>();
+    public virtual ICollection<Contactpersonen> Contactpersonen { get; set; } = new List<Contactpersonen>();
 
-    public virtual ICollection<Natuurlijkepersonen> Natuurlijkepersonens { get; set; } = new List<Natuurlijkepersonen>();
+    public virtual ICollection<Natuurlijkepersonen> Natuurlijkepersonen { get; set; } = new List<Natuurlijkepersonen>();
 
-    public virtual ICollection<Wishlistitem> Wishlistitems { get; set; } = new List<Wishlistitem>();
+    public virtual ICollection<Wishlistitem> Wishlistitem { get; set; } = new List<Wishlistitem>();
 }

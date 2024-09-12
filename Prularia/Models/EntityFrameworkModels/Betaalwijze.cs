@@ -9,5 +9,5 @@ public partial class Betaalwijze
 
     public string Naam { get; set; } = null!;
 
-    public virtual ICollection<Bestellingen> Bestellingens { get; set; } = new List<Bestellingen>();
+    public virtual ICollection<Bestellingen> Bestellingen { get; set; } = new List<Bestellingen>();
 }

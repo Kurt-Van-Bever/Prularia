@@ -17,7 +17,7 @@ public partial class Inkomendeleveringen
 
     public int OntvangerPersoneelslidId { get; set; }
 
-    public virtual ICollection<Inkomendeleveringslijnen> Inkomendeleveringslijnens { get; set; } = new List<Inkomendeleveringslijnen>();
+    public virtual ICollection<Inkomendeleveringslijnen> Inkomendeleveringslijnen { get; set; } = new List<Inkomendeleveringslijnen>();
 
     public virtual Leverancier Leveranciers { get; set; } = null!;
 

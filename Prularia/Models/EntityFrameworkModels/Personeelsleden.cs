@@ -15,9 +15,9 @@ public partial class Personeelsleden
 
     public int PersoneelslidAccountId { get; set; }
 
-    public virtual ICollection<Inkomendeleveringen> Inkomendeleveringens { get; set; } = new List<Inkomendeleveringen>();
+    public virtual ICollection<Inkomendeleveringen> Inkomendeleveringen { get; set; } = new List<Inkomendeleveringen>();
 
     public virtual Personeelslidaccount PersoneelslidAccount { get; set; } = null!;
 
-    public virtual ICollection<Securitygroepen> SecurityGroeps { get; set; } = new List<Securitygroepen>();
+    public virtual ICollection<Securitygroepen> SecurityGroepen { get; set; } = new List<Securitygroepen>();
 }

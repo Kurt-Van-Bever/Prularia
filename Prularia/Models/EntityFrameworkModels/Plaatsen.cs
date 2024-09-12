@@ -11,7 +11,7 @@ public partial class Plaatsen
 
     public string Plaats { get; set; } = null!;
 
-    public virtual ICollection<Adressen> Adressens { get; set; } = new List<Adressen>();
+    public virtual ICollection<Adressen> Adressen { get; set; } = new List<Adressen>();
 
     public virtual ICollection<Leverancier> Leveranciers { get; set; } = new List<Leverancier>();
 }

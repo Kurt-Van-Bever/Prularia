@@ -17,7 +17,7 @@ public partial class Inkomendeleveringslijnen
 
     public virtual Artikelen Artikel { get; set; } = null!;
 
-    public virtual Inkomendeleveringen InkomendeLeverings { get; set; } = null!;
+    public virtual Inkomendeleveringen InkomendeLevering { get; set; } = null!;
 
     public virtual Magazijnplaatsen MagazijnPlaats { get; set; } = null!;
 }
