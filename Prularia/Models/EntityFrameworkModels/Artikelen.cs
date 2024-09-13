@@ -33,6 +33,7 @@ public partial class Artikelen
 
     public int LeveranciersId { get; set; }
 
+    public virtual ICollection<Artikelleveranciersinfolijnen> Artikelleveranciersinfolijnens { get; set; } = new List<Artikelleveranciersinfolijnen>();
     public virtual ICollection<Artikelleveranciersinfolijnen> Artikelleveranciersinfolijnen { get; set; } = new List<Artikelleveranciersinfolijnen>();
 
     public virtual ICollection<Bestellijnen> Bestellijnen { get; set; } = new List<Bestellijnen>();
