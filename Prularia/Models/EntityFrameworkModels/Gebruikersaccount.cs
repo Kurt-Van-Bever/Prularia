@@ -13,7 +13,7 @@ public partial class Gebruikersaccount
 
     public bool Disabled { get; set; }
 
-<<<<<<< HEAD
+
     public virtual ICollection<Chatgesprekken> Chatgesprekken { get; set; } = new List<Chatgesprekken>();
 
     public virtual ICollection<Chatgespreklijnen> Chatgespreklijnen { get; set; } = new List<Chatgespreklijnen>();
@@ -23,7 +23,7 @@ public partial class Gebruikersaccount
     public virtual ICollection<Natuurlijkepersonen> Natuurlijkepersonen { get; set; } = new List<Natuurlijkepersonen>();
 
     public virtual ICollection<Wishlistitem> Wishlistitem { get; set; } = new List<Wishlistitem>();
-=======
+
     public virtual ICollection<Chatgesprekken> Chatgesprekkens { get; set; } = new List<Chatgesprekken>();
 
     public virtual ICollection<Chatgespreklijnen> Chatgespreklijnens { get; set; } = new List<Chatgespreklijnen>();
@@ -33,5 +33,5 @@ public partial class Gebruikersaccount
     public virtual ICollection<Natuurlijkepersonen> Natuurlijkepersonens { get; set; } = new List<Natuurlijkepersonen>();
 
     public virtual ICollection<Wishlistitem> Wishlistitems { get; set; } = new List<Wishlistitem>();
->>>>>>> 2dda2248c486c2040b30d32fc48cdcfbd5cad7e1
+
 }

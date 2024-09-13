@@ -17,9 +17,9 @@ public partial class Magazijnplaatsen
 
     public virtual Artikelen? Artikel { get; set; }
 
-<<<<<<< HEAD
+
     public virtual ICollection<Inkomendeleveringslijnen> Inkomendeleveringslijnen { get; set; } = new List<Inkomendeleveringslijnen>();
-=======
+
     public virtual ICollection<Inkomendeleveringslijnen> Inkomendeleveringslijnens { get; set; } = new List<Inkomendeleveringslijnen>();
->>>>>>> 2dda2248c486c2040b30d32fc48cdcfbd5cad7e1
+
 }
