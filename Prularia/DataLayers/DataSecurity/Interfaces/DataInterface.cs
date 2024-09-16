@@ -1,4 +1,4 @@
-﻿namespace Prularia.DataLayers.DataKlanten.Interfaces
+﻿namespace Prularia.DataLayers.DataSecurity.Interfaces
 {
     public interface DataInterface
     {
