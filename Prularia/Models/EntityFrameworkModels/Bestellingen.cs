@@ -39,11 +39,9 @@ public partial class Bestellingen
 
     public int LeveringsAdresId { get; set; }
 
-<<<<<<< HEAD
+
     public virtual ICollection<Bestellijnen> Bestellijnen { get; set; } = new List<Bestellijnen>();
-=======
-    public virtual ICollection<Bestellijnen> Bestellijnens { get; set; } = new List<Bestellijnen>();
->>>>>>> 2dda2248c486c2040b30d32fc48cdcfbd5cad7e1
+
 
     public virtual Bestellingsstatussen BestellingsStatus { get; set; } = null!;
 
@@ -55,9 +53,7 @@ public partial class Bestellingen
 
     public virtual Adressen LeveringsAdres { get; set; } = null!;
 
-<<<<<<< HEAD
+
     public virtual ICollection<Uitgaandeleveringen> Uitgaandeleveringen { get; set; } = new List<Uitgaandeleveringen>();
-=======
-    public virtual ICollection<Uitgaandeleveringen> Uitgaandeleveringens { get; set; } = new List<Uitgaandeleveringen>();
->>>>>>> 2dda2248c486c2040b30d32fc48cdcfbd5cad7e1
+
 }

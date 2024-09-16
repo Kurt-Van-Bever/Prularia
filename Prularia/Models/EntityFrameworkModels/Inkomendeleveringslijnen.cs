@@ -17,11 +17,8 @@ public partial class Inkomendeleveringslijnen
 
     public virtual Artikelen Artikel { get; set; } = null!;
 
-<<<<<<< HEAD
+
     public virtual Inkomendeleveringen InkomendeLevering { get; set; } = null!;
-=======
-    public virtual Inkomendeleveringen InkomendeLeverings { get; set; } = null!;
->>>>>>> 2dda2248c486c2040b30d32fc48cdcfbd5cad7e1
 
     public virtual Magazijnplaatsen MagazijnPlaats { get; set; } = null!;
 }
