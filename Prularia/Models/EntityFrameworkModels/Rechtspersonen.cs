@@ -11,7 +11,9 @@ public partial class Rechtspersonen
 
     public string BtwNummer { get; set; } = null!;
 
+
     public virtual ICollection<Contactpersonen> Contactpersonen { get; set; } = new List<Contactpersonen>();
+
 
     public virtual Klanten Klant { get; set; } = null!;
 }

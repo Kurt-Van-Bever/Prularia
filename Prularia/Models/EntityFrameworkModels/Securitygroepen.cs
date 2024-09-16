@@ -9,5 +9,7 @@ public partial class Securitygroepen
 
     public string Naam { get; set; } = null!;
 
+
     public virtual ICollection<Personeelsleden> Personeelslid { get; set; } = new List<Personeelsleden>();
+
 }

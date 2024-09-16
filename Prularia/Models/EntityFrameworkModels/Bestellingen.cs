@@ -39,7 +39,9 @@ public partial class Bestellingen
 
     public int LeveringsAdresId { get; set; }
 
+
     public virtual ICollection<Bestellijnen> Bestellijnen { get; set; } = new List<Bestellijnen>();
+
 
     public virtual Bestellingsstatussen BestellingsStatus { get; set; } = null!;
 
@@ -51,5 +53,7 @@ public partial class Bestellingen
 
     public virtual Adressen LeveringsAdres { get; set; } = null!;
 
+
     public virtual ICollection<Uitgaandeleveringen> Uitgaandeleveringen { get; set; } = new List<Uitgaandeleveringen>();
+
 }

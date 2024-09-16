@@ -23,9 +23,11 @@ public partial class Leverancier
 
     public string VoornaamContactpersoon { get; set; } = null!;
 
+
     public virtual ICollection<Artikelen> Artikelen { get; set; } = new List<Artikelen>();
 
     public virtual ICollection<Inkomendeleveringen> Inkomendeleveringen { get; set; } = new List<Inkomendeleveringen>();
+
 
     public virtual Plaatsen Plaats { get; set; } = null!;
 }

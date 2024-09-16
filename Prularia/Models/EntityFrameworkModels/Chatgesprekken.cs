@@ -11,5 +11,6 @@ public partial class Chatgesprekken
 
     public virtual ICollection<Chatgespreklijnen> Chatgespreklijnen { get; set; } = new List<Chatgespreklijnen>();
 
+
     public virtual Gebruikersaccount GebruikersAccount { get; set; } = null!;
 }
