@@ -11,6 +11,7 @@ namespace Prularia
         {
             var builder = WebApplication.CreateBuilder(args);
             builder.Services.AddDbContext<PrulariaContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("prularia")));
+            
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
