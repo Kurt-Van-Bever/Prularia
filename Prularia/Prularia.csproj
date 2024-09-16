@@ -23,4 +23,13 @@
     <PackageReference Include="MySql.EntityFrameworkCore" Version="8.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataLayers\DataBestellingen\DataRepository\" />
+    <Folder Include="DataLayers\DataBestellingen\Interfaces\" />
+    <Folder Include="DataLayers\DataKlanten\DataRepository\" />
+    <Folder Include="DataLayers\DataKlanten\Interfaces\" />
+    <Folder Include="DataLayers\DataSecurity\DataRepository\" />
+    <Folder Include="DataLayers\DataSecurity\Interfaces\" />
+  </ItemGroup>
+
 </Project>
