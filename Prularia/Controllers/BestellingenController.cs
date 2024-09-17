@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Prularia.Models;
 using Prularia.Services;
 
 namespace Prularia.Controllers;
@@ -11,8 +12,10 @@ public class BestellingenController : Controller
         _bestellingService = bestellingService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        BestellingenViewModel model = new BestellingenViewModel();
+        model.BestellingItems = await _bestellingService.getBestellingenAsync();
+        return View(model);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Prularia.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Prularia.Models;
 
 namespace Prularia.Repositories;
 
@@ -8,5 +9,10 @@ public class SQLBestellingRepo : IBestellingRepo
     public SQLBestellingRepo(PrulariaContext context)
     {
         _context = context;
+    }
+
+    public async Task<List<Bestelling>> GetBestellingen()
+    {
+        return await _context.Bestellingen.ToListAsync();
     }
 }
