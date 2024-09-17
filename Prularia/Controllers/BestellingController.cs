@@ -37,7 +37,9 @@ public class BestellingController : Controller
             BestellingsStatus = b.BestellingsStatus,
             Betaalwijze = b.Betaalwijze,
             FacturatieAdres = b.FacturatieAdres,
-            Klant = b.Klant,
+            //Klant = b.Klant,
+            Voornaam = b.Voornaam,
+            Familienaam = b.Familienaam,
             LeveringsAdres = b.LeveringsAdres,
 
             Bestellijnen = b.Bestellijnen

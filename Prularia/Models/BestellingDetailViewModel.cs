@@ -22,6 +22,10 @@
 
         public string? BtwNummer { get; set; }
 
+        public string Voornaam { get; set; } 
+
+        public string Familienaam { get; set; } 
+
 
         public virtual Bestellingsstatus BestellingsStatus { get; set; } = null!;
 
