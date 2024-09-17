@@ -1,0 +1,92 @@
+﻿@model BestellingDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Bestelling details</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td><label asp-for="BestelId"></label></td>
+            <td>@Model.BestelId</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Besteldatum"></label></td>
+            <td>@Model.Besteldatum</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Betaald"></label></td>
+            <td>@Model.Betaald</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Betalingscode"></label></td>
+            <td>@Model.Betalingscode</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Annulatie"></label></td>
+            <td>@Model.Annulatie</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Annulatiedatum"></label></td>
+            <td>@Model.Annulatiedatum</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Terugbetalingscode"></label></td>
+            <td>@Model.Terugbetalingscode</td>
+        </tr>
+        <tr>
+            <td><label asp-for="ActiecodeGebruikt"></label></td>
+            <td>@Model.ActiecodeGebruikt</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Bedrijfsnaam"></label></td>
+            <td>@Model.Bedrijfsnaam</td>
+        </tr>
+        <tr>
+            <td><label asp-for="BtwNummer"></label></td>
+            <td>@Model.BtwNummer</td>
+        </tr>
+        <tr>
+            <td><label asp-for="BestellingsStatus"></label></td>
+            <td>@Model.BestellingsStatus</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Betaalwijze"></label></td>
+            <td>@Model.Betaalwijze</td>
+        </tr>
+        <tr>
+            <td><label asp-for="FacturatieAdres"></label></td>
+            <td>@Model.FacturatieAdres</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Klant"></label></td>
+            <td>@Model.Klant</td>
+        </tr>
+        <tr>
+            <td><label asp-for="LeveringsAdres"></label></td>
+            <td>@Model.LeveringsAdres</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>Bestellijnen</h2>
+<table class="table table-striped">
+    <thead>
+        <th>Id</th>
+        <th>Naam</th>
+        <th>Prijs</th>
+        <th>Aantal</th>
+    </thead>
+    <tbody>
+        @foreach(Bestellijn lijn in Model.Bestellijnen)
+        {
+            <tr>
+                <td>@lijn.BestellijnId</td>
+                <td>@lijn.Artikel.Naam</td>
+                <td>@lijn.Artikel.Prijs</td>
+                <td>@lijn.AantalBesteld</td>
+            </tr>
+        }
+    </tbody>
+</table>
