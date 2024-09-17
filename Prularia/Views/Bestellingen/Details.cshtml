@@ -6,11 +6,11 @@
 <h1>Bestelling details</h1>
 
 <div>
-    <a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-primary">Wijzig</a>
+    <a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a>
 </div>
 
 <table class="table">
-    <tbody>
+     <tbody>
         <tr>
             <td><label asp-for="BestelId"></label></td>
             <td>@Model.BestelId</td>
@@ -23,17 +23,11 @@
             <td><label asp-for="Betaald"></label></td>
             <td>@Model.Betaald</td>
         </tr>
-        @if(!String.IsNullOrEmpty(Model.Betalingscode)){
+        @if (!String.IsNullOrEmpty(Model.Betalingscode)){
         <tr>
             <td><label asp-for="Betalingscode"></label></td>
             <td>@Model.Betalingscode</td>
         </tr>
-@if (bestelStatus.Naam == "Lopend" || bestelStatus.Naam == "Betaald")
-{
-    <script type="text/javascript">
-        function showModalPopup() {
-            // Modern way to open a modal popup using Bootstrap
-            $('#annulerenModal').modal('show');
         }
         <tr>
             <td><label asp-for="Annulatie"></label></td>
@@ -45,14 +39,12 @@
             <td>@Model.Annulatiedatum</td>
         </tr>
         }
-        @if(!String.IsNullOrEmpty(Model.Terugbetalingscode)){
+        @if (!String.IsNullOrEmpty(Model.Terugbetalingscode)){
         <tr>
             <td><label asp-for="Terugbetalingscode"></label></td>
-            <td>@Model.Terugbetalingscode</td>
+        <td>@Model.Terugbetalingscode</td>
         </tr>
-}
-    </script>
-
+        }
         <tr>
             <td><label asp-for="ActiecodeGebruikt"></label></td>
             <td>@Model.ActiecodeGebruikt</td>
@@ -100,8 +92,6 @@
         </tr>
     </tbody>
 </table>
-    <!-- Button to trigger the popup -->
-    <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
 
 <h2>Bestellijnen</h2>
 <table class="table table-striped">
@@ -120,7 +110,28 @@
                 <td>@lijn.Artikel.Prijs</td>
                 <td>@lijn.AantalBesteld</td>
             </tr>
-    <!-- Modal HTML (using Bootstrap) -->
+        }
+    </tbody>
+</table>
+
+@if (Model.BestellingsStatus.Naam == "Lopend" || Model.BestellingsStatus.Naam == "Betaald")
+{
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success">Annuleren</a>
+    <!--
+        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
+    -->
+}
+
+<a asp-action="Index" class="btn btn-success">Terug</a>
+
+<!-- Modal HTML (using Bootstrap) -->
+    <script type="text/javascript">
+        function showModalPopup() {
+            // Modern way to open a modal popup using Bootstrap
+            $('#annulerenModal').modal('show');
+        }
+    </script>
     <div class="modal fade" id="annulerenModal" tabindex="-1" role="dialog" aria-labelledby="annulerenModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -140,8 +151,3 @@
             </div>
         </div>
     </div>
-}
-    </tbody>
-</table>
-
-<a asp-action="Index">Terug</a>
