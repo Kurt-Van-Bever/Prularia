@@ -15,7 +15,7 @@ public class BestellingenController : Controller
     public async Task<IActionResult> Index()
     {
         BestellingenViewModel model = new BestellingenViewModel();
-        model.BestellingItems = await _bestellingService.getBestellingenAsync();
+        model.BestellingItems = await _bestellingService.GetBestellingenAsync();
         return View(model);
     }
 }

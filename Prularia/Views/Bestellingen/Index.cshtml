@@ -24,19 +24,21 @@
     <tbody>
 
         @foreach(var bestellingItem in Model.BestellingItems) {
-                <tr><td>@bestellingItem.BestelId</td> 
-                  
+                <tr>
+                    <td>@bestellingItem.BestelId</td> 
                     <td>@bestellingItem.Besteldatum</td> 
                     <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td> 
                     <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td> 
                     <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                <td>@bestellingItem.BestellingsStatus.Naam</td>
+                    <td>@bestellingItem.BestellingsStatus.Naam</td>
+
                 <td>
                     <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
                         <button class="btn btn-success">Ga naar bestelling</button></a></td></tr>
         }
         
     </tbody>
+    </table>
 
 
 
