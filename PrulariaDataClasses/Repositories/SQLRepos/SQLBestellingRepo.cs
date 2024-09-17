@@ -13,6 +13,6 @@ public class SQLBestellingRepo : IBestellingRepo
 
     public async Task<List<Bestelling>> GetBestellingen()
     {
-        return await _context.Bestellingen.ToListAsync();
+        return await _context.Bestellingen.Include(bestelling => bestelling.Klant).ThenInclude(bestelling => bestelling.Natuurlijkepersoon).ThenInclude(bestelling => bestelling.GebruikersAccount).Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
     }
 }
