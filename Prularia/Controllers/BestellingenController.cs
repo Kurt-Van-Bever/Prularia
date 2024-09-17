@@ -16,20 +16,65 @@ public class BestellingenController : Controller
     {
         return View();
     }
+
+    public async Task<IActionResult> Details(int id)
+    {
+        Bestelling? b = await _bestellingService.GetAsync(id);
+        if (b == null) return NotFound();
+
+        BestellingDetailViewModel vm = new BestellingDetailViewModel()
+        {
+            BestelId = b.BestelId,
+            Besteldatum = b.Besteldatum,
+            Betaald = b.Betaald,
+            Betalingscode = b.Betalingscode,
+            Annulatie = b.Annulatie,
+            Annulatiedatum = b.Annulatiedatum,
+            Terugbetalingscode = b.Terugbetalingscode,
+            ActiecodeGebruikt = b.ActiecodeGebruikt,
+            Bedrijfsnaam = b.Bedrijfsnaam,
+            BtwNummer = b.BtwNummer,
+            BestellingsStatus = b.BestellingsStatus,
+            Betaalwijze = b.Betaalwijze,
+            FacturatieAdres = b.FacturatieAdres,
+            Klant = b.Klant,
+            LeveringsAdres = b.LeveringsAdres,
+
+            Bestellijnen = b.Bestellijnen
+        };
+
+        return View(vm);
+    }
+
     [HttpGet]
     public IActionResult Wijzigen(int id)
     {
         var bestelling = _bestellingService.Get(id);
-        return View(bestelling);
+        var vm = new BestellingWijzigenViewModel();
+        vm.BestelId = bestelling.BestelId;
+        vm.Betaald = bestelling.Betaald;
+        vm.Bedrijfsnaam = bestelling.Bedrijfsnaam;
+        vm.BtwNummer = bestelling.BtwNummer;
+        vm.Voornaam = bestelling.Voornaam;
+        vm.Familienaam = bestelling.Familienaam;
+
+        return View(vm);
     }
+
     [HttpPost]
-    public IActionResult WijzigenDoorvoeren(Bestelling bestelling)
+    public IActionResult WijzigenDoorvoeren(BestellingWijzigenViewModel vm)
     {
         if (this.ModelState.IsValid)
         {
+            var bestelling = _bestellingService.Get(vm.BestelId);
+            bestelling.Betaald = vm.Betaald;
+            bestelling.Bedrijfsnaam = vm.Bedrijfsnaam;
+            bestelling.BtwNummer = vm.BtwNummer;
+            bestelling.Voornaam = vm.Voornaam;
+            bestelling.Familienaam = vm.Familienaam;
             _bestellingService.Update(bestelling);
-            return RedirectToAction();//verwijzing naar detailpagina)
+            return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });//verwijzing naar detailpagina)
         }
-        return View("Wijzigen", bestelling);
+        return View("Wijzigen", vm);
     }
 }

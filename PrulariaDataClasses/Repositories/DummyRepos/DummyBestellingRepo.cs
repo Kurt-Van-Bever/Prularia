@@ -1,14 +1,20 @@
-﻿public Task<Bestelling?> GetAsync(int id)
-{
-    throw new NotImplementedException();
-}
-public Bestelling? Get(int id)
-{
-    throw new NotImplementedException();
-}
+﻿using Prularia.Models;
 
-public void Update(Bestelling bestelling)
+namespace Prularia.Repositories;
+
+public class DummyBestellingRepo : IBestellingRepo
 {
-    throw new NotImplementedException();
-}
+    public Task<Bestelling?> GetAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+    public Bestelling? Get(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(Bestelling bestelling)
+    {
+        throw new NotImplementedException();
+    }
 }

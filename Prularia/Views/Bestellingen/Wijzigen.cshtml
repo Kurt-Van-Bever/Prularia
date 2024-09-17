@@ -1,4 +1,4 @@
-﻿@model Bestelling
+﻿@model BestellingWijzigenViewModel
 
 @{
     ViewData["Title"] = "Bestelling wijzigen";
@@ -6,7 +6,8 @@
 
 <h2>Bestelling wijzigen</h2>
 
-<form asp-action="Wijzigen" method="post">
+<form asp-action="WijzigenDoorvoeren" method="post">   
+    <input asp-for="BestelId" hidden />
     <div>
         <label asp-for="Betaald"></label>
         <input asp-for="Betaald" />
@@ -34,5 +35,6 @@
 
     <div>
         <button type="submit" class="btn btn-primary">Wijzigingen doorvoeren</button>
+        <a asp-action="Details" asp-route-id="@Model.BestelId" class="btn btn-danger">Annuleren</a>
     </div>
 </form>
