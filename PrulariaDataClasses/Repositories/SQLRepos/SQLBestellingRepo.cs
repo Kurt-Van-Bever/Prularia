@@ -9,4 +9,11 @@ public class SQLBestellingRepo : IBestellingRepo
     {
         _context = context;
     }
+
+    public  async Task<Bestelling?> Annuleren(int id)
+    {
+        var bestelling = await _context.Bestellingen.FindAsync(id);
+        _context.SaveChangesAsync();
+        return bestelling;
+    }
 }

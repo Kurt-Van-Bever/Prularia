@@ -24,9 +24,11 @@ public class BestellingenController : Controller
     }
 
     [HttpPost]
-    public IActionResult AnnulerenPopup(Bestelling bestelling)
+    public IActionResult AnnulerenPopup(int id)
     {
+        var bestelling = BestellingService.Find(id);
+        _bestellingService.AnnulerenAsync(id);
 
-        return View();
+        return RedirectToAction(nameof(Details));
     }
 }
