@@ -14,4 +14,13 @@ public class DummyBestellingRepo : IBestellingRepo
     {
         throw new NotImplementedException();
     }
+    public Bestelling? Get(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void Update(Bestelling bestelling)
+    {
+        throw new NotImplementedException();
+    }
 }
