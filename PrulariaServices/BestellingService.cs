@@ -11,6 +11,11 @@ public class BestellingService
         _bestellingRepo = bestellingRepo;
     }
 
+    public async Task<List<Bestelling>> getBestellingenAsync()
+    {
+        return await _bestellingRepo.GetBestellingen();
+    }
+
     public async Task<Bestelling?> GetAsync(int id)
     {
         return await _bestellingRepo.GetAsync(id);
