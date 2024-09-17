@@ -1,4 +1,4 @@
-﻿using Prularia.Models;
+﻿using Prularia.Models.EntityFrameworkModels;
 
 namespace Prularia.Models
 {
@@ -28,18 +28,14 @@ namespace Prularia.Models
 
         public string Familienaam { get; set; } 
 
-
-        public virtual Bestellingsstatus BestellingsStatus { get; set; } = null!;
+        public virtual Bestellingsstatussen BestellingsStatus { get; set; } = null!;
 
         public virtual Betaalwijze Betaalwijze { get; set; } = null!;
 
-        public virtual Adres FacturatieAdres { get; set; } = null!;
+        public virtual Adressen FacturatieAdres { get; set; } = null!;
 
-        public virtual Klant Klant { get; set; } = null!;
+        public virtual Klanten Klant { get; set; } = null!;
 
-        public virtual Adres LeveringsAdres { get; set; } = null!;
-
-
-        public virtual ICollection<Bestellijn> Bestellijnen { get; set; } = null;
+        public virtual Adressen LeveringsAdres { get; set; } = null!;
     }
 }

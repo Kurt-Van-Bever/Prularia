@@ -80,4 +80,19 @@ public class BestellingenController : Controller
         }
         return View("Wijzigen", vm);
     }
+
+    public IActionResult Details(int id)
+    {
+        var bestelling = BestellingService.Find(id);
+        return View(bestelling);
+    }
+
+    [HttpPost]
+    public IActionResult AnnulerenPopup(int id)
+    {
+        var bestelling = BestellingService.Find(id);
+        _bestellingService.AnnulerenAsync(id);
+
+        return RedirectToAction(nameof(Details));
+    }
 }

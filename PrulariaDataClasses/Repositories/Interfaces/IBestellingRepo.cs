@@ -1,6 +1,8 @@
 ﻿using Prularia.Models;
+using System.Threading.Tasks;
 
 namespace Prularia.Repositories;
+
 
 public interface IBestellingRepo
 {
@@ -10,4 +12,5 @@ public interface IBestellingRepo
     void Update(Bestelling bestelling);
 
     Bestelling? Get(int id);
+     Task<Bestelling?> Annuleren(int id);
 }

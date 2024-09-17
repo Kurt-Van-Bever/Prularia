@@ -1,6 +1,8 @@
 ﻿using Prularia.Models;
 using Prularia.Repositories;
 using Prularia.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace Prularia.Services;
 
@@ -29,5 +31,9 @@ public class BestellingService
     public Bestelling? Get(int id)
     {
         return _bestellingRepo.Get(id);
+    }
+    public async Task AnnulerenAsync(int id)
+    {
+        await _bestellingRepo.Annuleren(id);
     }
 }

@@ -38,4 +38,11 @@ public class SQLBestellingRepo : IBestellingRepo
     }
 
     public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
+
+    public  async Task<Bestelling?> Annuleren(int id)
+    {
+        var bestelling = await _context.Bestellingen.FindAsync(id);
+        _context.SaveChangesAsync();
+        return bestelling;
+    }
 }
