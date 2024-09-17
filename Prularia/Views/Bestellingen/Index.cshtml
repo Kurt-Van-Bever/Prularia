@@ -12,20 +12,20 @@
 
 
 
-    <h2>Personen</h2> 
+    <h2>Bestellingen</h2> 
     
     
-    <table class="table table-striped">
+    <table class="table table-hover">
 
     <thead>
-        <tr> <th>ID</th> <th>Voornaam</th> <th>Familienaam</th> <th>Score</th> <th>Wedde</th> <th>Paswoord</th> <th>Geboren</th> <th>Gehuwd</th> <th>Opmerkingen</th> <th>Geslacht</th></tr>
+        <tr> <th>ID</th> <th>Besteldatum</th> <th>KlantId</th></tr>
     </thead>
 
     <tbody>
         @foreach(var bestellingItem in Model.BestellingItems) {
-                <tr><td>@bestellingItem.BestelId</td> <td>@bestellingItem.Besteldatum</td> <td>@bestellingItem.Klant</td></tr>
+                <tr><td>@bestellingItem.BestelId</td> <td>@bestellingItem.Besteldatum</td> <td>@bestellingItem.KlantId</td> <td><a href="/hierLinkNaarBestellingDetail"><button class="btn btn-success">Ga naar bestelling</button></a></td></tr>
         }
     </tbody>
 
-}
+
 
