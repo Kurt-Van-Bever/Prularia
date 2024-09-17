@@ -19,53 +19,73 @@
             <td><label asp-for="Betaald"></label></td>
             <td>@Model.Betaald</td>
         </tr>
+        @if(!String.IsNullOrEmpty(Model.Betalingscode)){
         <tr>
             <td><label asp-for="Betalingscode"></label></td>
             <td>@Model.Betalingscode</td>
         </tr>
+        }
         <tr>
             <td><label asp-for="Annulatie"></label></td>
             <td>@Model.Annulatie</td>
         </tr>
+        @if(Model.Annulatie){
         <tr>
             <td><label asp-for="Annulatiedatum"></label></td>
             <td>@Model.Annulatiedatum</td>
         </tr>
+        }
+        @if(!String.IsNullOrEmpty(Model.Terugbetalingscode)){
         <tr>
             <td><label asp-for="Terugbetalingscode"></label></td>
             <td>@Model.Terugbetalingscode</td>
         </tr>
+}
+        
         <tr>
             <td><label asp-for="ActiecodeGebruikt"></label></td>
             <td>@Model.ActiecodeGebruikt</td>
         </tr>
+        @if(!String.IsNullOrEmpty(Model.Bedrijfsnaam)){
         <tr>
             <td><label asp-for="Bedrijfsnaam"></label></td>
             <td>@Model.Bedrijfsnaam</td>
         </tr>
+        }
+        @if(!String.IsNullOrEmpty(Model.BtwNummer)){
         <tr>
             <td><label asp-for="BtwNummer"></label></td>
             <td>@Model.BtwNummer</td>
         </tr>
+        }
+
         <tr>
             <td><label asp-for="BestellingsStatus"></label></td>
-            <td>@Model.BestellingsStatus</td>
+            <td>@Model.BestellingsStatus.Naam</td>
         </tr>
         <tr>
             <td><label asp-for="Betaalwijze"></label></td>
-            <td>@Model.Betaalwijze</td>
+            <td>@Model.Betaalwijze.Naam</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Voornaam"></label></td>
+            <td>@Model.Voornaam</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Familienaam"></label></td>
+            <td>@Model.Familienaam</td>
         </tr>
         <tr>
             <td><label asp-for="FacturatieAdres"></label></td>
-            <td>@Model.FacturatieAdres</td>
+            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer</td>
         </tr>
-        <tr>
+        @*<tr>
             <td><label asp-for="Klant"></label></td>
             <td>@Model.Klant</td>
-        </tr>
+        </tr>*@
         <tr>
             <td><label asp-for="LeveringsAdres"></label></td>
-            <td>@Model.LeveringsAdres</td>
+            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer</td>
         </tr>
     </tbody>
 </table>
@@ -90,3 +110,5 @@
         }
     </tbody>
 </table>
+
+<a asp-action="Index">Terug</a>
