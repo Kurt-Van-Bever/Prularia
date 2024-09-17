@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 ﻿using Prularia.Models.EntityFrameworkModels;
 
 namespace Prularia.Models
+=======
+﻿namespace Prularia.Models
+>>>>>>> parent of 218591c (Merge branch 'DevelopmentBranch' of https://github.com/vdab-pierre/ScrumNetVerkoop202409 into DevelopmentBranch)
 {
     public class BestellingDetailViewModel
     {
