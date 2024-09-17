@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Prularia.Models;
 using Prularia.Services;
+using Prularia.Models;
 
 namespace Prularia.Controllers;
 
@@ -47,5 +48,20 @@ public class BestellingenController : Controller
         };
 
         return View(vm);
+    }
+
+    public IActionResult Details(int id)
+    {
+        var bestelling = BestellingService.Find(id);
+        return View(bestelling);
+    }
+
+    [HttpPost]
+    public IActionResult AnnulerenPopup(int id)
+    {
+        var bestelling = BestellingService.Find(id);
+        _bestellingService.AnnulerenAsync(id);
+
+        return RedirectToAction(nameof(Details));
     }
 }
