@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PrulariaDataClasses\PrulariaModels.csproj" />
+    <ProjectReference Include="..\PrulariaServices\PrulariaServices.csproj" />
   </ItemGroup>
 
   <ItemGroup>

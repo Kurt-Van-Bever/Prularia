@@ -10,6 +10,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prularia", "Prularia\Prular
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrulariaModels", "PrulariaDataClasses\PrulariaModels.csproj", "{1A65A330-AA0A-4B2D-BA7C-160B26854734}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrulariaServices", "PrulariaServices\PrulariaServices.csproj", "{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{1A65A330-AA0A-4B2D-BA7C-160B26854734}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1A65A330-AA0A-4B2D-BA7C-160B26854734}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1A65A330-AA0A-4B2D-BA7C-160B26854734}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
