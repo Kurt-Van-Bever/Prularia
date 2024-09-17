@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Prularia.Services;
-using Prularia.Models;
 
 namespace Prularia.Controllers;
 
@@ -80,6 +79,7 @@ public class BestellingenController : Controller
         }
         return View("Wijzigen", vm);
     }
+<<<<<<< HEAD
 
     public IActionResult Details(int id)
     {
@@ -95,4 +95,6 @@ public class BestellingenController : Controller
 
         return RedirectToAction(nameof(Details));
     }
+=======
+>>>>>>> parent of 6d17d54 (Wissel Pair Programming)
 }
