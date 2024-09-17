@@ -1,4 +1,6 @@
-﻿namespace Prularia.Models
+﻿using Prularia.Models;
+
+namespace Prularia.Models
 {
     public class BestellingDetailViewModel
     {
