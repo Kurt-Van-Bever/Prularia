@@ -53,6 +53,8 @@ public class BestellingenController : Controller
     public IActionResult Wijzigen(int id)
     {
         var bestelling = _bestellingService.Get(id);
+        if (bestelling == null) return NotFound();
+
         var vm = new BestellingWijzigenViewModel();
         vm.BestelId = bestelling.BestelId;
         vm.Betaald = bestelling.Betaald;
@@ -76,7 +78,7 @@ public class BestellingenController : Controller
             bestelling.Voornaam = vm.Voornaam;
             bestelling.Familienaam = vm.Familienaam;
             _bestellingService.Update(bestelling);
-            return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });//verwijzing naar detailpagina)
+            return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
         }
         return View("Wijzigen", vm);
     }
