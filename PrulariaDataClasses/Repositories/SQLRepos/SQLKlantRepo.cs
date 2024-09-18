@@ -11,6 +11,13 @@ public class SQLKlantRepo : IKlantRepo
         _context = context;
     }
 
+    public async Task<Contactpersoon?> GetContactpersonenAsync(int id)
+    {
+        return await _context.Contactpersonen
+            .Include(c => c.GebruikersAccount)
+            .FirstOrDefaultAsync(k => k.KlantId == id);
+    }
+
     public async Task<Klant?> GetKlantAsync(int id)
     {
         return await _context.Klanten

@@ -1,0 +1,30 @@
+﻿@model ContactpersonenViewModel
+@{
+    ViewData["Title"] = "Bedrijf Contacten";
+}
+
+<h1>Contact Personen</h1>
+<table class="table">
+    <tbody>
+        <tr>
+            <td><label asp-for="Voornaam"></label></td>
+            <td>@Model.Voornaam</td>
+        </tr>
+        
+        <tr>
+            <td><label asp-for="Familienaam"></label></td>
+            <td>@Model.Familienaam</td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Functie"></label></td>
+            <td>@Model.Functie</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Emailadres"></label></td>
+            <td>@Model.Emailadres</td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-action="Details" asp-route-id="@Model.KlantId"><button class="btn btn-secondary">Terug</button></a>

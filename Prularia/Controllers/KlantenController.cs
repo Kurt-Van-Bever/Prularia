@@ -33,4 +33,19 @@ public class KlantenController : Controller
         };
         return View(viewModel);
     }
+
+    public async Task<IActionResult> ContactPersonen(int id)
+    {
+        Contactpersoon? contactpersoon = await _klantService.GetContactpersonen(id);
+        if (contactpersoon == null) return NotFound();
+        ContactpersonenViewModel viewModel = new ContactpersonenViewModel
+        {
+            KlantId = contactpersoon.KlantId,
+            Voornaam = contactpersoon.Voornaam,
+            Familienaam = contactpersoon.Familienaam,
+            Functie = contactpersoon.Functie,
+            Emailadres = contactpersoon.GebruikersAccount.Emailadres
+        };
+        return View(viewModel);
+    }
 }
