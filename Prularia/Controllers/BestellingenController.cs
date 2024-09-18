@@ -12,10 +12,16 @@ public class BestellingenController : Controller
         _bestellingService = bestellingService;
     }
 
+    [HttpGet]
     public async Task<IActionResult> Index()
     {
-        BestellingenViewModel model = new BestellingenViewModel();
-        model.BestellingItems = await _bestellingService.GetBestellingenAsync();
-        return View(model);
+       
+            BestellingenViewModel vm = new BestellingenViewModel();
+            vm.BestellingItems = await _bestellingService.GetBestellingenAsync();
+         
+        
+        return View(vm);
     }
+
+  
 }

@@ -35,4 +35,5 @@ body {
 
 .SearchForm {
     display: flex;
+    align-content: center;
 }

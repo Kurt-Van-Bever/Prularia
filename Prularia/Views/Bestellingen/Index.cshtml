@@ -7,10 +7,10 @@
     ViewBag.Title = "Personen"; 
 } 
 
-<div>
-    <form class="SearchForm">
+<div class="formContainer">
+    <form class="SearchForm" method="get">
 
-        <iput type="text" class="form-control" id="inputSearch" placeholder="Search">Search</iput>
+        <input type="text" class="form-control" id="inputSearch" placeholder="search"></input>
 
         <select class="selectOptie form-select" aria-label="selecteer zoek optie">
             <option selected>Selecteer zoek optie</option>
@@ -19,7 +19,6 @@
             <option>Klantnaam</option>
         </select>
 
-
         <select class="selectOrder form-select" aria-label="selecteer zoek optie">
             <option selected>Selecteer sorteer optie</option>
             <option>Datum</option>
@@ -27,6 +26,7 @@
             <option>Status</option>
         </select>
 
+      
         <input type="submit" placeholder="zoeken" class="btn btn-success"></input>
 
     </form>
@@ -35,34 +35,35 @@
 
 
 
-
+<div class="bestellingen">
     <h2>Bestellingen</h2>
 
 
-<table class="table table-hover">
+    <table class="table table-hover">
 
-    <thead>
-        <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant Voornaam</th> <th>Klant Famillienaam</th> <th>Klant Email</th> <th>Bestelling status</th></tr>
-    </thead>
+        <thead>
+            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant Voornaam</th> <th>Klant Famillienaam</th> <th>Klant Email</th> <th>Bestelling status</th></tr>
+        </thead>
 
-    <tbody>
+        <tbody>
 
-        @foreach(var bestellingItem in Model.BestellingItems) {
-                <tr>
-                    <td>@bestellingItem.BestelId</td> 
-                    <td>@bestellingItem.Besteldatum</td> 
-                    <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td> 
-                    <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td> 
-                    <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                    <td>@bestellingItem.BestellingsStatus.Naam</td>
+            @foreach(var bestellingItem in Model.BestellingItems) {
+                    <tr>
+                        <td>@bestellingItem.BestelId</td> 
+                        <td>@bestellingItem.Besteldatum</td> 
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td> 
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td> 
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
+                        <td>@bestellingItem.BestellingsStatus.Naam</td>
 
-                <td>
-                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                        <button class="btn btn-success">Ga naar bestelling</button></a></td></tr>
-        }
+                    <td>
+                        <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                            <button class="btn btn-success">Ga naar bestelling</button></a></td></tr>
+            }
         
     </tbody>
     </table>
+</div>
 
 
 
