@@ -1,4 +1,6 @@
-﻿namespace Prularia.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Prularia.Models;
 
 public partial class Bestelling
 {
@@ -7,7 +9,7 @@ public partial class Bestelling
     public DateTime Besteldatum { get; set; }
 
     public int KlantId { get; set; }
-
+    //deze
     public bool Betaald { get; set; }
 
     public string? Betalingscode { get; set; }
@@ -23,13 +25,17 @@ public partial class Bestelling
     public int BestellingsStatusId { get; set; }
 
     public bool ActiecodeGebruikt { get; set; }
-
+    //deze
+    [MaxLength(45)]
     public string? Bedrijfsnaam { get; set; }
-
+    //deze
+    [MaxLength(45)]
     public string? BtwNummer { get; set; }
-
+    //deze
+    [MaxLength(45)]
     public string Voornaam { get; set; } = null!;
-
+    //deze
+    [MaxLength(45)]
     public string Familienaam { get; set; } = null!;
 
     public int FacturatieAdresId { get; set; }

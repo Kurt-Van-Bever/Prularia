@@ -11,9 +11,14 @@ public class SQLBestellingRepo : IBestellingRepo
         _context = context;
     }
 
-    public async Task<List<Bestelling>> GetBestellingen()
+    public async Task<List<Bestelling>> GetBestellingenAsync()
     {
-        return await _context.Bestellingen.Include(bestelling => bestelling.Klant).ThenInclude(bestelling => bestelling.Natuurlijkepersoon).ThenInclude(bestelling => bestelling.GebruikersAccount).Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
+        return await _context.Bestellingen
+            .Include(bestelling => bestelling.Klant)
+            .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
+            .ThenInclude(bestelling => bestelling.GebruikersAccount)
+            .Include(bestelling => bestelling.BestellingsStatus)
+            .ToListAsync();
     }
 
     public async Task<Bestelling?> GetAsync(int id)
@@ -26,5 +31,26 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(b => b.LeveringsAdres)
             .Include(b => b.Bestellijnen).ThenInclude(l => l.Artikel)
             .FirstOrDefaultAsync(b => b.BestelId == id);
+    }
+
+    public void Update(Bestelling bestelling)
+    {
+        if (bestelling != null)
+        {
+            _context.Bestellingen.Update(bestelling);
+            _context.SaveChanges();
+        }
+    }
+
+    public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
+
+    public  async Task<Bestelling?> Annuleren(int id)
+    {
+        var bestelling = await _context.Bestellingen.FindAsync(id);
+        bestelling!.Annulatie = true;
+        bestelling.Annulatiedatum = DateTime.Now;
+        bestelling.BestellingsStatusId = 3; //Deze lijn eruit halen als se status niet mag worden aangepast.
+        await _context.SaveChangesAsync();
+        return bestelling;
     }
 }
