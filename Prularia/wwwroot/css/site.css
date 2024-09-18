@@ -21,3 +21,6 @@ body {
   margin-bottom: 60px;
 }
 
+#logo {
+    max-height: 50px;
+}
