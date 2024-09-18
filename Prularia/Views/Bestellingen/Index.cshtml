@@ -7,7 +7,31 @@
     ViewBag.Title = "Personen"; 
 } 
 
+<div>
+    <form class="SearchForm">
 
+        <iput type="text" class="form-control" id="inputSearch" placeholder="Search">Search</iput>
+
+        <select class="selectOptie form-select" aria-label="selecteer zoek optie">
+            <option selected>Selecteer zoek optie</option>
+            <option>Bedrijfsnaam</option>
+            <option>BTW nummer</option>
+            <option>Klantnaam</option>
+        </select>
+
+
+        <select class="selectOrder form-select" aria-label="selecteer zoek optie">
+            <option selected>Selecteer sorteer optie</option>
+            <option>Datum</option>
+            <option>Alfabetisch</option>
+            <option>Status</option>
+        </select>
+
+        <input type="submit" placeholder="zoeken" class="btn btn-success"></input>
+
+    </form>
+
+</div>
 
 
 

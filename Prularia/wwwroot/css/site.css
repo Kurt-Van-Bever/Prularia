@@ -21,3 +21,18 @@ body {
   margin-bottom: 60px;
 }
 
+.selectOptie {
+    width: 20%;
+}
+
+.selectOrder {
+    width: 20%;
+}
+
+#inputSearch {
+    width: 20%;
+}
+
+.SearchForm {
+    display: flex;
+}
