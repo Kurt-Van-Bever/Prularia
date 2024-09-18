@@ -41,5 +41,6 @@ public class KlantenController : Controller
             _klantService.Update(klant);
             return RedirectToAction(nameof(Details), new { id = vm.KlantId });
         }
+        return View("Wijzigen", vm);
     }
 }
