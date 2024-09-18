@@ -1,4 +1,5 @@
-﻿using Prularia.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Prularia.Models;
 
 namespace Prularia.Repositories;
 
@@ -8,5 +9,15 @@ public class SQLKlantRepo : IKlantRepo
     public SQLKlantRepo(PrulariaContext context)
     {
         _context = context;
+    }
+
+    public async Task<Klant?> GetKlantAsync(int id)
+    {
+        return await _context.Klanten
+            .Include(k => k.Natuurlijkepersoon).ThenInclude(n => n.GebruikersAccount)
+            .Include(k => k.Rechtspersoon)
+            .Include(k => k.FacturatieAdres).ThenInclude(f => f.Plaats)
+            .Include(k => k.LeveringsAdres).ThenInclude(l => l.Plaats)
+            .FirstOrDefaultAsync(k => k.KlantId == id);
     }
 }

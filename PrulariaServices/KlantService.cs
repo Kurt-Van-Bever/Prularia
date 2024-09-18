@@ -1,4 +1,5 @@
-﻿using Prularia.Repositories;
+﻿using Prularia.Models;
+using Prularia.Repositories;
 
 namespace Prularia.Services;
 
@@ -9,4 +10,6 @@ public class KlantService
     {
         _klantRepo = klantRepo;
     }
+
+    public async Task<Klant?> GetKlant(int id) => await _klantRepo.GetKlantAsync(id);
 }

@@ -1,0 +1,50 @@
+﻿@model KlantDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Klant Details</h1>
+<table class="table">
+    <tbody>
+        @if(Model.Natuurlijkepersoon != null)
+        {
+            <tr>
+                <td><label asp-for="Voornaam"></label></td>
+                <td>@Model.Natuurlijkepersoon.Voornaam  </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Familienaam"></label></td>
+                <td>@Model.Natuurlijkepersoon.Familienaam  </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Emailadres"></label></td>
+                <td>@Model.Natuurlijkepersoon.GebruikersAccount.Emailadres  </td>
+            </tr>   
+            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
+        }
+        @if(Model.Rechtspersoon != null)
+        {
+            <tr>
+                <td><label asp-for="Naam"></label></td>
+                <td>@Model.Rechtspersoon.Naam  </td>
+            </tr>
+            <tr>
+                <td><label asp-for="BtwNummer"></label></td>
+                <td>@Model.Rechtspersoon.BtwNummer  </td>
+            </tr>
+            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
+            <a asp-action="ContactPersonen"><button class="btn btn-success">Contactpersonen</button></a>
+        }
+        <tr>
+            <td><label asp-for="FacturatieAdres"></label></td>
+            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer, @Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam</td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="LeveringsAdres"></label></td>
+            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer, @Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam</td>
+        </tr>
+    </tbody>
+</table>
