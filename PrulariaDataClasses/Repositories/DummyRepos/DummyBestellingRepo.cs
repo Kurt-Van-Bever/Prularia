@@ -6,7 +6,7 @@ public class DummyBestellingRepo : IBestellingRepo
 {
 
  
-    public Task<List<Bestelling>> GetBestellingen()
+    public Task<List<Bestelling>> GetBestellingenAsync()
     {
         throw new NotImplementedException();
     }
