@@ -9,4 +9,16 @@ public class SQLKlantRepo : IKlantRepo
     {
         _context = context;
     }
+
+    public void Update(Klant klant)
+    {
+        if (klant != null)
+        {
+            _context.Klanten.Update(klant);
+            _context.SaveChanges();
+        }
+    }
+
+    public Klant? Get(int id) => _context.Klanten.Find(id);
+
 }
