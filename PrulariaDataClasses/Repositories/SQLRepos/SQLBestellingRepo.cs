@@ -48,6 +48,7 @@ public class SQLBestellingRepo : IBestellingRepo
     {
         var bestelling = await _context.Bestellingen.FindAsync(id);
         bestelling!.Annulatie = true;
+        bestelling.Annulatiedatum = DateTime.Now;
         await _context.SaveChangesAsync();
         return bestelling;
     }
