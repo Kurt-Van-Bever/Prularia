@@ -28,3 +28,10 @@ body {
 .btn-secondary {
     background-color: #ABD7A8;
 }
+
+.housestyle-warning {
+    background-color: #ABD7A8;
+    padding: 1em 1em;
+    margin: 1em 0em;
+    font-weight: bold;
+}

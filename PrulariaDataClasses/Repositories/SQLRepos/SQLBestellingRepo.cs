@@ -49,6 +49,7 @@ public class SQLBestellingRepo : IBestellingRepo
         var bestelling = await _context.Bestellingen.FindAsync(id);
         bestelling!.Annulatie = true;
         bestelling.Annulatiedatum = DateTime.Now;
+        bestelling.BestellingsStatusId = 3; //Deze lijn eruit halen als se status niet mag worden aangepast.
         await _context.SaveChangesAsync();
         return bestelling;
     }

@@ -116,7 +116,7 @@
 
 @if ( Model.Annulatie == true)
 {
-    <div>deze bestelling werd reeds geannuleerd</div>
+    <div class="housestyle-warning">Deze bestelling werd reeds geannuleerd</div>
 }
 
 @if (Model.BestellingsStatus.Naam == "Lopend" || Model.BestellingsStatus.Naam == "Betaald" && Model.Annulatie == false)
