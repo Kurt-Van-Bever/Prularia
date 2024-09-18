@@ -1,6 +1,4 @@
-﻿
-
-namespace Prularia.Models
+﻿namespace Prularia.Models
 {
     public class BestellingenViewModel
     {

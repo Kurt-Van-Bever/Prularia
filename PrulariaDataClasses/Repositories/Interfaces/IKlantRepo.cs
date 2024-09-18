@@ -7,4 +7,6 @@ public interface IKlantRepo
     void Update(Klant klant);
 
     Klant? Get(int id);
+
+    Task<List<Klant>> GetKlantenAsync();
 }

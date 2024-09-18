@@ -11,6 +11,11 @@ public class KlantService
         _klantRepo = klantRepo;
     }
 
+    public async Task<List<Klant>> GetKlantenAsync()
+    {
+        return await _klantRepo.GetKlantenAsync();
+    }
+
     public Klant? Get(int id)
     {
         return _klantRepo.Get(id);

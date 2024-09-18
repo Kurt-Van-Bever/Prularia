@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Prularia.Models;
 using Prularia.Services;
 using Prularia.Models;
 
@@ -12,9 +13,12 @@ public class KlantenController : Controller
         _klantService = klantService;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        return View();
+        var model = new KlantenViewModel();
+        model.KlantItems = await _klantService.GetKlantenAsync();
+
+        return View(model);
     }
 
     public IActionResult AdresWijzigen(int id)
