@@ -28,6 +28,6 @@ public class KlantService
 
     public async Task<Klant?> GetKlant(int id) => await _klantRepo.GetKlantAsync(id);
 
-    public async Task<Contactpersoon?> GetContactpersonen(int id) 
+    public async Task<ICollection<Contactpersoon>> GetContactpersonen(int id) 
         => await _klantRepo.GetContactpersonenAsync(id);
 }

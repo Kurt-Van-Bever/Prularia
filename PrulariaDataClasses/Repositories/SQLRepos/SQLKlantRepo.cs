@@ -34,11 +34,13 @@ public class SQLKlantRepo : IKlantRepo
     public Klant? Get(int id) => _context.Klanten.Find(id);
 
 
-    public async Task<Contactpersoon?> GetContactpersonenAsync(int id)
+    public async Task<ICollection<Contactpersoon>> GetContactpersonenAsync(int id)
     {
-        return await _context.Contactpersonen
-            .Include(c => c.GebruikersAccount)
+        var p = await _context.Rechtspersonen
+            .Include(r => r.Contactpersonen)
+            .ThenInclude(c =>c.GebruikersAccount)
             .FirstOrDefaultAsync(k => k.KlantId == id);
+        return p.Contactpersonen;
     }
 
     public async Task<Klant?> GetKlantAsync(int id)

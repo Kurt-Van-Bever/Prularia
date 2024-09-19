@@ -18,12 +18,13 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
-    public Task<Contactpersoon?> GetContactpersonenAsync(int id)
+
+    public Task<Klant?> GetKlantAsync(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Klant?> GetKlantAsync(int id)
+    Task<ICollection<Contactpersoon>> IKlantRepo.GetContactpersonenAsync(int id)
     {
         throw new NotImplementedException();
     }
