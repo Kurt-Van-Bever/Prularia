@@ -49,12 +49,6 @@
     </tbody>
 </table>
 
-@if (Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
-{
-    <div class="housestyle-warning">Deze klant is gedisabeled</div>
-}
-
-
 @if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == false)
 {
 
@@ -102,6 +96,7 @@
 }
 @if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
 {
+    <div class="housestyle-warning">Deze klant is gedisabeled</div>
     <!-- Button to trigger the popup -->
     <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Activeren</a>
     <!--
@@ -143,11 +138,5 @@
         </div>
     </div>
 }
-<!-- Modal HTML (using Bootstrap) -->
-
-
-
-
-<!-- Modal voor Annuleren -->
 
 <a asp-action="Index"><button class="btn btn-secondary">Terug</button></a>
