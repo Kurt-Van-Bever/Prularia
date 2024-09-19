@@ -29,7 +29,12 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
-    Task<ICollection<Contactpersoon>> GetContactpersonenAsync(int id)
+    //Task<ICollection<Contactpersoon>> GetContactpersonenAsync(int id)
+    //{
+    //    throw new NotImplementedException();
+    //}
+
+    Task<ICollection<Contactpersoon>> IKlantRepo.GetContactpersonenAsync(int id)
     {
         throw new NotImplementedException();
     }
