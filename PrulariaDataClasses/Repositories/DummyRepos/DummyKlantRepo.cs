@@ -9,11 +9,6 @@ public class DummyKlantRepo : IKlantRepo
         throw new NotImplementedException();
     }
 
-    public Task<List<Klant>> GetKlantenAsync()
-    {
-        throw new NotImplementedException();
-    }
-
     public void Update(Klant klant)
     {
         throw new NotImplementedException();
@@ -24,6 +19,16 @@ public class DummyKlantRepo : IKlantRepo
     }
 
     public Task<Klant?> GetKlantAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Klant>> GetNatuurlijkePersonenAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Klant>> GetRechtspersonenAsync()
     {
         throw new NotImplementedException();
     }

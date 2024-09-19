@@ -11,16 +11,26 @@ public class SQLKlantRepo : IKlantRepo
         _context = context;
     }
 
-    public async Task<List<Klant>> GetKlantenAsync()
+    public async Task<List<Klant>> GetNatuurlijkePersonenAsync()
     {
         return await _context.Klanten
+            .Where(k => k.Natuurlijkepersoon != null)
             .Include(k => k.Natuurlijkepersoon)
-            .ThenInclude(n => n.GebruikersAccount)
-            .Include(k => k.Rechtspersoon) 
+            .ThenInclude(n => n!.GebruikersAccount)
             .Include(k => k.FacturatieAdres)
-            .ThenInclude(fa => fa.Plaats)
+            .ThenInclude(n => n.Plaats)
             .ToListAsync();
-    }   
+    }
+
+    public async Task<List<Klant>> GetRechtspersonenAsync()
+    {
+        return await _context.Klanten
+            .Where(k => k.Rechtspersoon != null)
+            .Include(k => k.Rechtspersoon)      
+            .Include(k => k.FacturatieAdres)
+            .ThenInclude(f => f.Plaats)
+            .ToListAsync();
+    }
 
     public void Update(Klant klant)
     {
@@ -44,10 +54,12 @@ public class SQLKlantRepo : IKlantRepo
     public async Task<Klant?> GetKlantAsync(int id)
     {
         return await _context.Klanten
-            .Include(k => k.Natuurlijkepersoon).ThenInclude(n => n.GebruikersAccount)
+            .Include(k => k.Natuurlijkepersoon).ThenInclude(n => n!.GebruikersAccount)
             .Include(k => k.Rechtspersoon)
             .Include(k => k.FacturatieAdres).ThenInclude(f => f.Plaats)
             .Include(k => k.LeveringsAdres).ThenInclude(l => l.Plaats)
             .FirstOrDefaultAsync(k => k.KlantId == id);
     }
+
+    
 }

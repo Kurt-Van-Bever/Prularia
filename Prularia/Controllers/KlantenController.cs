@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Prularia.Models;
 using Prularia.Services;
-using Prularia.Models;
 
 namespace Prularia.Controllers;
 
@@ -15,10 +14,51 @@ public class KlantenController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var model = new KlantenViewModel();
-        model.KlantItems = await _klantService.GetKlantenAsync();
+        string klantType = TempData["KlantType"] as string ?? "natuurlijk";
+        TempData.Keep("KlantType");
 
-        return View(model);
+        if (klantType == "natuurlijk")
+        {
+            var natuurlijkePersonen = await _klantService.GetNatuurlijkePersonenAsync();
+            var vm = natuurlijkePersonen.Select(n => new NatuurlijkePersoonViewModel
+            {
+                KlantId = n.KlantId,
+                Voornaam = n.Natuurlijkepersoon!.Voornaam,
+                Achternaam = n.Natuurlijkepersoon.Familienaam,
+                Postcode = n.FacturatieAdres.Plaats.Postcode,
+                Email = n.Natuurlijkepersoon.GebruikersAccount.Emailadres
+            }).ToList();
+
+            return View("NatuurlijkePersonenView", vm);
+        }
+        else
+        {
+            var rechtspersonen = await _klantService.GetRechtspersonenAsync();
+            var vm = rechtspersonen.Select(r => new RechtspersoonViewModel
+            {
+                KlantId = r.KlantId,
+                Naam = r.Rechtspersoon!.Naam,
+                BTWNummer = r.Rechtspersoon.BtwNummer,
+                Postcode = r.FacturatieAdres.Plaats.Postcode,
+            }).ToList();
+
+            return View("RechtspersonenView", vm);
+        }
+    }    
+    
+    [HttpPost]
+    public IActionResult ToggleKlantType(string huidigType)
+    {
+        if (huidigType == "natuurlijk")
+        {
+            TempData["KlantType"] = "rechtspersoon";
+        }
+        else
+        {
+            TempData["KlantType"] = "natuurlijk";
+        }
+
+        return RedirectToAction("Index");
     }
 
     public IActionResult AdresWijzigen(int id)
@@ -40,7 +80,7 @@ public class KlantenController : Controller
         if (this.ModelState.IsValid)
         {
             var klant = _klantService.Get(vm.KlantId);
-            klant.FacturatieAdres = vm.FacturatieAdres;
+            klant!.FacturatieAdres = vm.FacturatieAdres;
             klant.LeveringsAdres= vm.LeveringsAdres;
             _klantService.Update(klant);
             return RedirectToAction(nameof(Details), new { id = vm.KlantId });

@@ -8,7 +8,8 @@ public interface IKlantRepo
 
     Klant? Get(int id);
 
-    Task<List<Klant>> GetKlantenAsync();
+    Task<List<Klant>> GetNatuurlijkePersonenAsync();
+    Task<List<Klant>> GetRechtspersonenAsync();
     Task<Klant?> GetKlantAsync(int id);
     Task<Contactpersoon?> GetContactpersonenAsync(int id);
 }
