@@ -23,7 +23,7 @@
                 <td>@Model.Natuurlijkepersoon.GebruikersAccount.Emailadres  </td>
             </tr>
             <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
-            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a>
+            @* <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a> *@
         }
         @if(Model.Rechtspersoon != null)
         {
