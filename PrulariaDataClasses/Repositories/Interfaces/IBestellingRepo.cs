@@ -14,4 +14,7 @@ public interface IBestellingRepo
 
     Bestelling? Get(int id);
      Task<Bestelling?> Annuleren(int id);
+    public Task<List<Bestelling>> GetBestellingen();
+
+    public Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie);
 }

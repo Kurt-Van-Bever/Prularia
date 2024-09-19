@@ -1,4 +1,5 @@
-﻿using Prularia.Models;
+﻿using Google.Protobuf.WellKnownTypes;
+using Prularia.Models;
 using Prularia.Repositories;
 
 namespace Prularia.Services;
@@ -11,7 +12,7 @@ public class BestellingService
         _bestellingRepo = bestellingRepo;
     }
 
-    public async Task<List<Bestelling>> getBestellingenAsync()
+    public async Task<List<Bestelling>> GetBestellingenAsync()
     {
         return await _bestellingRepo.GetBestellingenAsync();
     }
@@ -33,5 +34,31 @@ public class BestellingService
     public async Task AnnulerenAsync(int id)
     {
         await _bestellingRepo.Annuleren(id);
+    }
+
+    public async Task<List<Bestelling>> SearchBestellingAsync(string searchValue, string searchOptie, string sorteerOptie)
+    {
+
+        List<Bestelling> Bestellingen = await _bestellingRepo.SearchBestelling(searchValue, searchOptie);
+
+
+
+        if (sorteerOptie == "alfabetisch") {
+            return Bestellingen.OrderBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Voornaam).ThenBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Familienaam).ToList(); 
+        }
+
+        if(sorteerOptie == "datum")
+        {
+        
+            return Bestellingen.OrderByDescending(bestelling => bestelling.Besteldatum).ToList();
+        }
+
+        if(sorteerOptie == "status")
+        {
+
+            return Bestellingen.OrderBy(bestelling => bestelling.BestellingsStatus.Naam).ToList();
+        }
+
+        return Bestellingen;
     }
 }

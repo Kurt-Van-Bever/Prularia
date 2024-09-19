@@ -28,4 +28,9 @@ public class DummyBestellingRepo : IBestellingRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie)
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -11,13 +11,13 @@ builder.Services.AddDbContext<PrulariaContext>(
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddSession();
 builder.Services.AddTransient<BestellingService>();
 builder.Services.AddTransient<KlantService>();
-
+builder.Services.AddDistributedMemoryCache();
 builder.Services.AddTransient<IBestellingRepo, SQLBestellingRepo>();
 builder.Services.AddTransient<IKlantRepo, SQLKlantRepo>();
-
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 var app = builder.Build();
 
 
@@ -33,7 +33,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
