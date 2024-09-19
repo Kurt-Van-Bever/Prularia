@@ -4,9 +4,11 @@ using Prularia.Services;
 using System.Buffers;
 using System.Web;
 using Prularia.Models;
+using Prularia.Filters;
 
 namespace Prularia.Controllers;
 
+[AuthorizationGroup("Cwebsite")]
 public class BestellingenController : Controller
 {
     private readonly BestellingService _bestellingService;

@@ -15,9 +15,13 @@ builder.Services.AddSession();
 builder.Services.AddTransient<BestellingService>();
 builder.Services.AddTransient<KlantService>();
 builder.Services.AddDistributedMemoryCache();
+builder.Services.AddTransient<SecurityService>();
+
 builder.Services.AddTransient<IBestellingRepo, SQLBestellingRepo>();
 builder.Services.AddTransient<IKlantRepo, SQLKlantRepo>();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<ISecurityRepo, SQLSecurityRepo>();
+
 var app = builder.Build();
 
 
