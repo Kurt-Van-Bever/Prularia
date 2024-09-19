@@ -43,7 +43,7 @@ public class KlantenController : Controller
             klant.FacturatieAdres = vm.FacturatieAdres;
             klant.LeveringsAdres= vm.LeveringsAdres;
             _klantService.Update(klant);
-            //return RedirectToAction(nameof(Details), new { id = vm.KlantId });
+            return RedirectToAction(nameof(Details), new { id = vm.KlantId });
         }
         return View("Wijzigen", vm);
     }
