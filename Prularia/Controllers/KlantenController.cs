@@ -107,16 +107,22 @@ public class KlantenController : Controller
 
     public async Task<IActionResult> ContactPersonen(int id)
     {
-        Contactpersoon? contactpersoon = await _klantService.GetContactpersonen(id);
-        if (contactpersoon == null) return NotFound();
-        ContactpersonenViewModel viewModel = new ContactpersonenViewModel
+        ICollection<Contactpersoon> contactpersonen = await _klantService.GetContactpersonen(id);
+        if (contactpersonen == null) return NotFound();
+        ICollection<ContactpersonenViewModel> contacten = new List<ContactpersonenViewModel>();
+        
+        foreach(Contactpersoon c in contactpersonen)
         {
-            KlantId = contactpersoon.KlantId,
-            Voornaam = contactpersoon.Voornaam,
-            Familienaam = contactpersoon.Familienaam,
-            Functie = contactpersoon.Functie,
-            Emailadres = contactpersoon.GebruikersAccount.Emailadres
-        };
-        return View(viewModel);
+            contacten.Add(new ContactpersonenViewModel()
+            {
+                Voornaam = c.Voornaam,
+                Familienaam = c.Familienaam,
+                Functie = c.Functie,
+                Emailadres = c.GebruikersAccount.Emailadres
+            });
+            
+        }
+        ViewBag.KlantId = id;
+        return View(contacten);
     }
 }
