@@ -50,4 +50,11 @@ public class SQLKlantRepo : IKlantRepo
             .Include(k => k.LeveringsAdres).ThenInclude(l => l.Plaats)
             .FirstOrDefaultAsync(k => k.KlantId == id);
     }
+	public async Task<List<Bestelling?>> GetBestellingenByKlantAsync(int id)
+	{
+		return await _context.Bestellingen
+			.Where(b => b.KlantId == id)
+			.ToListAsync();
+	}
 }
+

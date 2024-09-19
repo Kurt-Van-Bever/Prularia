@@ -79,4 +79,11 @@ public class KlantenController : Controller
         };
         return View(viewModel);
     }
+	public async Task<IActionResult> KlantBestellingen(int id)
+	{
+		ViewBag.KlantId = id;
+		List<Bestelling?> bestellingen = new List<Bestelling?>();
+		bestellingen = await _klantService.GetBestellingenByKlantAsync(id);
+		return View(bestellingen);
+	}
 }

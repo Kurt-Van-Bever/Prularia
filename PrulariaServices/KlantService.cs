@@ -25,6 +25,10 @@ public class KlantService
     {
         _klantRepo.Update(klant);
     }
+    public async Task<List<Bestelling?>> GetBestellingenByKlantAsync(int id)
+    {
+        return await _klantRepo.GetBestellingenByKlantAsync(id);
+    }
 
     public async Task<Klant?> GetKlant(int id) => await _klantRepo.GetKlantAsync(id);
 

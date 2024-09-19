@@ -48,6 +48,7 @@ public class BestellingenController : Controller
 
         return View(vm);
     }
+    
 
     [HttpGet]
     public IActionResult Wijzigen(int id)
@@ -107,4 +108,5 @@ public class BestellingenController : Controller
 
         return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
     }
+	
 }

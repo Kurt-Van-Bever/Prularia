@@ -1,0 +1,44 @@
+﻿@model List<Bestelling>
+@{
+	ViewData["Title"] = "KlantBestellingen";
+}
+
+<h1>Bestellingen van klant @ViewBag.KlantId</h1>
+@if (Model != null && Model.Count > 0)
+{
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Besteldatum</th>
+				<th>Bestelling status</th>
+				<th>klantid</th>
+				<th>betaald</th>
+				<th>betalingscode</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td>@item.BestelId</td>
+					<td>@item.Besteldatum</td>
+					<td>@item.ActiecodeGebruikt</td>
+					<td>@item.BestellingsStatus.Naam</td>
+					<td>@item.KlantId</td>
+					<td>@item.Betaald</td>
+					<td>@item.Betalingscode</td>
+					<td>
+						<a asp-controller="BestellingenController" asp-action="Details" asp-route-id="@ViewBag.KlantId" class="btn btn-secondary">Details</a>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+	<a asp-action="Details" asp-route-id="@ViewBag.KlantId" class="btn btn-secondary">Terug</a>
+}
+else
+{
+	<h1>Geen bestellingen gevonden</h1>
+	<a asp-action="Details" asp-route-id="@ViewBag.KlantId" class="btn btn-secondary">Terug</a>
+}

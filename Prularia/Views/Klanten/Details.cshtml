@@ -21,8 +21,9 @@
             <tr>
                 <td><label asp-for="Emailadres"></label></td>
                 <td>@Model.Natuurlijkepersoon.GebruikersAccount.Emailadres  </td>
-            </tr>   
-            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
+            </tr>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a>
         }
         @if(Model.Rechtspersoon != null)
         {
@@ -34,8 +35,8 @@
                 <td><label asp-for="BtwNummer"></label></td>
                 <td>@Model.Rechtspersoon.BtwNummer  </td>
             </tr>
-            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
-            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId"><button class="btn btn-success">Contactpersonen</button></a>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a>
         }
         <tr>
             <td><label asp-for="FacturatieAdres"></label></td>
