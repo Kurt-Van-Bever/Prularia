@@ -6,21 +6,21 @@
 <form asp-action="LoginDoorvoeren" asp-controller="Security" method="post" class="form">
 
 
-    <div class="card text-center text-white bg-primary mb-3" style="max-width: 20rem;">
+    <div class="card text-center g-success mb-3" style="max-width: 20rem;">
         <div class="card-header">LOGIN</div>
-        <div class="card-body">
+        <div class="card-body text-center">
 
             <div class="loginfield">
-                <label asp-for="Email"></label>
+                <label class="login-label"  asp-for="Email"></label>
                 <input class="form-text" asp-for="Email" />
             </div>
 
-            <div class="loginfield">
-                <label asp-for="Password"></label>
+            <div class="loginfield" >
+                <label class="login-label" asp-for="Password"></label>
                 <input class="form-text"  asp-for="Password" type="password" />
             </div>
 
         </div>
    
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btnLogin btn btn-succes">Login</button>
 </form>
