@@ -48,15 +48,15 @@ public class SQLBestellingRepo : IBestellingRepo
 
     public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
 
-    public  async Task<Bestelling?> Annuleren(int id)
-    {
-        return await _context.Bestellingen
-            .Include(bestelling => bestelling.Klant)
-            .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-            .ThenInclude(bestelling => bestelling.GebruikersAccount)
-            .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
+    //public  async Task<Bestelling?> Annuleren(int id)
+    //{
+    //    //return await _context.Bestellingen
+    //    //    .Include(bestelling => bestelling.Klant)
+    //    //    .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
+    //    //    .ThenInclude(bestelling => bestelling.GebruikersAccount)
+    //    //    .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
 
-    }
+    //}
 
     public async Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie)
     {
@@ -122,6 +122,14 @@ public class SQLBestellingRepo : IBestellingRepo
 	      .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
 
 	}
+
+    public Task<List<Bestelling>> GetBestellingen()
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<Bestelling?> Annuleren(int id)
+    {
         var bestelling = await _context.Bestellingen.FindAsync(id);
         bestelling!.Annulatie = true;
         bestelling.Annulatiedatum = DateTime.Now;
@@ -130,3 +138,8 @@ public class SQLBestellingRepo : IBestellingRepo
         return bestelling;
     }
 }
+
+
+
+
+
