@@ -32,15 +32,27 @@ public class SQLBestellingRepo : IBestellingRepo
               .ThenInclude(bestelling => bestelling.GebruikersAccount)
               .Include(bestelling => bestelling.BestellingsStatus)
               .Where(bestelling => bestelling.Klant.Natuurlijkepersoon.Voornaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
-        } else
-        {
 
+        }
+
+        if(ZoekOptie == "klantfamillienaam")
+        {
+            return await _context.Bestellingen
+             .Include(bestelling => bestelling.Klant)
+             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
+             .ThenInclude(bestelling => bestelling.GebruikersAccount)
+             .Include(bestelling => bestelling.BestellingsStatus)
+             .Where(bestelling => bestelling.Klant.Natuurlijkepersoon.Familienaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+        }
+        
+        
+      
             return await _context.Bestellingen
              .Include(bestelling => bestelling.Klant)
              .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
              .ThenInclude(bestelling => bestelling.GebruikersAccount)
              .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
-        }
+        
    
     }
 }

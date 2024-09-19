@@ -20,7 +20,8 @@
             <option selected>Selecteer zoek optie</option>
             <option value="bedrijfsnaam">Bedrijfsnaam</option>
             <option value="btwnummer">BTW nummer</option>
-            <option value="klantnaam">Klantnaam</option>
+            <option value="klantnaam">Klant voornaam</option>
+            <option value="klantfamillienaam">Klant famillienaam</option>
         </select>
 
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
@@ -49,7 +50,7 @@
     <table class="table table-hover">
 
         <thead>
-            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant Voornaam</th> <th>Klant Famillienaam</th> <th>Klant Email</th> <th>Firma</th> <th>Bestelling status</th></tr>
+            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Firma</th> <th>Bestelling status</th></tr>
         </thead>
 
         <tbody>
@@ -61,8 +62,8 @@
                     <tr>
                         <td>@bestellingItem.BestelId</td>
                         <td>@bestellingItem.Besteldatum</td>
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td>
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
+                   
                         <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
                         <td>@bestellingItem.Klant.Rechtspersoon?.Naam</td>
                         <td>@bestellingItem.BestellingsStatus.Naam</td>
