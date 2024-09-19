@@ -44,7 +44,7 @@ public class SQLBestellingRepo : IBestellingRepo
 
     public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
 
-    public  async Task<Bestelling?> Annuleren(int id)
+    public  async Task<Bestelling?> AnnulerenAsync(int id)
     {
         var bestelling = await _context.Bestellingen.FindAsync(id);
         bestelling!.Annulatie = true;

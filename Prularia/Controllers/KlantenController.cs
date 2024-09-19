@@ -44,7 +44,7 @@ public class KlantenController : Controller
             klant.FacturatieAdres = vm.FacturatieAdres;
             klant.LeveringsAdres= vm.LeveringsAdres;
             _klantService.Update(klant);
-            //return RedirectToAction(nameof(Details), new { id = vm.KlantId });
+            return RedirectToAction(nameof(Details), new { id = vm.KlantId });
         }
         return View("Wijzigen", vm);
     }
@@ -85,5 +85,25 @@ public class KlantenController : Controller
         }
         ViewBag.KlantId = id;
         return View(contacten);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> DisabelenPopupAsync(int id)
+    {
+        var klant = await _klantService.DisableAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActivatePopupAsync(int id)
+    {
+        var klant = await _klantService.ActivateAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
     }
 }

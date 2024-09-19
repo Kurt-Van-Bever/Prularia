@@ -28,4 +28,14 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<Klant> DisableAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Klant?> ActivateAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

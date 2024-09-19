@@ -52,4 +52,30 @@ public class SQLKlantRepo : IKlantRepo
             .Include(k => k.LeveringsAdres).ThenInclude(l => l.Plaats)
             .FirstOrDefaultAsync(k => k.KlantId == id);
     }
+
+    public async Task<Klant?> DisableAsync(int id)
+    {
+        var klant = await GetKlantAsync(id);
+
+        if (klant != null)
+        {
+            klant.Natuurlijkepersoon!.GebruikersAccount.Disabled = true;
+            await _context.SaveChangesAsync();
+        }
+    
+        return klant;
+    }
+
+    public async Task<Klant?> ActivateAsync(int id)
+    {
+        var klant = await GetKlantAsync(id);
+
+        if (klant != null)
+        {
+            klant.Natuurlijkepersoon!.GebruikersAccount.Disabled = false;
+            await _context.SaveChangesAsync();
+        }
+    
+        return klant;
+    }
 }

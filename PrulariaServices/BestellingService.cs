@@ -31,6 +31,6 @@ public class BestellingService
     }
     public async Task AnnulerenAsync(int id)
     {
-        await _bestellingRepo.Annuleren(id);
+        await _bestellingRepo.AnnulerenAsync(id);
     }
 }

@@ -49,4 +49,105 @@
     </tbody>
 </table>
 
+@if (Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
+{
+    <div class="housestyle-warning">Deze klant is gedisabeled</div>
+}
+
+
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == false)
+{
+
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Disabel</a>
+    <!--
+        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
+    -->
+    <script type="text/javascript">
+        function showModalPopup() {
+            // Modern way to open a modal popup using Bootstrap
+            $('#disableModal').modal('show');
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#disableModal').on('click', '.btn-secondary', function () {
+                $('#disableModal').modal('hide');
+            });
+        });
+    </script>
+    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="disableModalLabel">Klant disabelen</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt disabelen?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="DisabelenPopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    @* <a asp-action="AnnulerenPopup" asp-route-id="@Model.BestelId" class="btn btn-danger">Ja</a> *@
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
+{
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Activeren</a>
+    <!--
+        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
+    -->
+    <script type="text/javascript">
+        function showModalPopup() {
+            // Modern way to open a modal popup using Bootstrap
+            $('#activateModal').modal('show');
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#activateModal').on('click', '.btn-secondary', function () {
+                $('#activateModal').modal('hide');
+            });
+        });
+    </script>
+    <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activateModalLabel">Bestelling Annuleren</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt activeren?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="ActivatePopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<!-- Modal HTML (using Bootstrap) -->
+
+
+
+
+<!-- Modal voor Annuleren -->
+
 <a asp-action="Index"><button class="btn btn-secondary">Terug</button></a>

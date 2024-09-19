@@ -30,4 +30,9 @@ public class KlantService
 
     public async Task<ICollection<Contactpersoon>> GetContactpersonen(int id) 
         => await _klantRepo.GetContactpersonenAsync(id);
+
+    public async Task<Klant?> DisableAsync(int id) 
+        => await _klantRepo.DisableAsync(id);
+    public async Task<Klant?> ActivateAsync(int id) 
+        => await _klantRepo.ActivateAsync(id);
 }
