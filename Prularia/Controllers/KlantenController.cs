@@ -79,4 +79,24 @@ public class KlantenController : Controller
         };
         return View(viewModel);
     }
+
+    [HttpPost]
+    public async Task<IActionResult> DisabelenPopupAsync(int id)
+    {
+        var klant = await _klantService.DisableAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActivatePopupAsync(int id)
+    {
+        var klant = await _klantService.ActivateAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
+    }
 }

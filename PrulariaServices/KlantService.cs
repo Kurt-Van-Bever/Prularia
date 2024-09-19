@@ -28,6 +28,11 @@ public class KlantService
 
     public async Task<Klant?> GetKlant(int id) => await _klantRepo.GetKlantAsync(id);
 
-    public async Task<Contactpersoon?> GetContactpersonen(int id) 
+    public async Task<Contactpersoon?> GetContactpersonen(int id)
         => await _klantRepo.GetContactpersonenAsync(id);
+
+    public async Task<Klant?> DisableAsync(int id) 
+        => await _klantRepo.DisableAsync(id);
+    public async Task<Klant?> ActivateAsync(int id) 
+        => await _klantRepo.ActivateAsync(id);
 }
