@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Prularia.Filters;
 using Prularia.Models;
 using Prularia.Services;
 
 namespace Prularia.Controllers;
 
+[AuthorizationGroup("Cwebsite")]
 public class KlantenController : Controller
 {
     private readonly KlantService _klantService;

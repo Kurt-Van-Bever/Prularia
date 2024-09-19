@@ -3,11 +3,24 @@
     ViewData["Title"] = "Login";
 }
 
-<h1>Login</h1>
 <form asp-action="LoginDoorvoeren" asp-controller="Security" method="post" class="form">
-    <label asp-for="Email"></label>
-    <input asp-for="Email" />
-    <label asp-for="Password"></label>
-    <input asp-for="Password" type="password" />
+
+
+    <div class="card text-center text-white bg-primary mb-3" style="max-width: 20rem;">
+        <div class="card-header">LOGIN</div>
+        <div class="card-body">
+
+            <div class="loginfield">
+                <label asp-for="Email"></label>
+                <input class="form-text" asp-for="Email" />
+            </div>
+
+            <div class="loginfield">
+                <label asp-for="Password"></label>
+                <input class="form-text"  asp-for="Password" type="password" />
+            </div>
+
+        </div>
+   
     <button type="submit" class="btn btn-primary">Login</button>
 </form>

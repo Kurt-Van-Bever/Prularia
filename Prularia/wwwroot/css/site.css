@@ -51,3 +51,14 @@ body {
     display: flex;
     align-content: center;
 }
+
+.card {
+    margin: 0 auto;
+    float: none;
+    align-content: center;
+    display: flex;
+}
+
+.loginfield{
+    width: 20%;
+}
