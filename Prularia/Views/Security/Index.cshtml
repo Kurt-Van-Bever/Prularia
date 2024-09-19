@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Account Management";
+}
+
+<h2>Account Management</h2>
+
+@* als user niet ingelogd is vragen om in te loggen anders optie geven om paswoord te wijzigen *@
+@if (User.Identity.IsAuthenticated) // Staat nu omgekeerd voor testing
+{
+    // Login
+}
+else
+{
+    <a asp-action="PaswoordWijzigen" class="btn btn-success">Paswoord wijzigen</a>
+}
+
+

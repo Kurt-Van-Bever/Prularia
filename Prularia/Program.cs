@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Prularia.Models;
 using Prularia.Repositories;
 using Prularia.Services;
+using PrulariaModels.Repositories.Interfaces;
+using PrulariaModels.Repositories.SQLRepos;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,9 +16,11 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddTransient<BestellingService>();
 builder.Services.AddTransient<KlantService>();
+builder.Services.AddTransient<SecurityService>();
 
 builder.Services.AddTransient<IBestellingRepo, SQLBestellingRepo>();
 builder.Services.AddTransient<IKlantRepo, SQLKlantRepo>();
+builder.Services.AddTransient<ISecurityRepo, SQLSecurityRepo>();
 
 var app = builder.Build();
 

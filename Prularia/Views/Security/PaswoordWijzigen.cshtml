@@ -1,0 +1,47 @@
+﻿@model PaswoordViewModel
+
+@{
+    ViewBag.Title = "Paswoord wijzigen";
+}
+
+<h2>Paswoord wijzigen</h2>
+
+<span>@ViewBag.ErrorMessage</span>
+
+<form class="form" asp-action="PaswoordWijzigen" method="post">
+    <div>
+        <label asp-for="OudPaswoord"></label>
+        <input asp-for="OudPaswoord" type="password" id="oudPaswoord" />
+        <button type="button" onclick="togglePassword('oudPaswoord')">Toon/Verberg</button>
+    </div>
+
+    <div>
+        <label asp-for="NieuwPaswoord"></label>
+        <input asp-for="NieuwPaswoord" type="password" id="nieuwPaswoord" />
+        <button type="button" onclick="togglePassword('nieuwPaswoord')">Toon/Verberg</button>
+    </div>
+
+    <div>
+        <label asp-for="NieuwPaswoordConfirmatie"></label>
+        <input asp-for="NieuwPaswoordConfirmatie" type="password" id="nieuwPaswoordConfirmatie" />
+        <button type="button" onclick="togglePassword('nieuwPaswoordConfirmatie')">Toon/Verberg</button>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-success">Wijzigingen doorvoeren</button>
+        <a asp-action="Index" class="btn btn-danger">Annuleren</a>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+}
