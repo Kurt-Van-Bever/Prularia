@@ -22,9 +22,7 @@ public class BestellingService
 
         List<Bestelling> Bestellingen = await _bestellingRepo.SearchBestelling(searchValue, searchOptie);
 
-            // < option value = "datum" > Datum </ option >
-            //< option value = "alfabetisch" > Alfabetisch </ option >
-            //< option value = "status" > Status </ option >
+
 
         if (sorteerOptie == "alfabetisch") {
             return Bestellingen.OrderBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Voornaam).ThenBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Familienaam).ToList(); 
@@ -33,7 +31,7 @@ public class BestellingService
         if(sorteerOptie == "datum")
         {
         
-            return Bestellingen.OrderBy(bestelling => bestelling.Besteldatum).ToList();
+            return Bestellingen.OrderByDescending(bestelling => bestelling.Besteldatum).ToList();
         }
 
         if(sorteerOptie == "status")
