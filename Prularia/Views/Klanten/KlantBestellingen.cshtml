@@ -11,7 +11,7 @@
 			<tr>
 				<th>ID</th>
 				<th>Besteldatum</th>
-				<th>Bestelling status</th>
+				<th>ActiecodeGebruikt</th>
 				<th>klantid</th>
 				<th>betaald</th>
 				<th>betalingscode</th>
@@ -21,16 +21,13 @@
 			@foreach (var item in Model)
 			{
 				<tr>
+					@* wat willen we laten zien? *@
 					<td>@item.BestelId</td>
 					<td>@item.Besteldatum</td>
 					<td>@item.ActiecodeGebruikt</td>
-					<td>@item.BestellingsStatus.Naam</td>
 					<td>@item.KlantId</td>
 					<td>@item.Betaald</td>
 					<td>@item.Betalingscode</td>
-					<td>
-						<a asp-controller="BestellingenController" asp-action="Details" asp-route-id="@ViewBag.KlantId" class="btn btn-secondary">Details</a>
-					</td>
 				</tr>
 			}
 		</tbody>
