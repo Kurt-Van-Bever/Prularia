@@ -1,11 +1,11 @@
 ﻿    @model BestellingenViewModel
-
+    @inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = "Bestellingen"; 
 } 
 
-@ViewBag.QuerryString;
+
 
 <h2>Bestellingen</h2>
 
@@ -14,17 +14,41 @@
 
     <form class="SearchForm" method="get">
 
-        <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search"></input>
+        @{
 
-        <select name="zoek" class="selectOptie form-select" aria-label="selecteer zoek optie">
-            <option selected>Selecteer zoek optie</option>
-            <option value="bedrijfsnaam">Bedrijfsnaam</option>
-            <option value="btwnummer">BTW nummer</option>
-            <option value="klantnaam">Klant voornaam</option>
-            <option value="klantfamillienaam">Klant famillienaam</option>
-        </select>
+            string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
+            string? zoekvalue = @HttpContextAccessor.HttpContext?.Session.GetString("zoek");
+            string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
+
+            if(searchvalue != null)
+            {
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="@searchvalue"></input>
+            } else
+            {
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search"></input>
+            }
+
+        
+
+                    <select name="zoek" class="selectOptie form-select" aria-label="selecteer zoek optie">
+                        <option selected>Selecteer zoek optie</option>
+                        <option value="bedrijfsnaam">Bedrijfsnaam</option>
+                        <option value="btwnummer">BTW nummer</option>
+                        <option value="klantnaam">Klant voornaam</option>
+                        <option value="klantfamillienaam">Klant famillienaam</option>
+                    </select>
+
+
+              
+           
+        }
+
+       
+
 
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+
+           
             <option selected>Selecteer sorteer optie</option>
             <option value="datum">Datum</option>
             <option value="alfabetisch">Alfabetisch</option>
@@ -33,6 +57,7 @@
 
 
 
+        
       
         <button class="btn btn-info">Search</button>
         
@@ -50,7 +75,7 @@
     <table class="table table-hover">
 
         <thead>
-            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Firma</th> <th>Bestelling status</th></tr>
+            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
         </thead>
 
         <tbody>
@@ -65,7 +90,8 @@
                         <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
                    
                         <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                        <td>@bestellingItem.Klant.Rechtspersoon?.Naam</td>
+                        <td>@bestellingItem.Bedrijfsnaam</td>
+                        <td>@bestellingItem.BtwNummer</td>
                         <td>@bestellingItem.BestellingsStatus.Naam</td>
 
                         <td>

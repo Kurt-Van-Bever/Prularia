@@ -11,9 +11,15 @@ namespace Prularia.Controllers;
 public class BestellingenController : Controller
 {
     private readonly BestellingService _bestellingService;
-    public BestellingenController(BestellingService bestellingService)
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    public BestellingenController(BestellingService bestellingService, IHttpContextAccessor httpContextAccessor)
     {
         _bestellingService = bestellingService;
+        _contextAccessor = httpContextAccessor;
+
+
+
     }
 
     [HttpGet]
@@ -21,16 +27,35 @@ public class BestellingenController : Controller
     {
         var vm = new BestellingenViewModel();
 
-        if (zoek != null)
+        if(searchValue != null)
         {
+            HttpContext.Session.SetString("searchvalue", searchValue);
+        } else
+        {
+            HttpContext.Session.Remove("searchvalue");
+        }
 
-            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue, zoek, sorteer);
-            return View(vm);
-         
-
-        } 
         
-           
+
+        if(zoek != null)
+        {
+            HttpContext.Session.SetString("zoek", zoek);
+        } else
+        {
+            HttpContext.Session.Remove("zoek");
+        }
+   
+        if(sorteer != null) {
+            HttpContext.Session.SetString("sorteer", sorteer);
+        } else
+        {
+            HttpContext.Session.Remove("sorteer");
+        }
+  
+    
+
+        
+
             vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue, zoek, sorteer);
             return View(vm);
         
