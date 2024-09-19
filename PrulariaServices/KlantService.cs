@@ -11,10 +11,8 @@ public class KlantService
         _klantRepo = klantRepo;
     }
 
-    public async Task<List<Klant>> GetKlantenAsync()
-    {
-        return await _klantRepo.GetKlantenAsync();
-    }
+    public async Task<List<Klant>> GetNatuurlijkePersonenAsync() => await _klantRepo.GetNatuurlijkePersonenAsync();
+    public async Task<List<Klant>> GetRechtspersonenAsync() => await _klantRepo.GetRechtspersonenAsync();
 
     public Klant? Get(int id)
     {
@@ -32,6 +30,6 @@ public class KlantService
 
     public async Task<Klant?> GetKlant(int id) => await _klantRepo.GetKlantAsync(id);
 
-    public async Task<Contactpersoon?> GetContactpersonen(int id) 
+    public async Task<ICollection<Contactpersoon>> GetContactpersonen(int id) 
         => await _klantRepo.GetContactpersonenAsync(id);
 }
