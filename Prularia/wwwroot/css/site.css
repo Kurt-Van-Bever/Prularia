@@ -48,10 +48,8 @@ body {
 }
 
 .SearchForm {
-    display: inline-block;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: left;
+    display: flex;
+    align-content: center;
 }
 
 .card {
