@@ -60,6 +60,11 @@ body {
 
 }
 
+.card-header {
+    background-color: #bcd99d;
+    color: white;
+}
+
 .card-body {
     background-color: white;
     text-align: center;
@@ -67,9 +72,7 @@ body {
 
 .loginfield {
     display: inline-block;
-
     margin-right: auto;
-    
 }
 
 .login-label{

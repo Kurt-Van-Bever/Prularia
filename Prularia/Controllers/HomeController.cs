@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Prularia.Filters;
 using Prularia.Models;
 using System.Diagnostics;
 
 namespace Prularia.Controllers
 {
+    [AuthorizationGroup("Cwebsite")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
