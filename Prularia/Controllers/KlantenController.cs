@@ -120,7 +120,9 @@ public class KlantenController : Controller
                 Voornaam = c.Voornaam,
                 Familienaam = c.Familienaam,
                 Functie = c.Functie,
-                Emailadres = c.GebruikersAccount.Emailadres
+                Emailadres = c.GebruikersAccount.Emailadres,
+                Disable = c.GebruikersAccount.Disabled,
+                ContactpersoonId = c.ContactpersoonId
             });
             
         }
@@ -134,4 +136,44 @@ public class KlantenController : Controller
 		bestellingen = await _klantService.GetBestellingenByKlantAsync(id);
 		return View(bestellingen);
 	}
+
+    [HttpPost]
+    public async Task<IActionResult> DisabelenKlantPopupAsync(int id)
+    {
+        var klant = await _klantService.DisableKlantAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActivateKlantPopupAsync(int id)
+    {
+        var klant = await _klantService.ActivateKlantAsync(id);
+        if (klant != null)
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        else 
+            return NotFound();
+    }
+    
+    [HttpPost]
+    public async Task<IActionResult> DisabelenContactpersoonPopupAsync(int id)
+    {
+        var contactpersoon = await _klantService.DisableContactpersoonAsync(id);
+        if (contactpersoon != null)
+            return RedirectToAction(nameof(ContactPersonen), new { id = contactpersoon.KlantId });
+        else 
+            return NotFound();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> ActivateContactpersoonPopupAsync(int id)
+    {
+        var contactpersoon = await _klantService.ActivateContactpersoonAsync(id);
+        if (contactpersoon != null)
+            return RedirectToAction(nameof(ContactPersonen), new { id = contactpersoon.KlantId });
+        else 
+            return NotFound();
+    }
 }

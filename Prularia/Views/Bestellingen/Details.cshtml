@@ -122,41 +122,19 @@
 @if (Model.BestellingsStatus.Naam == "Lopend" || Model.BestellingsStatus.Naam == "Betaald" && Model.Annulatie == false)
 {
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Annuleren</a>
-    <!--
-        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
-    -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupAnnuleren()">Annuleren</a>
 }
 
 <a asp-action="Index" class="btn btn-success">Terug naar alle bestellingen</a>
 
 <!-- Modal HTML (using Bootstrap) -->
-    <script type="text/javascript">
-        function showModalPopup() {
-            // Modern way to open a modal popup using Bootstrap
-            $('#annulerenModal').modal('show');
-        }
-    </script>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#annulerenModal').on('click', '.btn-secondary', function () {
-                $('#annulerenModal').modal('hide');
-            });
-        });
-    </script>
     
     <div class="modal fade" id="annulerenModal" tabindex="-1" role="dialog" aria-labelledby="annulerenModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="annulerenModalLabel">Annuleren Bestelling</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">X</button>
                 </div>
                 <div class="modal-body">
                     Weet u zeker dat u de bestelling wilt annuleren?
@@ -166,8 +144,7 @@
                     <input type="hidden" name="id" value="@Model.BestelId" />
                     <button type="submit" class="btn btn-success">Ja</button>
                 </form>
-                    @* <a asp-action="AnnulerenPopup" asp-route-id="@Model.BestelId" class="btn btn-danger">Ja</a> *@
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                 </div>
             </div>
         </div>

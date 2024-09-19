@@ -132,24 +132,14 @@ public class BestellingenController : Controller
         return View("Wijzigen", vm);
     }
 
-
-    //[HttpPost]
-    //public async Task<IActionResult> AnnulerenPopup(int id)
-    //{
-    //    var bestelling = await _bestellingService.GetAsync(id);
-    //    await _bestellingService.AnnulerenAsync(id);
-
-    //    return RedirectToAction("Details", id=id);
-    //}
-
     [HttpPost]
-    public async Task<IActionResult> AnnulerenPopup(int id)
+    public async Task<IActionResult> AnnulerenPopupAsync(int id)
     {
         var bestelling = await _bestellingService.GetAsync(id);
 
         if (bestelling == null)
         {
-            return NotFound();  // Of geef een gebruikersvriendelijke foutmelding terug
+            return NotFound();
         }
 
         await _bestellingService.AnnulerenAsync(id);
