@@ -38,4 +38,9 @@ public class DummyBestellingRepo : IBestellingRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<Bestelling?> Annuleren(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

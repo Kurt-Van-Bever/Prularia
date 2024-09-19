@@ -128,7 +128,7 @@ public class SQLBestellingRepo : IBestellingRepo
         throw new NotImplementedException();
     }
 
-    public async Task<Bestelling?> Annuleren(int id)
+    public async Task<Bestelling?> AnnulerenAsync(int id)
     {
         var bestelling = await _context.Bestellingen.FindAsync(id);
         bestelling!.Annulatie = true;
