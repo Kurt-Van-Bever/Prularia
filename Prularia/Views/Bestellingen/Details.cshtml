@@ -122,28 +122,12 @@
 @if (Model.BestellingsStatus.Naam == "Lopend" || Model.BestellingsStatus.Naam == "Betaald" && Model.Annulatie == false)
 {
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Annuleren</a>
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupAnnuleren()">Annuleren</a>
 }
 
 <a asp-action="Index" class="btn btn-success">Terug</a>
 
 <!-- Modal HTML (using Bootstrap) -->
-    <script type="text/javascript">
-        function showModalPopup() {
-            $('#annulerenModal').modal('show');
-        }
-    </script>
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('#annulerenModal').on('click', '.btn-secondary', function () {
-                $('#annulerenModal').modal('hide');
-            });
-        });
-    </script>
     
     <div class="modal fade" id="annulerenModal" tabindex="-1" role="dialog" aria-labelledby="annulerenModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

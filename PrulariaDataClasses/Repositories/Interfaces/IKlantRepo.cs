@@ -12,6 +12,9 @@ public interface IKlantRepo
     Task<Klant?> GetKlantAsync(int id);
     Task<ICollection<Contactpersoon>> GetContactpersonenAsync(int id);
     //Task<Contactpersoon?> GetContactpersonenAsync(int id);
-    Task<Klant?> DisableAsync(int id);
-    Task<Klant?> ActivateAsync(int id);
+    Task<Klant?> DisableKlantAsync(int id);
+    Task<Klant?> ActivateKlantAsync(int id);
+
+    Task<Contactpersoon?> DisableContactpersoonAsync(int id);
+    Task<Contactpersoon?> ActivateContactpersoonAsync(int id);
 }

@@ -20,6 +20,63 @@
                 <td>@persoon.Familienaam</td>
                 <td>@persoon.Functie</td>
                 <td>@persoon.Emailadres</td>
+
+                <td>
+                    @if (persoon != null && persoon.Disable == false)
+                    {
+
+                        <!-- Button to trigger the popup -->
+                        <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable()">Disabel</a>
+
+                        <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="disableModalLabel">Contactpersoon disabelen</h5>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Weet u zeker dat u deze persoon wilt disabelen?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form asp-action="DisabelenContactpersoonPopup" method="post">
+                                            <input type="hidden" name="id" value="@persoon.ContactpersoonId" />
+                                            <button type="submit" class="btn btn-success">Ja</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @if (persoon != null && persoon.Disable == true)
+                    {
+                        <!-- Button to trigger the popup -->
+                        <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate()">Activeren</a>
+                        <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="activateModalLabel">Bestelling Annuleren</h5>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Weet u zeker dat u deze gebruiker wilt activeren?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form asp-action="ActivateContactpersoonPopup" method="post">
+                                            <input type="hidden" name="id" value="@persoon.ContactpersoonId" />
+                                            <button type="submit" class="btn btn-success">Ja</button>
+                                        </form>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </td>
+
+
             </tr>
         }
     </tbody>

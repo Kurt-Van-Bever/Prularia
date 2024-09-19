@@ -53,7 +53,7 @@ public class SQLKlantRepo : IKlantRepo
             .FirstOrDefaultAsync(k => k.KlantId == id);
     }
 
-    public async Task<Klant?> DisableAsync(int id)
+    public async Task<Klant?> DisableKlantAsync(int id)
     {
         var klant = await GetKlantAsync(id);
 
@@ -66,7 +66,7 @@ public class SQLKlantRepo : IKlantRepo
         return klant;
     }
 
-    public async Task<Klant?> ActivateAsync(int id)
+    public async Task<Klant?> ActivateKlantAsync(int id)
     {
         var klant = await GetKlantAsync(id);
 
@@ -77,5 +77,35 @@ public class SQLKlantRepo : IKlantRepo
         }
     
         return klant;
+    }
+
+    public async Task<Contactpersoon?> DisableContactpersoonAsync(int id)
+    {
+        var contactpersoon = await _context.Contactpersonen
+            .Include(c => c.GebruikersAccount)
+            .FirstOrDefaultAsync(c => c.ContactpersoonId == id);
+
+        if (contactpersoon != null)
+        {
+            contactpersoon.GebruikersAccount.Disabled = true;
+            await _context.SaveChangesAsync();
+        }
+    
+        return contactpersoon;
+    }
+
+    public async Task<Contactpersoon?> ActivateContactpersoonAsync(int id)
+    {
+        var contactpersoon = await _context.Contactpersonen
+            .Include(c => c.GebruikersAccount)
+            .FirstOrDefaultAsync(c => c.ContactpersoonId == id);
+
+        if (contactpersoon != null)
+        {
+            contactpersoon.GebruikersAccount.Disabled = false;
+            await _context.SaveChangesAsync();
+        }
+
+        return contactpersoon;
     }
 }

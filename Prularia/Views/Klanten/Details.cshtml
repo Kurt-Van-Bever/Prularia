@@ -53,25 +53,7 @@
 {
 
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Disabel</a>
-    <!--
-        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
-    -->
-    <script type="text/javascript">
-        function showModalPopup() {
-            // Modern way to open a modal popup using Bootstrap
-            $('#disableModal').modal('show');
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#disableModal').on('click', '.btn-secondary', function () {
-                $('#disableModal').modal('hide');
-            });
-        });
-    </script>
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable()">Disabel</a>
     <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -83,11 +65,10 @@
                     Weet u zeker dat u deze gebruiker wilt disabelen?
                 </div>
                 <div class="modal-footer">
-                    <form asp-action="DisabelenPopup" method="post">
+                    <form asp-action="DisabelenKlantPopup" method="post">
                         <input type="hidden" name="id" value="@Model.KlantId" />
                         <button type="submit" class="btn btn-success">Ja</button>
                     </form>
-                    @* <a asp-action="AnnulerenPopup" asp-route-id="@Model.BestelId" class="btn btn-danger">Ja</a> *@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                 </div>
             </div>
@@ -98,25 +79,7 @@
 {
     <div class="housestyle-warning">Deze klant is gedisabeled</div>
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopup()">Activeren</a>
-    <!--
-        <a href="javascript:void(0);" class="btn btn-info" onclick="showModalPopup()">Annuleren</a>
-    -->
-    <script type="text/javascript">
-        function showModalPopup() {
-            // Modern way to open a modal popup using Bootstrap
-            $('#activateModal').modal('show');
-        }
-    </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#activateModal').on('click', '.btn-secondary', function () {
-                $('#activateModal').modal('hide');
-            });
-        });
-    </script>
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate()">Activeren</a>
     <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -128,7 +91,7 @@
                     Weet u zeker dat u deze gebruiker wilt activeren?
                 </div>
                 <div class="modal-footer">
-                    <form asp-action="ActivatePopup" method="post">
+                    <form asp-action="ActivateKlantPopup" method="post">
                         <input type="hidden" name="id" value="@Model.KlantId" />
                         <button type="submit" class="btn btn-success">Ja</button>
                     </form>
