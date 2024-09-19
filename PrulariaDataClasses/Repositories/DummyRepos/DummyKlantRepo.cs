@@ -38,4 +38,9 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<Bestelling>> GetBestellingenByKlantAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

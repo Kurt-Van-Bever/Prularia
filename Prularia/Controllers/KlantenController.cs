@@ -125,4 +125,11 @@ public class KlantenController : Controller
         ViewBag.KlantId = id;
         return View(contacten);
     }
+	public async Task<IActionResult> KlantBestellingen(int id)
+	{
+		ViewBag.KlantId = id;
+		List<Bestelling?> bestellingen = new List<Bestelling?>();
+		bestellingen = await _klantService.GetBestellingenByKlantAsync(id);
+		return View(bestellingen);
+	}
 }

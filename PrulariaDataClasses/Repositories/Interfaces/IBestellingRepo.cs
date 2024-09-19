@@ -8,6 +8,7 @@ public interface IBestellingRepo
 {
     //oplijsten alle bestellingen
     public Task<List<Bestelling>> GetBestellingenAsync();
+    
     Task<Bestelling?> GetAsync(int id);
     void Update(Bestelling bestelling);
 

@@ -64,4 +64,11 @@ public class SQLKlantRepo : IKlantRepo
     }
 
     
+	public async Task<List<Bestelling?>> GetBestellingenByKlantAsync(int id)
+	{
+		return await _context.Bestellingen
+			.Where(b => b.KlantId == id)
+			.ToListAsync();
+	}
 }
+
