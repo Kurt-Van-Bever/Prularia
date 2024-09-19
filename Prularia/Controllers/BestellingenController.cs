@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
 using Prularia.Services;
+using System.Buffers;
+using System.Web;
 
 namespace Prularia.Controllers;
 
@@ -13,15 +17,27 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string searchValue, string zoek, string sorteer)
     {
-       
-            BestellingenViewModel vm = new BestellingenViewModel();
-            vm.BestellingItems = await _bestellingService.GetBestellingenAsync();
+        var vm = new BestellingenViewModel();
+
+        if (zoek != null)
+        {
+
+            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue, zoek, sorteer);
+            return View(vm);
          
+
+        } 
         
-        return View(vm);
+           
+            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue, zoek, sorteer);
+            return View(vm);
+        
+
+
     }
+
 
   
 }

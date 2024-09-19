@@ -1,65 +1,84 @@
 ﻿    @model BestellingenViewModel
 
 
-
-
 @{
-    ViewBag.Title = "Personen"; 
+    ViewBag.Title = "Bestellingen"; 
 } 
 
+@ViewBag.QuerryString;
+
+<h2>Bestellingen</h2>
+
+
 <div class="formContainer">
+
     <form class="SearchForm" method="get">
 
-        <input type="text" class="form-control" id="inputSearch" placeholder="search"></input>
+        <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search"></input>
 
-        <select class="selectOptie form-select" aria-label="selecteer zoek optie">
+        <select name="zoek" class="selectOptie form-select" aria-label="selecteer zoek optie">
             <option selected>Selecteer zoek optie</option>
-            <option>Bedrijfsnaam</option>
-            <option>BTW nummer</option>
-            <option>Klantnaam</option>
+            <option value="bedrijfsnaam">Bedrijfsnaam</option>
+            <option value="btwnummer">BTW nummer</option>
+            <option value="klantnaam">Klantnaam</option>
         </select>
 
-        <select class="selectOrder form-select" aria-label="selecteer zoek optie">
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
             <option selected>Selecteer sorteer optie</option>
-            <option>Datum</option>
-            <option>Alfabetisch</option>
-            <option>Status</option>
+            <option value="datum">Datum</option>
+            <option value="alfabetisch">Alfabetisch</option>
+            <option value="status">Status</option>
         </select>
+
+
 
       
-        <input type="submit" placeholder="zoeken" class="btn btn-success"></input>
+        <button class="btn btn-info">Search</button>
+        
 
     </form>
+
+
 
 </div>
 
 
-
 <div class="bestellingen">
-    <h2>Bestellingen</h2>
-
+    
 
     <table class="table table-hover">
 
         <thead>
-            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant Voornaam</th> <th>Klant Famillienaam</th> <th>Klant Email</th> <th>Bestelling status</th></tr>
+            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant Voornaam</th> <th>Klant Famillienaam</th> <th>Klant Email</th> <th>Firma</th> <th>Bestelling status</th></tr>
         </thead>
 
         <tbody>
 
-            @foreach(var bestellingItem in Model.BestellingItems) {
+            @if(Model != null && Model.BestellingItems != null)
+            {
+                @foreach (var bestellingItem in Model.BestellingItems)
+                {
                     <tr>
-                        <td>@bestellingItem.BestelId</td> 
-                        <td>@bestellingItem.Besteldatum</td> 
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td> 
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td> 
+                        <td>@bestellingItem.BestelId</td>
+                        <td>@bestellingItem.Besteldatum</td>
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td>
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
                         <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
+                        <td>@bestellingItem.Klant.Rechtspersoon?.Naam</td>
                         <td>@bestellingItem.BestellingsStatus.Naam</td>
 
-                    <td>
-                        <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                            <button class="btn btn-success">Ga naar bestelling</button></a></td></tr>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                <button class="btn btn-success">Ga naar bestelling</button>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            } else
+            {
+                <p>No data found</p>
             }
+      
         
     </tbody>
     </table>
