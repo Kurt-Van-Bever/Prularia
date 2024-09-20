@@ -30,6 +30,16 @@ body {
     border: none;
 }
 
+.card-body {
+    display: inline-block;
+
+}
+
+.inputWijzigen{
+    width: 100%;
+    clear: both;
+}
+
 .btn-success {
     background-color: #bcd99d;
     border-color: white;
@@ -83,6 +93,8 @@ body {
 .card-body {
     background-color: white;
     text-align: center;
+    clear: both;
+    width: auto;
 }
 
 .loginfield {
