@@ -27,6 +27,7 @@ body {
 
 .btn-secondary {
     background-color: #ABD7A8;
+    border: none;
 }
 
 .btn-success {
