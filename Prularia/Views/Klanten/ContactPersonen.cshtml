@@ -6,12 +6,13 @@
 <h1>Contact Personen</h1>
 <table class="table">
     <thead>
-        <th>Voornaam</th>
-        <th>Familienaam</th>
-        <th>Functie</th>
-        <th>Emailadres</th>
+    <th>Voornaam</th>
+    <th>Familienaam</th>
+    <th>Functie</th>
+    <th>Emailadres</th>
+    <th>Acties</th>
     </thead>
-    
+
     <tbody>
         @foreach (ContactpersonenViewModel persoon in Model)
         {
@@ -22,18 +23,20 @@
                 <td>@persoon.Emailadres</td>
 
                 <td>
-                    @if (persoon != null && persoon.Disable == false)
+                    @if (persoon != null && !persoon.Disable)
                     {
+                        <!-- Button to trigger the disable popup -->
+                        <button class="btn btn-warning" onclick="showModalPopupDisable(@persoon.ContactpersoonId)">Disabel</button>
 
-                        <!-- Button to trigger the popup -->
-                        <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable()">Disabel</a>
-
-                        <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+                        <!-- Disable Modal -->
+                        <div class="modal fade" id="disableModal-@persoon.ContactpersoonId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@persoon.ContactpersoonId" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="disableModalLabel">Contactpersoon disabelen</h5>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                                        <h5 class="modal-title" id="disableModalLabel-@persoon.ContactpersoonId">Contactpersoon disabelen</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                     <div class="modal-body">
                                         Weet u zeker dat u deze persoon wilt disabelen?
@@ -41,7 +44,7 @@
                                     <div class="modal-footer">
                                         <form asp-action="DisabelenContactpersoonPopup" method="post">
                                             <input type="hidden" name="id" value="@persoon.ContactpersoonId" />
-                                            <button type="submit" class="btn btn-success">Ja</button>
+                                            <button type="submit" class="btn btn-danger">Ja</button>
                                         </form>
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
                                     </div>
@@ -49,16 +52,20 @@
                             </div>
                         </div>
                     }
-                    @if (persoon != null && persoon.Disable == true)
+                    @if (persoon != null && persoon.Disable)
                     {
-                        <!-- Button to trigger the popup -->
-                        <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate()">Activeren</a>
-                        <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
+                        <!-- Button to trigger the activate popup -->
+                        <button class="btn btn-success" onclick="showModalPopupActivate(@persoon.ContactpersoonId)">Activeren</button>
+
+                        <!-- Activate Modal -->
+                        <div class="modal fade" id="activateModal-@persoon.ContactpersoonId" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel-@persoon.ContactpersoonId" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="activateModalLabel">Contactpersoon activeren</h5>
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                                        <h5 class="modal-title" id="activateModalLabel-@persoon.ContactpersoonId">Contactpersoon activeren</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
                                     </div>
                                     <div class="modal-body">
                                         Weet u zeker dat u deze gebruiker wilt activeren?
@@ -75,12 +82,27 @@
                         </div>
                     }
                 </td>
-
-
             </tr>
         }
     </tbody>
-    
 </table>
 
 <a asp-action="Details" asp-route-id="@ViewBag.KlantId"><button class="btn btn-secondary">Terug</button></a>
+
+@section Scripts {
+    <script>
+        function showModalPopupDisable(id) {
+            $('#disableModal-' + id).modal('show');
+        }
+
+        function showModalPopupActivate(id) {
+            $('#activateModal-' + id).modal('show');
+        }
+
+        $(document).ready(function () {
+            $('.modal').on('click', '.btn-secondary', function () {
+                $(this).closest('.modal').modal('hide');
+            });
+        });
+    </script>
+}
