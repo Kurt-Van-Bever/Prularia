@@ -24,7 +24,7 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string searchValue, string zoek, string sorteer)
+    public async Task<IActionResult> Index(string? searchValue, string? zoek, string? sorteer)
     {
         var vm = new BestellingenViewModel();
 
@@ -57,7 +57,7 @@ public class BestellingenController : Controller
 
         
 
-            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue, zoek, sorteer);
+            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
             return View(vm);
         
 
@@ -121,7 +121,7 @@ public class BestellingenController : Controller
         if (this.ModelState.IsValid)
         {
             var bestelling = _bestellingService.Get(vm.BestelId);
-            bestelling.Betaald = vm.Betaald;
+            bestelling!.Betaald = vm.Betaald;
             bestelling.Bedrijfsnaam = vm.Bedrijfsnaam;
             bestelling.BtwNummer = vm.BtwNummer;
             bestelling.Voornaam = vm.Voornaam;

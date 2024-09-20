@@ -19,7 +19,7 @@ public class SQLBestellingRepo : IBestellingRepo
         return await _context.Bestellingen
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-            .ThenInclude(bestelling => bestelling.GebruikersAccount)
+            .ThenInclude(bestelling => bestelling!.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .ToListAsync();
     }
@@ -65,9 +65,9 @@ public class SQLBestellingRepo : IBestellingRepo
             return await _context.Bestellingen
               .Include(bestelling => bestelling.Klant)
               .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-              .ThenInclude(bestelling => bestelling.GebruikersAccount)
+              .ThenInclude(bestelling => bestelling!.GebruikersAccount)
               .Include(bestelling => bestelling.BestellingsStatus)
-              .Where(bestelling => bestelling.Klant.Natuurlijkepersoon.Voornaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+              .Where(bestelling => bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
 
         }
 
@@ -76,9 +76,9 @@ public class SQLBestellingRepo : IBestellingRepo
             return await _context.Bestellingen
              .Include(bestelling => bestelling.Klant)
              .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-             .ThenInclude(bestelling => bestelling.GebruikersAccount)
+             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
              .Include(bestelling => bestelling.BestellingsStatus)
-             .Where(bestelling => bestelling.Klant.Natuurlijkepersoon.Familienaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+             .Where(bestelling => bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
         }
 
 		if (ZoekOptie == "btwnummer" && searchValue != null)
@@ -86,9 +86,9 @@ public class SQLBestellingRepo : IBestellingRepo
 			return await _context.Bestellingen
 			 .Include(bestelling => bestelling.Klant)
 			 .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-			 .ThenInclude(bestelling => bestelling.GebruikersAccount)
+			 .ThenInclude(bestelling => bestelling!.GebruikersAccount)
 			 .Include(bestelling => bestelling.BestellingsStatus)
-			 .Where(bestelling => bestelling.BtwNummer.Contains(searchValue)).ToListAsync();
+			 .Where(bestelling => bestelling.BtwNummer!.Contains(searchValue)).ToListAsync();
 		}
 
 
@@ -97,9 +97,9 @@ public class SQLBestellingRepo : IBestellingRepo
             return await _context.Bestellingen
              .Include(bestelling => bestelling.Klant)
              .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-             .ThenInclude(bestelling => bestelling.GebruikersAccount)
+             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
              .Include(bestelling => bestelling.BestellingsStatus)
-             .Where(bestelling => bestelling.Bedrijfsnaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+             .Where(bestelling => bestelling.Bedrijfsnaam!.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
 		}
 
 
@@ -118,7 +118,7 @@ public class SQLBestellingRepo : IBestellingRepo
 		return await _context.Bestellingen
 	      .Include(bestelling => bestelling.Klant)
 	      .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-	      .ThenInclude(bestelling => bestelling.GebruikersAccount)
+	      .ThenInclude(bestelling => bestelling!.GebruikersAccount)
 	      .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
 
 	}
