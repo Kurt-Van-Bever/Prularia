@@ -3,27 +3,22 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.Blazor;
-using Prularia.Models;
-using Prularia.Services;
 
 namespace Prularia.Controllers
 {
     public class SecurityController : Controller
-    {
-        private readonly SecurityService _securityService;
-        public SecurityController(SecurityService securityService)
-        {
-            _securityService = securityService;
-        }
-
-        public IActionResult Index()
+    {          
         public const string SESSION_LOGGEDIN_USER = "LOGGEDIN_USERID";
         private readonly SecurityService _securityService;
 
         public SecurityController(SecurityService securityService)
         {
             _securityService = securityService;
+        }
+
+        public IActionResult Index()
+        {
+            return View();
         }
 
         public IActionResult Login()

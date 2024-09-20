@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Prularia.Models;
-using PrulariaModels.Repositories.Interfaces;
+using Prularia.Models; 
 
 namespace Prularia.Repositories
 {
@@ -12,7 +11,7 @@ namespace Prularia.Repositories
         {
             _context = context;
         }
-        public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccount.Find(id);
+        
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
             var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
@@ -24,11 +23,12 @@ namespace Prularia.Repositories
         {   // database bevat 1-veel relatie, maar is eigenlijk 1-1
             return await _context.Personeelsleden.Include(l => l.SecurityGroepen).FirstOrDefaultAsync(l => l.PersoneelslidAccountId == account.PersoneelslidAccountId);
         }
-    }
 
-    public void UpdateAccount(Personeelslidaccount account)
-    {
-        _context.Update(account);
-        _context.SaveChanges();
-    }
+        public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts.Find(id);
+        public void UpdateAccount(Personeelslidaccount account)
+        {
+            _context.Update(account);
+            _context.SaveChanges();
+        }
+    }    
 }

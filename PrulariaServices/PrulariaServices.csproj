@@ -11,10 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <!--<PackageReference Include="BCrypt.Net" Version="0.1.0" />
+    <PackageReference Include="BCrypt.Net" Version="0.1.0" />
   </ItemGroup>
 
-  <ItemGroup>-->
+  <ItemGroup>
     <ProjectReference Include="..\PrulariaDataClasses\PrulariaModels.csproj" />
   </ItemGroup>
 
