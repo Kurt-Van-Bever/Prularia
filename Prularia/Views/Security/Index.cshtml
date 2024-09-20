@@ -4,14 +4,15 @@
 
 <h2>Account Management</h2>
 
-@* als user niet ingelogd is vragen om in te loggen anders optie geven om paswoord te wijzigen *@
-@if (User.Identity.IsAuthenticated) // Staat nu omgekeerd voor testing
-{
-    // Login
-}
-else
-{
+Ingelogd als : @ViewBag.Email
+
+<div>
+    <a asp-action="Logout" class="btn btn-danger">Uitloggen</a>
+</div>
+
+<div>
     <a asp-action="PaswoordWijzigen" class="btn btn-success">Paswoord wijzigen</a>
-}
+</div>
+
 
 

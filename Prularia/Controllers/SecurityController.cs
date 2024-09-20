@@ -18,6 +18,11 @@ namespace Prularia.Controllers
 
         public IActionResult Index()
         {
+            if (GetSession_LoggedInUser(HttpContext) == null)
+                return RedirectToAction(nameof(Login));
+
+
+            ViewBag.Email = _securityService.GetAccount(GetSession_LoggedInUser(HttpContext).UserId).Emailadres;
             return View();
         }
 
@@ -85,7 +90,7 @@ namespace Prularia.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                int accountId = 1; // uitzoeken hoe je dit kan vinden
+                int accountId = GetSession_LoggedInUser(HttpContext).UserId;
                 var account = _securityService.GetAccount(accountId);
 
                 if(!_securityService.VerifyPaswoord(vm.OudPaswoord, account!.Paswoord))
