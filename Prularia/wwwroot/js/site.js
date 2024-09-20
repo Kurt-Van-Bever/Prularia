@@ -32,3 +32,5 @@
                 $('#activateModal-' + id).modal('hide');
             });
         });
+
+
