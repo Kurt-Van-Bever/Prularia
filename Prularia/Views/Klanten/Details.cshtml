@@ -21,8 +21,9 @@
             <tr>
                 <td><label asp-for="Emailadres"></label></td>
                 <td>@Model.Natuurlijkepersoon.GebruikersAccount.Emailadres  </td>
-            </tr>   
-            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
+            </tr>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            @* <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a> *@
         }
         @if(Model.Rechtspersoon != null)
         {
@@ -34,8 +35,8 @@
                 <td><label asp-for="BtwNummer"></label></td>
                 <td>@Model.Rechtspersoon.BtwNummer  </td>
             </tr>
-            <a asp-action="KlantBestellingen"><button class="btn btn-success">Bestellingen</button></a>
-            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId"><button class="btn btn-success">Contactpersonen</button></a>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a>
         }
         <tr>
             <td><label asp-for="FacturatieAdres"></label></td>
@@ -48,5 +49,58 @@
         </tr>
     </tbody>
 </table>
+
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == false)
+{
+
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable()">Disabel</a>
+    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="disableModalLabel">Klant disabelen</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt disabelen?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="DisabelenKlantPopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
+{
+    <div class="housestyle-warning">Deze klant is gedisabeled</div>
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate()">Activeren</a>
+    <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activateModalLabel">Bestelling Annuleren</h5>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt activeren?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="ActivateKlantPopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 <a asp-action="Index"><button class="btn btn-secondary">Terug</button></a>

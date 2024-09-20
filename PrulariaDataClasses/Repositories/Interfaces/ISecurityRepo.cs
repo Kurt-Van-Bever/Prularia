@@ -1,8 +1,12 @@
 ﻿using Prularia.Models;
 
-namespace PrulariaModels.Repositories.Interfaces;
-public interface ISecurityRepo
+namespace Prularia.Repositories
 {
+    public interface ISecurityRepo
+    {
+        Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email);
+        Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account);
+    }
     Personeelslidaccount? GetAccount(int id);
     void UpdateAccount(Personeelslidaccount account);
 }

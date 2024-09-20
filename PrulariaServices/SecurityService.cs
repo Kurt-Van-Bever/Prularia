@@ -1,5 +1,5 @@
 ﻿using Prularia.Models;
-using PrulariaModels.Repositories.Interfaces;
+using Prularia.Repositories;
 
 namespace Prularia.Services;
 
@@ -33,4 +33,13 @@ public class SecurityService
         return BCrypt.Net.BCrypt.HashPassword(paswoord);
     }
 
+    public async Task<Personeelslid?> TryGetPersoneelslidFromLogin(string email, string pw)
+    {
+        Personeelslidaccount? acc = await _securityRepo.TryGetPersoneelslidAccountAsync(email);
+        if (acc == null) return null;
+        if (acc.Disabled) return null;
+        //if (BCrypt.Net.BCrypt.Verify(pw, acc.Paswoord) == false) return null;
+
+        return await _securityRepo.TryGetPersoneelslidFromAccountAsync(acc);
+    }
 }

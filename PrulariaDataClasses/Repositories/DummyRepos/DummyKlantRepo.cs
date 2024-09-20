@@ -38,4 +38,34 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<Klant?> DisableKlantAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Klant?> ActivateAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Klant?> ActivateKlantAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Contactpersoon?> DisableContactpersoonAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Contactpersoon?> ActivateContactpersoonAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Bestelling>> GetBestellingenByKlantAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

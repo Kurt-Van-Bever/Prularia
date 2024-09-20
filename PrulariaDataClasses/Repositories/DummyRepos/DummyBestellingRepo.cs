@@ -24,6 +24,21 @@ public class DummyBestellingRepo : IBestellingRepo
         throw new NotImplementedException();
     }
 
+    public Task<Bestelling?> AnnulerenAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Bestelling>> GetBestellingen()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<Bestelling?> Annuleren(int id)
     {
         throw new NotImplementedException();

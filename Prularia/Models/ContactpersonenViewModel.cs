@@ -9,4 +9,6 @@ public class ContactpersonenViewModel
     public string Functie { get; set; } = null!;
 
     public string Emailadres { get; set; } = null!;
+    public bool Disable { get; set; }
+    public int ContactpersoonId { get; set; }
 }

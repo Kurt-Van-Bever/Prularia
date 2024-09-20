@@ -64,4 +64,67 @@ public class SQLKlantRepo : IKlantRepo
     }
 
     
+	public async Task<List<Bestelling?>> GetBestellingenByKlantAsync(int id)
+	{
+		return await _context.Bestellingen
+			.Where(b => b.KlantId == id)
+			.ToListAsync();
+	}
+
+    public async Task<Klant?> DisableKlantAsync(int id)
+    {
+        var klant = await GetKlantAsync(id);
+
+        if (klant != null)
+        {
+            klant.Natuurlijkepersoon!.GebruikersAccount.Disabled = true;
+            await _context.SaveChangesAsync();
+        }
+    
+        return klant;
+    }
+
+    public async Task<Klant?> ActivateKlantAsync(int id)
+    {
+        var klant = await GetKlantAsync(id);
+
+        if (klant != null)
+        {
+            klant.Natuurlijkepersoon!.GebruikersAccount.Disabled = false;
+            await _context.SaveChangesAsync();
+        }
+    
+        return klant;
+    }
+
+    public async Task<Contactpersoon?> DisableContactpersoonAsync(int id)
+    {
+        var contactpersoon = await _context.Contactpersonen
+            .Include(c => c.GebruikersAccount)
+            .FirstOrDefaultAsync(c => c.ContactpersoonId == id);
+
+        if (contactpersoon != null)
+        {
+            contactpersoon.GebruikersAccount.Disabled = true;
+            await _context.SaveChangesAsync();
+        }
+    
+        return contactpersoon;
+    }
+
+    public async Task<Contactpersoon?> ActivateContactpersoonAsync(int id)
+    {
+        var contactpersoon = await _context.Contactpersonen
+            .Include(c => c.GebruikersAccount)
+            .FirstOrDefaultAsync(c => c.ContactpersoonId == id);
+
+        if (contactpersoon != null)
+        {
+            contactpersoon.GebruikersAccount.Disabled = false;
+            await _context.SaveChangesAsync();
+        }
+
+        return contactpersoon;
+    }
 }
+

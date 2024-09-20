@@ -60,7 +60,7 @@ public partial class PrulariaContext : DbContext
 
     public virtual DbSet<Personeelslid> Personeelsleden { get; set; }
 
-    public virtual DbSet<Personeelslidaccount> Personeelslidaccount { get; set; }
+    public virtual DbSet<Personeelslidaccount> Personeelslidaccounts { get; set; }
 
     public virtual DbSet<Plaats> Plaatsen { get; set; }
 

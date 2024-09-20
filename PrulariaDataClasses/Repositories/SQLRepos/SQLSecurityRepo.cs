@@ -1,16 +1,30 @@
-﻿using Prularia.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Prularia.Models;
 using PrulariaModels.Repositories.Interfaces;
 
-namespace PrulariaModels.Repositories.SQLRepos;
-public class SQLSecurityRepo : ISecurityRepo
+namespace Prularia.Repositories
 {
-    private readonly PrulariaContext _context;
-    public SQLSecurityRepo(PrulariaContext context)
+    public class SQLSecurityRepo : ISecurityRepo
     {
-        _context = context;
-    }
+        private readonly PrulariaContext _context;
 
-    public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccount.Find(id);
+        public SQLSecurityRepo(PrulariaContext context)
+        {
+            _context = context;
+        }
+        public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccount.Find(id);
+        public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
+        {
+            var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
+            if (acc == null) return null;
+            return acc;
+        }
+
+        public async Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account)
+        {   // database bevat 1-veel relatie, maar is eigenlijk 1-1
+            return await _context.Personeelsleden.Include(l => l.SecurityGroepen).FirstOrDefaultAsync(l => l.PersoneelslidAccountId == account.PersoneelslidAccountId);
+        }
+    }
 
     public void UpdateAccount(Personeelslidaccount account)
     {
