@@ -5,6 +5,7 @@ using System.Buffers;
 using System.Web;
 using Prularia.Models;
 using Prularia.Filters;
+using PagedList;
 
 namespace Prularia.Controllers;
 
@@ -57,7 +58,8 @@ public class BestellingenController : Controller
 
         
 
-            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
+            var bestellingen /*= vm.BestellingItems */= await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
+        vm.BestellingItems = bestellingen.ToPagedList(1,3);
             return View(vm);
         
 

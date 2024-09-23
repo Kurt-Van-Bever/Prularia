@@ -1,8 +1,10 @@
-﻿namespace Prularia.Models
+﻿using PagedList;
+
+namespace Prularia.Models
 {
     public class BestellingenViewModel
     {
         //bestelling Items
-        public List<Bestelling>? BestellingItems { get; set; } = null;
+        public IPagedList<Bestelling>? BestellingItems { get; set; } = null;
     }
 }
