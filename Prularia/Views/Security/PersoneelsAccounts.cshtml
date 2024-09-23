@@ -1,0 +1,33 @@
+﻿@model List<Personeelslidaccount>
+@{
+    ViewData["Title"] = "Personeelslid Accounts";
+}
+
+<h2>Personeelslid Accounts</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Voornaam</th>
+            <th>Familienaam</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var account in Model)
+        {
+            <tr>
+                <td>@account.PersoneelslidAccountId</td>
+                <td>@account.Personeelsleden.FirstOrDefault()?.Voornaam</td>
+                <td>@account.Personeelsleden.FirstOrDefault()?.Familienaam</td>
+                <td>@account.Emailadres</td>
+                <td>
+                    <a asp-action="PersoneelslidAccountDetails" asp-route-id="@account.PersoneelslidAccountId">
+                        <button class="btn btn-success">Details</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -45,4 +45,6 @@ public class SecurityService
     }
 
     public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
+   
+    public List<Personeelslidaccount> GetAllPersoneelsAccounts() => _securityRepo.GetAllPersoneelsAccounts();
 }

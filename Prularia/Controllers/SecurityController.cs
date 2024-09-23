@@ -51,7 +51,7 @@ namespace Prularia.Controllers
                     groups.Add(group.Naam);
 
                 SetSession_LoggedInUser(HttpContext, new LoggedInUserData { UserId = lid.PersoneelslidId, SecurityGroepen = groups });
-                return RedirectToAction(nameof(BestellingenController.Index), "Bestellingen");
+                return RedirectToAction(nameof(Login));
             }
             return View(nameof(Login), model);
         }
@@ -118,5 +118,12 @@ namespace Prularia.Controllers
             var securityGroepen = _securityService.GetAllSecurityGroepen();
             return View(securityGroepen);
         }
+
+        public IActionResult PersoneelsAccounts()
+        {
+            var personeelsAccounts = _securityService.GetAllPersoneelsAccounts();
+            return View(personeelsAccounts);
+        }
+        public IActionResult AdminPage() { return View(); }
     }
 }

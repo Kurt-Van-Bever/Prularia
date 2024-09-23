@@ -32,5 +32,9 @@ namespace Prularia.Repositories
         }
 
         public List<Securitygroep> GetAllSecurityGroepen() => _context.Securitygroepen.ToList();
+        public List<Personeelslidaccount> GetAllPersoneelsAccounts() 
+            => _context.Personeelslidaccounts
+                    .Include(acc => acc.Personeelsleden)
+                    .ToList();
     }    
 }
