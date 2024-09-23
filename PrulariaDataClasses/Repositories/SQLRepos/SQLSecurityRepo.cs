@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Prularia.Models; 
+using Prularia.Models;
 
 namespace Prularia.Repositories
 {
@@ -30,5 +30,7 @@ namespace Prularia.Repositories
             _context.Update(account);
             _context.SaveChanges();
         }
+
+        public List<Securitygroep> GetAllSecurityGroepen() => _context.Securitygroepen.ToList();
     }    
 }

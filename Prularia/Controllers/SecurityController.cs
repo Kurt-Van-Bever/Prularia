@@ -111,5 +111,12 @@ namespace Prularia.Controllers
             }
             return View (vm);
         }
+
+
+        public IActionResult SecurityGroepen()
+        {
+            var securityGroepen = _securityService.GetAllSecurityGroepen();
+            return View(securityGroepen);
+        }
     }
 }

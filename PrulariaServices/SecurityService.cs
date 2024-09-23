@@ -1,5 +1,6 @@
 ﻿using Prularia.Models;
 using Prularia.Repositories;
+using ZstdSharp.Unsafe;
 
 namespace Prularia.Services;
 
@@ -42,4 +43,6 @@ public class SecurityService
 
         return await _securityRepo.TryGetPersoneelslidFromAccountAsync(acc);
     }
+
+    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
 }
