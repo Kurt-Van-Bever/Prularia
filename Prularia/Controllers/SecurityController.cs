@@ -111,5 +111,28 @@ namespace Prularia.Controllers
             }
             return View (vm);
         }
+        [HttpGet] 
+        public async Task<IActionResult> GebruikerWijzigen(int id)
+        {
+            var account = await _securityService.GetPersoneelslidaccountAsync(id);
+            if (account == null) return NotFound();
+            var vm = new GebruikerWijzigenViewModel();
+            vm.PersoneelslidAccountId = id;
+            vm.Emailadres = account.Emailadres;
+            vm.Disabled = account.Disabled;
+            vm.Voornaam = account.Personeelsleden.First().Voornaam;
+            vm.Familienaam = account.Personeelsleden.First().Familienaam;
+            vm.InDienst = account.Personeelsleden.First().InDienst;
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
+        {
+            if (this.ModelState.IsValid)
+            {
+
+            }
+            return View("GebruikerWijzigen",vm);
+        }
     }
 }

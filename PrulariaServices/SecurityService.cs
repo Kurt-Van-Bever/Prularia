@@ -42,4 +42,8 @@ public class SecurityService
 
         return await _securityRepo.TryGetPersoneelslidFromAccountAsync(acc);
     }
+    public async Task<Personeelslidaccount?> GetPersoneelslidaccountAsync(int id)
+    {
+        return await _securityRepo.GetAccountAsync(id);
+    }
 }

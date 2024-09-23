@@ -1,0 +1,35 @@
+﻿@model GebruikerWijzigenViewModel
+
+@{
+    ViewData["title"] = "GebruikerWijzigen";
+}
+
+<h2>Gebruiker wijzigen</h2>
+
+<form class="form" asp-action="GebruikerWijzigen" method="post">
+    <input asp-for="PersoneelslidAccountId" hidden />
+    <div>
+        <label asp-for="Emailadres"></label>
+        <input asp-for="Emailadres" />
+    </div>
+    <div>
+        <label asp-for="Voornaam"></label>
+        <input asp-for="Voornaam" />
+    </div>
+    <div>
+        <label asp-for="Familienaam"></label>
+        <input asp-for="Familienaam" />
+    </div>
+   @*  <div>
+        <label asp-for="InDienst"></label>
+        <input asp-for="InDienst"/>
+    </div> *@
+    @* <div>
+        <label asp-for=""></label>
+        <input asp-for="" />
+    </div> *@
+    <div>
+        <button type="submit" class="btn btn-primary">Wijzigingen doorvoeren</button>
+        <a asp-action="Index" class="btn btn-danger">Annuleren</a>
+    </div>
+</form>

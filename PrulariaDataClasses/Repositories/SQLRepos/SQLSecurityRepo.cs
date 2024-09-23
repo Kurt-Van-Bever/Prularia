@@ -30,5 +30,13 @@ namespace Prularia.Repositories
             _context.Update(account);
             _context.SaveChanges();
         }
+
+        public async Task<Personeelslidaccount?> GetAccountAsync(int id)
+        {
+            return await _context.Personeelslidaccounts
+                .Include(p => p.Personeelsleden)
+                .ThenInclude(p => p.SecurityGroepen)
+                .FirstOrDefaultAsync(p => p.PersoneelslidAccountId == id);
+        }
     }    
 }
