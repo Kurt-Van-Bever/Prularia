@@ -3,7 +3,6 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
-using System.Numerics;
 
 namespace Prularia.Controllers
 {
@@ -181,6 +180,36 @@ namespace Prularia.Controllers
                 return RedirectToAction("~/Security/PersoneelsAccounts");
             else
                 return NotFound();
+        }
+
+        [HttpGet]
+        public IActionResult PersoneelslidToevoegen(int id) 
+        {
+            var personeelsleden = _securityService.GetAllPersoneelsledenNotInGroup(id);
+            var vm = new PersoneelslidToevoegenAanGroepViewModel
+            {
+                SecuritygroepId = id
+            };
+            foreach (var p in personeelsleden)
+            {
+                vm.Personeelsleden.Add(new PersoneelslidAccountViewModel
+                {
+                    Id = p.PersoneelslidId,
+                    Voornaam = p.Voornaam,
+                    Familienaam = p.Familienaam,
+                    Email = p.PersoneelslidAccount.Emailadres,
+                    Securitygroepen = p.SecurityGroepen.ToList(),
+                    Disabled = p.PersoneelslidAccount.Disabled
+                });
+            }
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult PersoneelslidToevoegen(int gebruikerId, int groepId)
+        {
+
         }
     }
 }

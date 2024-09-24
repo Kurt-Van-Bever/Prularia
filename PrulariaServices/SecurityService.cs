@@ -62,4 +62,5 @@ public class SecurityService
    
     public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
     public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
+    public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id) => _securityRepo.GetAllPersoneelsledenNotInGroup(id);
 }

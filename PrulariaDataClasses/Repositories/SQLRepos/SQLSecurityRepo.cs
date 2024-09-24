@@ -56,7 +56,15 @@ namespace Prularia.Repositories
             return personeelslid;
         }
 
+        public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id)
+        {
+            var personeelsleden = _context.Personeelsleden
+                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId != id))
+                .Include(p => p.PersoneelslidAccount)
+                .Include(p => p.SecurityGroepen)
+                .ToList();
+
+            return personeelsleden;
+        }
     }
-
-
 }

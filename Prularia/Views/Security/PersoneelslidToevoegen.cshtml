@@ -1,0 +1,37 @@
+﻿@model PersoneelslidToevoegenAanGroepViewModel
+@{
+    ViewData["Title"] = "Personeelsleden toevoegen aan Securitygroep";
+}
+
+<h1>Personeelsleden toevoegen aan Securitygroep</h1>
+
+<table class="table">
+    <thead>
+    <th>ID</th>
+    <th>Voornaam</th>
+    <th>Familienaam</th>
+    <th>Email</th>
+    <th>SecurityGroepen</th>
+    <th>Disabled</th>
+    </thead>
+    <tbody>
+        @foreach (var gebruiker in Model.Personeelsleden)
+        {
+            <tr>
+                <td>@gebruiker.Id</td>
+                <td>@gebruiker.Voornaam</td>
+                <td>@gebruiker.Familienaam</td>
+                <td>@gebruiker.Email</td>
+                <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
+                <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
+                <td>
+                    <a asp-action="PersoneelslidToevoegen"
+                       asp-route-gebruikerId="@gebruiker.Id"
+                       asp-route-groepId="@Model.SecuritygroepId" method="post">
+                        <button class="btn btn-secondary">Toevoegen</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
