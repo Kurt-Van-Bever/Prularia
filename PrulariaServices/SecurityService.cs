@@ -42,4 +42,14 @@ public class SecurityService
 
         return await _securityRepo.TryGetPersoneelslidFromAccountAsync(acc);
     }
+
+    public bool TryPersoneelAccountSetDisabled(int personeelslidAccountId, bool disabled)
+    {
+        Personeelslidaccount? acc = _securityRepo.GetAccount(personeelslidAccountId);
+        if (acc == null) return false;
+
+        acc.Disabled = disabled;
+        _securityRepo.UpdateAccount(acc);
+        return true;
+    }
 }

@@ -111,5 +111,15 @@ namespace Prularia.Controllers
             }
             return View (vm);
         }
+
+        [HttpPost]
+        public IActionResult PersoneelAccountSetDisabled(int personeelslidAccountId, bool disabled)
+        {
+            bool success = _securityService.TryPersoneelAccountSetDisabled(personeelslidAccountId, disabled);
+            if (success)
+                return RedirectToAction("~/Security/PersoneelsAccounts");
+            else
+                return NotFound();
+        }
     }
 }
