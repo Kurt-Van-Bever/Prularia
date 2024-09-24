@@ -182,5 +182,20 @@ namespace Prularia.Controllers
             else
                 return NotFound();
         }
+
+        public IActionResult GebruikerToevoegen()
+        {
+            var vm = new Gebruikersaccount();
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(Gebruikersaccount account)
+        {
+            if (ModelState.IsValid)
+            {
+                bool gelukt = 
+            }
+        }
     }
 }

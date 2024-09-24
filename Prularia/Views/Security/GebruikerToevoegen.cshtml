@@ -1,0 +1,16 @@
+﻿@model Gebruikersaccount
+
+@{
+    ViewData["Title"] = "Gebruiker Toevoegen";
+}
+
+<h2>Gebruiker Toevoegen</h2>
+
+<form class="form" asp-action="Toevoegen" method="post">
+
+
+    <div>
+        <button type="submit" class="btn btn-primary">Gebruiker Toevoegen</button>
+        <a asp-action="Index" class="btn btn-danger">Annuleren</a>
+    </div>
+</form>

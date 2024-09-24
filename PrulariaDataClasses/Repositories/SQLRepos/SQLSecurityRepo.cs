@@ -56,6 +56,11 @@ namespace Prularia.Repositories
             return personeelslid;
         }
 
+        public void Add(Gebruikersaccount account)
+        {
+            _context.
+        }
+
     }
 
 
