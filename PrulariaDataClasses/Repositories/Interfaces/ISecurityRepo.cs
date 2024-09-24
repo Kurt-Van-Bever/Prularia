@@ -8,5 +8,10 @@ namespace Prularia.Repositories
         Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account);
         Personeelslidaccount? GetAccount(int id);
         void UpdateAccount(Personeelslidaccount account);
+        List<Securitygroep> GetAllSecurityGroepen();
+        Securitygroep? GetSecuritygroep(int id);
+        List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id);
+        List<Personeelslid> GetAllPersoneelsleden();
+        Personeelslid? GetPersoneelslid(int id);
     }    
 }

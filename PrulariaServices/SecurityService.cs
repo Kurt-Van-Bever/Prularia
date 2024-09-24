@@ -1,5 +1,6 @@
 ﻿using Prularia.Models;
 using Prularia.Repositories;
+using ZstdSharp.Unsafe;
 
 namespace Prularia.Services;
 
@@ -52,4 +53,13 @@ public class SecurityService
         _securityRepo.UpdateAccount(acc);
         return true;
     }
+
+    public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
+    public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
+    public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
+        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);
+    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
+   
+    public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
+    public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
 }
