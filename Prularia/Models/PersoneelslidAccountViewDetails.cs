@@ -1,6 +1,4 @@
-﻿using Prularia.Models;
-
-namespace Prularia.Controllers;
+﻿namespace Prularia.Models;
 
 public class PersoneelslidAccountViewDetails
 {

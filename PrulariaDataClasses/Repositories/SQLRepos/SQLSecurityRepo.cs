@@ -11,7 +11,7 @@ namespace Prularia.Repositories
         {
             _context = context;
         }
-        
+
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
             var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
@@ -35,9 +35,11 @@ namespace Prularia.Repositories
 
         public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Find(id);
 
-        //public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id)
-        //{
-        //    _context.Personeelsleden
-        //}
-    }    
+        public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id)
+            => _context.Personeelsleden
+                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId == id))
+                .Include(p => p.PersoneelslidAccount)
+                .Include(p => p.SecurityGroepen)
+                .ToList();
+    }
 }
