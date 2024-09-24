@@ -1,0 +1,43 @@
+﻿@model SecuritygroepDetailsViewModel
+@{
+    ViewData["Title"] = "Securitygroep Details";
+}
+
+<h1>Details Securitygroep - @Model.Naam</h1>
+
+<div>
+    SecuritygroepId: @Model.Id
+</div>
+
+
+<h3>Gebruikers</h3>
+
+<table class="table">
+    <thead>
+    <th>ID</th>
+    <th>Voornaam</th>
+    <th>Familienaam</th>
+    <th>Email</th>
+    <th>SecurityGroepen</th>
+    <th>Disabled</th>
+    </thead>
+    <tbody>
+        @foreach (var gebruiker in Model.Personeelsleden)
+        {
+            <tr>
+                <td>@gebruiker.Id</td>
+                <td>@gebruiker.Voornaam</td>
+                <td>@gebruiker.Familienaam</td>
+                <td>@gebruiker.Email</td>
+                <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
+                <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
+                <td><a asp-action="GebruikerDetails"><button class="btn btn-secondary">Details</button></a></td>
+                <td><a asp-action="GebruikerVerwijderenUitGroep"><button class="btn btn-danger">X</button></a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="GebruikerToevoegen"><button class="btn btn-secondary">Gebruiker toevoegen</button></a>
+
+<a asp-action="Securitygroepen"><button class="btn btn-secondary">Terug</button></a>
+
