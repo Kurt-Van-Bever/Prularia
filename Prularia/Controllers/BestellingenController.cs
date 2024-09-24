@@ -48,15 +48,15 @@ public class BestellingenController : Controller
             HttpContext.Session.Remove("sorteer");
         }
   
-            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
+            //vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
     
 
         
 
-        var bestellingen /*= vm.BestellingItems */= await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
+        var bestellingen /*= vm.BestellingItems */= await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
         //vm.BestellingItems = bestellingen.ToPagedList((page ?? 1),3);
-        ViewBag.pagedList = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
-        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
+        //ViewBag.pagedList = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
+        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), 50);
             return View(vm);
 
     }

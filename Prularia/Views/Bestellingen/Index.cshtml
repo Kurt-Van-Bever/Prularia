@@ -113,9 +113,14 @@
 <br />
 @* Page @(Model.BestellingItems.PageCount < Model.BestellingItems.PageNumber ? 0 : Model.BestellingItems.PageNumber) of @Model.BestellingItems.PageCount
  *@
-@Html.PagedListPager((IPagedList)ViewBag.pagedList, page => Url.Action("Index",
-            new { page, searchValue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue"),
-                    zoek = @HttpContextAccessor.HttpContext?.Session.GetString("zoekvalue"),
-                    sorteer = @HttpContextAccessor.HttpContext?.Session.GetString("sorteervalue")
-                }))
+@Html.PagedListPager(Model.BestellingItems, page => Url.Action("Index",
+            new { page = page, 
+                searchValue = searchvalue,    
+                    sorteer = sorteervalue
+                }),
+        new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] {"page-item" /* "pagelist-item" */ },
+            PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+    })
 

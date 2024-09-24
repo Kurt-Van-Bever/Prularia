@@ -21,7 +21,7 @@ builder.Services.AddDbContext<PrulariaContext>(
         builder.Services.AddDistributedMemoryCache();
         builder.Services.AddTransient<SecurityService>();
 
-        builder.Services.AddTransient<IBestellingRepo, SQLBestellingRepo>();
+        builder.Services.AddTransient<IBestellingRepo, DummyBestellingRepo>();
         builder.Services.AddTransient<IKlantRepo, SQLKlantRepo>();
         builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         builder.Services.AddTransient<ISecurityRepo, SQLSecurityRepo>();
