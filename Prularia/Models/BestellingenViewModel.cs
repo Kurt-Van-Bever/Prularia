@@ -1,4 +1,4 @@
-﻿using PagedList;
+﻿using X.PagedList;
 
 namespace Prularia.Models
 {

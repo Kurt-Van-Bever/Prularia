@@ -5,8 +5,8 @@ using System.Buffers;
 using System.Web;
 using Prularia.Models;
 using Prularia.Filters;
-using PagedList;
-
+using X.PagedList;
+using X.PagedList.Mvc.Core;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -25,7 +25,7 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchValue, string? zoek, string? sorteer)
+    public async Task<IActionResult> Index(string? searchValue, string? zoek, string? sorteer, int? page)
     {
         var vm = new BestellingenViewModel();
 
@@ -58,8 +58,10 @@ public class BestellingenController : Controller
 
         
 
-            var bestellingen /*= vm.BestellingItems */= await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
-        vm.BestellingItems = bestellingen.ToPagedList(1,3);
+        var bestellingen /*= vm.BestellingItems */= await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
+        //vm.BestellingItems = bestellingen.ToPagedList((page ?? 1),3);
+        ViewBag.pagedList = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
+        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
             return View(vm);
         
 

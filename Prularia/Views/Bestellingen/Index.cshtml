@@ -1,6 +1,8 @@
 ﻿    @model BestellingenViewModel
     @inject IHttpContextAccessor HttpContextAccessor
-
+    @using X.PagedList.Mvc.Core;
+    @using X.PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Bestellingen"; 
 } 
@@ -80,9 +82,9 @@
 
         <tbody>
 
-            @if(Model != null && Model.BestellingItems != null)
+            @if (Model != null && ViewBag.pagedList != null)
             {
-                @foreach (var bestellingItem in Model.BestellingItems)
+                @foreach (var bestellingItem in ViewBag.pagedList)
                 {
                     <tr>
                         <td>@bestellingItem.BestelId</td>
@@ -112,8 +114,11 @@
 </div>
 
 <br />
-Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-        new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
+@* Page @(Model.BestellingItems.PageCount < Model.BestellingItems.PageNumber ? 0 : Model.BestellingItems.PageNumber) of @Model.BestellingItems.PageCount
+ *@
+@Html.PagedListPager((IPagedList)ViewBag.pagedList, page => Url.Action("Index",
+            new { page, searchValue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue"),
+                    zoek = @HttpContextAccessor.HttpContext?.Session.GetString("zoekvalue"),
+                    sorteer = @HttpContextAccessor.HttpContext?.Session.GetString("sorteervalue")
+                }))
 
