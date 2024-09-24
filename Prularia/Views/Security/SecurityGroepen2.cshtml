@@ -1,0 +1,75 @@
+<<<<<<< HEAD
+﻿@model IEnumerable<Securitygroep>?
+=======
+﻿@model List<Securitygroep>
+>>>>>>> f2add994371e44d909ae56841b96b348eeb5990b
+@{
+    ViewData["Title"] = "Security groepen";
+}
+
+<<<<<<< HEAD
+@if (Model != null)
+{
+    int groupCount = Model.Count();
+
+    <div style="display: flex; flex-wrap: wrap; overflow-x: auto;">
+        @foreach (var group in Model)
+        {
+            <div style="flex: 1 1 0; min-width: 250px; padding: 10px;">
+                <table class="table table-bordered table-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                @group.Naam
+                                <a asp-action="GroepAddPersoneel" asp-route-groepId="@group.SecurityGroepId" class="btn btn-success" style="float:right; height:35px">+</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lid in group.Personeelsleden)
+                        {
+                            <tr>
+                                <td>
+                                    <form asp-action="GroepVerwijderPersoneel" asp-route-groepId="@group.SecurityGroepId" asp-route-personeelId="@lid.PersoneelslidId" method="post">
+                                        @lid.Voornaam @lid.Familienaam
+                                        <input type="submit" class="btn btn-danger" style="float:right; height:35px" value="X" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
+
+    
+
+
+=======
+<h2>Security groepen</h2>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Naam</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var securitygroep in Model)
+        {
+            <tr>
+                <td>@securitygroep.SecurityGroepId</td>
+                <td>@securitygroep.Naam</td>
+                <td>
+                    <a asp-action="SecuritygroepDetails" asp-route-id="@securitygroep.SecurityGroepId">
+                        <button class="btn btn-success">Details</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+>>>>>>> f2add994371e44d909ae56841b96b348eeb5990b
