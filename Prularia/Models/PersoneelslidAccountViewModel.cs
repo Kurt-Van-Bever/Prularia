@@ -1,6 +1,6 @@
 ﻿namespace Prularia.Models;
 
-public class PersoneelslidAccountViewDetails
+public class PersoneelslidAccountViewModel
 {
     public int Id { get; set; }
     public string? Voornaam { get; set; }

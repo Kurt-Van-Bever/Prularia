@@ -3,6 +3,7 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
+using System.Numerics;
 
 namespace Prularia.Controllers
 {
@@ -129,12 +130,12 @@ namespace Prularia.Controllers
             {
                 Id = securitygroep.SecurityGroepId,
                 Naam = securitygroep.Naam,
-                Personeelsleden = new List<PersoneelslidAccountViewDetails>()
+                Personeelsleden = new List<PersoneelslidAccountViewModel>()
             };
 
             foreach (var member in members)
             {
-                vm.Personeelsleden.Add(new PersoneelslidAccountViewDetails()
+                vm.Personeelsleden.Add(new PersoneelslidAccountViewModel()
                 {
                     Id = member.PersoneelslidId,
                     Voornaam = member.Voornaam,
@@ -148,11 +149,28 @@ namespace Prularia.Controllers
             return View(vm);
         }
 
-        public IActionResult PersoneelsAccounts()
+        public IActionResult PersoneelsLeden()
         {
-            var personeelsAccounts = _securityService.GetAllPersoneelsAccounts();
-            return View(personeelsAccounts);
+            var personeelsleden = _securityService.GetAllPersoneelsleden();
+            return View(personeelsleden);
         }
         public IActionResult AdminPage() { return View(); }
+
+        public IActionResult PersoneelslidDetails(int id)
+        {
+            var personeelslid = _securityService.GetPersoneelslid(id);
+            if (personeelslid == null) return NotFound();
+            var vm = new PersoneelslidAccountViewModel()
+            {
+                Id = personeelslid.PersoneelslidId,
+                Voornaam = personeelslid.Voornaam,
+                Familienaam = personeelslid.Familienaam,
+                Securitygroepen = personeelslid.SecurityGroepen.ToList(),
+                Email = personeelslid.PersoneelslidAccount.Emailadres,
+                Disabled = personeelslid.PersoneelslidAccount.Disabled
+            };
+
+            return View(vm);
+        }
     }
 }

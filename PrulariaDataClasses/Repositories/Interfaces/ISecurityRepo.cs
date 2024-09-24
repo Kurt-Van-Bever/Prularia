@@ -11,6 +11,7 @@ namespace Prularia.Repositories
         List<Securitygroep> GetAllSecurityGroepen();
         Securitygroep? GetSecuritygroep(int id);
         List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id);
-        List<Personeelslidaccount> GetAllPersoneelsAccounts();
+        List<Personeelslid> GetAllPersoneelsleden();
+        Personeelslid? GetPersoneelslid(int id);
     }    
 }

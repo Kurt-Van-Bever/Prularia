@@ -41,10 +41,22 @@ namespace Prularia.Repositories
                 .Include(p => p.PersoneelslidAccount)
                 .Include(p => p.SecurityGroepen)
                 .ToList();
+        public List<Personeelslid> GetAllPersoneelsleden()
+                => _context.Personeelsleden
+                        .Include(acc => acc.PersoneelslidAccount)
+                        .ToList();
+
+        public Personeelslid? GetPersoneelslid(int id)
+        {
+            var personeelslid = _context.Personeelsleden
+            .Include(p => p.PersoneelslidAccount)
+            .Include(p => p.SecurityGroepen)
+            .SingleOrDefault(p => p.PersoneelslidId == id);
+
+            return personeelslid;
+        }
+
     }
 
-    public List<Personeelslidaccount> GetAllPersoneelsAccounts()
-            => _context.Personeelslidaccounts
-                    .Include(acc => acc.Personeelsleden)
-                    .ToList();
+
 }

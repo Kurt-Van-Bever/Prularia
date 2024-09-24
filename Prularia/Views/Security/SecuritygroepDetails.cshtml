@@ -31,13 +31,13 @@
                 <td>@gebruiker.Email</td>
                 <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
                 <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
-                <td><a asp-action="GebruikerDetails"><button class="btn btn-secondary">Details</button></a></td>
-                <td><a asp-action="GebruikerVerwijderenUitGroep"><button class="btn btn-danger">X</button></a></td>
+                <td><a asp-action="PersoneelslidDetails" asp-route-id="@gebruiker.Id"><button class="btn btn-secondary">Details</button></a></td>
+                <td><a asp-action="PersoneelslidVerwijderenUitSecuritygroep"><button class="btn btn-danger">X</button></a></td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="GebruikerToevoegen"><button class="btn btn-secondary">Gebruiker toevoegen</button></a>
+<a asp-action="PersoneelslidToevoegen"><button class="btn btn-secondary">Gebruiker toevoegen</button></a>
 
 <a asp-action="Securitygroepen"><button class="btn btn-secondary">Terug</button></a>
 
