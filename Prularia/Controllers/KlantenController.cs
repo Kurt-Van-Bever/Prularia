@@ -14,14 +14,42 @@ public class KlantenController : Controller
         _klantService = klantService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer)
     {
         string klantType = TempData["KlantType"] as string ?? "natuurlijk";
         TempData.Keep("KlantType");
 
+
+
+        if (searchValue != null && klantType == "natuurlijk" )
+        {
+            HttpContext.Session.SetString("searchvalueKlant", searchValue);
+           // HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
+        }
+        else if(searchValue != null)
+        {
+            HttpContext.Session.SetString("searchvalueKlantRechtspersoon", searchValue);
+            //HttpContext.Session.Remove("searchvalueKlant");
+
+        }
+
+        if(searchValue == null)
+        {
+            HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
+            HttpContext.Session.Remove("searchvalueKlant");
+        }
+
+        
+
+
+  
+
         if (klantType == "natuurlijk")
         {
-            var natuurlijkePersonen = await _klantService.GetNatuurlijkePersonenAsync();
+
+
+
+            var natuurlijkePersonen = await _klantService.searchNatuurlijkePersoonAsync(searchValue!, sorteer!);
             var vm = natuurlijkePersonen.Select(n => new NatuurlijkePersoonViewModel
             {
                 KlantId = n.KlantId,
@@ -35,7 +63,7 @@ public class KlantenController : Controller
         }
         else
         {
-            var rechtspersonen = await _klantService.GetRechtspersonenAsync();
+            var rechtspersonen = await _klantService.searcRechtsPersonenAsync(searchValue!, sorteer!);
             var vm = rechtspersonen.Select(r => new RechtspersoonViewModel
             {
                 KlantId = r.KlantId,

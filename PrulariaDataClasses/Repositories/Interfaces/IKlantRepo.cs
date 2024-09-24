@@ -9,7 +9,13 @@ public interface IKlantRepo
     Klant? Get(int id);
 
     Task<List<Klant>> GetNatuurlijkePersonenAsync();
+    Task<List<Klant>> searchNatuurlijkePersonen(string searchValue);
+
+
     Task<List<Klant>> GetRechtspersonenAsync();
+    Task<List<Klant>> searchRechtspersonenPersonen(string searchValue);
+
+
     Task<Klant?> GetKlantAsync(int id);
     Task<ICollection<Contactpersoon>> GetContactpersonenAsync(int id);
     //Task<Contactpersoon?> GetContactpersonenAsync(int id);

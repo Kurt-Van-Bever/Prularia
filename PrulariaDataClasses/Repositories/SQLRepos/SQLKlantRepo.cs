@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
 
 namespace Prularia.Repositories;
@@ -22,6 +23,28 @@ public class SQLKlantRepo : IKlantRepo
             .ToListAsync();
     }
 
+    public async Task<List<Klant>> searchNatuurlijkePersonen(string searchValue)
+    {
+        if (searchValue.IsNullOrEmpty())
+        {
+            return await GetNatuurlijkePersonenAsync();
+        }
+
+
+        return await _context.Klanten
+            .Where(k => k.Natuurlijkepersoon != null)
+            .Include(k => k.Natuurlijkepersoon)
+            .ThenInclude(n => n!.GebruikersAccount)
+            .Include(k => k.FacturatieAdres)
+            .ThenInclude(n => n.Plaats)
+            .Where(klant => klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
+            || klant.Natuurlijkepersoon.Familienaam!.ToUpper().StartsWith(searchValue.ToUpper())
+            || klant.FacturatieAdres.Plaats.Postcode!.ToUpper().StartsWith(searchValue.ToUpper())
+            || klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+    }
+
+
+
     public async Task<List<Klant>> GetRechtspersonenAsync()
     {
         return await _context.Klanten
@@ -31,6 +54,32 @@ public class SQLKlantRepo : IKlantRepo
             .ThenInclude(f => f.Plaats)
             .ToListAsync();
     }
+
+
+
+
+    public async Task<List<Klant>> searchRechtspersonenPersonen(string searchValue)
+    {
+
+
+        if (searchValue.IsNullOrEmpty())
+        {
+            return await GetRechtspersonenAsync();
+        }
+
+        return await _context.Klanten
+            .Where(k => k.Rechtspersoon != null)
+            .Include(k => k.Rechtspersoon)
+            .Include(k => k.FacturatieAdres)
+            .ThenInclude(f => f.Plaats)
+            .Where(klant => klant.Rechtspersoon!.Naam.ToUpper().StartsWith(searchValue.ToUpper())
+            || klant.Rechtspersoon.BtwNummer.ToUpper().StartsWith(searchValue.ToUpper())
+            || klant.FacturatieAdres.Plaats.Postcode.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+    }
+
+
+
+
 
     public void Update(Klant klant)
     {
@@ -126,5 +175,7 @@ public class SQLKlantRepo : IKlantRepo
 
         return contactpersoon;
     }
+
+
 }
 

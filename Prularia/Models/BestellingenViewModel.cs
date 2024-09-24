@@ -3,6 +3,6 @@
     public class BestellingenViewModel
     {
         //bestelling Items
-        public List<Bestelling>? BestellingItems { get; set; } = null;
+        public List<Bestelling> BestellingItems { get; set; } = new List<Bestelling>();
     }
 }
