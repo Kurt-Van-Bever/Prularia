@@ -2,7 +2,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlant");
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlantRechtspersoon");
     //string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 }
 
@@ -36,35 +36,41 @@
 
 
             <option selected>Selecteer sorteer optie</option>
-            <option value="datum">Datum</option>
             <option value="alfabetisch">Alfabetisch</option>
-            <option value="status">Status</option>
+            <option value="postcode">Postcode</option>
         </select>
 
     <button class="btn btn-success">Search</button>
         </form>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Naam</th>
-            <th>BTW nummer</th>
-            <th>Postcode</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var klant in Model)
-        {
+
+@if(Model.Count > 0)
+{
+    <table class="table table-hover">
+        <thead>
             <tr>
-                <td>@klant.Naam</td>
-                <td>@klant.BTWNummer</td>
-                <td>@klant.Postcode</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@klant.KlantId">
-                        <button class="btn btn-success">Details</button>
-                    </a>
-                </td>
+                <th>Naam</th>
+                <th>BTW nummer</th>
+                <th>Postcode</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var klant in Model)
+            {
+                <tr>
+                    <td>@klant.Naam</td>
+                    <td>@klant.BTWNummer</td>
+                    <td>@klant.Postcode</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@klant.KlantId">
+                            <button class="btn btn-success">Details</button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else
+{
+    <h2>nieks gevonden</h2>
+}

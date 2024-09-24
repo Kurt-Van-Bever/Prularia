@@ -52,16 +52,15 @@ public class SQLBestellingRepo : IBestellingRepo
   
     public async Task<List<Bestelling>> SearchBestelling(string searchValue)
     {
-        
-        //Velden
-        List<Bestelling?> returnList = new List<Bestelling?>();
+
+       
 
         if(searchValue.IsNullOrEmpty())
         {
             return await GetBestellingenAsync();
         }
 
-            var search = await _context.Bestellingen
+            return await _context.Bestellingen
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
@@ -73,17 +72,6 @@ public class SQLBestellingRepo : IBestellingRepo
             || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
-
-
-            search.ForEach(bestellingLoop => returnList.Remove(returnList.Find(bestelling => bestelling!.BestelId == bestellingLoop.BestelId)));
-            search.ForEach(returnList.Add);
-
-
-
-        return returnList!;
-            
-
-        
 
 	}
 

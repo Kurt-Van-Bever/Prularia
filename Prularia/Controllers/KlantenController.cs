@@ -21,17 +21,25 @@ public class KlantenController : Controller
 
 
 
-        if (searchValue != null)
+        if (searchValue != null && klantType == "natuurlijk" )
         {
             HttpContext.Session.SetString("searchvalueKlant", searchValue);
+           // HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
         }
-        else
+        else if(searchValue != null)
         {
-            HttpContext.Session.Remove("searchvalueKlant");
+            HttpContext.Session.SetString("searchvalueKlantRechtspersoon", searchValue);
+            //HttpContext.Session.Remove("searchvalueKlant");
 
         }
 
+        if(searchValue == null)
+        {
+            HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
+            HttpContext.Session.Remove("searchvalueKlant");
+        }
 
+        
 
 
   
@@ -41,7 +49,7 @@ public class KlantenController : Controller
 
 
 
-            var natuurlijkePersonen = await _klantService.GetNatuurlijkePersonenAsync();
+            var natuurlijkePersonen = await _klantService.searchNatuurlijkePersoonAsync(searchValue!, sorteer!);
             var vm = natuurlijkePersonen.Select(n => new NatuurlijkePersoonViewModel
             {
                 KlantId = n.KlantId,
@@ -55,7 +63,7 @@ public class KlantenController : Controller
         }
         else
         {
-            var rechtspersonen = await _klantService.GetRechtspersonenAsync();
+            var rechtspersonen = await _klantService.searcRechtsPersonenAsync(searchValue!, sorteer!);
             var vm = rechtspersonen.Select(r => new RechtspersoonViewModel
             {
                 KlantId = r.KlantId,

@@ -41,4 +41,66 @@ public class KlantService
         => await _klantRepo.DisableContactpersoonAsync(id);
     public async Task<Contactpersoon?> ActivateContactpersoonAsync(int id) 
         => await _klantRepo.ActivateContactpersoonAsync(id);
+
+
+
+    public async Task<List<Klant>> searchNatuurlijkePersoonAsync(string searchValue, string sorteerOptie)
+    {
+
+        List<Klant> klanten = await _klantRepo.searchNatuurlijkePersonen(searchValue);
+
+
+
+        if (sorteerOptie == "alfabetisch")
+        {
+           return klanten.OrderBy(klant => klant.Natuurlijkepersoon?.Voornaam).ThenBy(klant => klant.Natuurlijkepersoon?.Familienaam).ToList();
+        }
+
+        if (sorteerOptie == "postcode")
+            return klanten.OrderBy(klant => klant.FacturatieAdres.Plaats.Postcode).ToList();
+
+
+        return klanten;
+    }
+
+    public async Task<List<Klant>> searcRechtsPersonenAsync(string searchValue, string sorteerOptie)
+    {
+
+        List<Klant> klanten = await _klantRepo.searchRechtspersonenPersonen(searchValue);
+
+
+
+        if (sorteerOptie == "alfabetisch")
+        {
+            return klanten.OrderBy(klant => klant.Natuurlijkepersoon?.Voornaam).ThenBy(klant => klant.Natuurlijkepersoon?.Familienaam).ToList();
+        }
+
+        if (sorteerOptie == "postcode")
+            return klanten.OrderBy(klant => klant.FacturatieAdres.Plaats.Postcode).ToList();
+
+
+        return klanten;
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+        //if (sorteerOptie == "status")
+        //{
+
+        //    return Bestellingen.OrderBy(bestelling => bestelling.BestellingsStatus.Naam).ToList();
+        //}
+
+
+
+  
+
+
