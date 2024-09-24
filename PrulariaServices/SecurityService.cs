@@ -44,5 +44,8 @@ public class SecurityService
         return await _securityRepo.TryGetPersoneelslidFromAccountAsync(acc);
     }
 
-    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
+    public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
+    public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
+    public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
+        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);
 }

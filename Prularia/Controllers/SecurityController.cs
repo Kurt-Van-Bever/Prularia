@@ -113,10 +113,22 @@ namespace Prularia.Controllers
         }
 
 
-        public IActionResult SecurityGroepen()
+        public IActionResult Securitygroepen()
         {
-            var securityGroepen = _securityService.GetAllSecurityGroepen();
-            return View(securityGroepen);
+            var securitygroepen = _securityService.GetAllSecuritygroepen();
+            return View(securitygroepen);
+        }
+
+        public IActionResult SecuritygroepDetails(int id)
+        {
+            var securitygroep = _securityService.GetSecuritygroep(id);
+            var members = _securityService.GetPersoneelsledenBySecuritygroepId(id);
+            if (securitygroep == null) return NotFound();
+            var vm = new SecuritygroepDetailsViewModel()
+            {
+
+            };
+            return View(vm);
         }
     }
 }

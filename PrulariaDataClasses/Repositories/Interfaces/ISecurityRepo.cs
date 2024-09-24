@@ -9,5 +9,7 @@ namespace Prularia.Repositories
         Personeelslidaccount? GetAccount(int id);
         void UpdateAccount(Personeelslidaccount account);
         List<Securitygroep> GetAllSecurityGroepen();
+        Securitygroep? GetSecuritygroep(int id);
+        List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id);
     }    
 }
