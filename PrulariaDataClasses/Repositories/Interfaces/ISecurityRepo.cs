@@ -15,5 +15,6 @@ namespace Prularia.Repositories
         Personeelslid? GetPersoneelslid(int id);
         List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id);
         void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId);
+        void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId);
     }
 }

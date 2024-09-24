@@ -77,5 +77,16 @@ namespace Prularia.Repositories
                 groep.Personeelsleden.Add(gebruiker);
             _context.SaveChanges();
         }
+
+        public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        {
+            var groep = _context.Securitygroepen
+                .Include(s => s.Personeelsleden)
+                .FirstOrDefault(s => s.SecurityGroepId == groepId);
+            var gebruiker = _context.Personeelsleden.Find(gebruikerId);
+            if (gebruiker != null && groep != null)
+                groep.Personeelsleden.Remove(gebruiker);
+            _context.SaveChanges();
+        }
     }
 }

@@ -32,7 +32,13 @@
                 <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
                 <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
                 <td><a asp-action="PersoneelslidDetails" asp-route-id="@gebruiker.Id"><button class="btn btn-secondary">Details</button></a></td>
-                <td><a asp-action="PersoneelslidVerwijderenUitSecuritygroep"><button class="btn btn-danger">X</button></a></td>
+                <td>
+                    <form asp-action="PersoneelslidVerwijderenUitSecuritygroep" method="post">
+                        <input type="hidden" name="gebruikerId" value="@gebruiker.Id" />
+                        <input type="hidden" name="groepId" value="@Model.Id" />
+                        <button type="submit" class="btn btn-danger">X</button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

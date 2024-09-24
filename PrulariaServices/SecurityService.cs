@@ -63,5 +63,7 @@ public class SecurityService
     public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id) => _securityRepo.GetAllPersoneelsledenNotInGroup(id);
     public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
         => _securityRepo.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
+    public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        => _securityRepo.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
 }
 

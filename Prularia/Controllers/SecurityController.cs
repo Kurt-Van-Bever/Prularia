@@ -213,5 +213,13 @@ namespace Prularia.Controllers
 
             return RedirectToAction(nameof(PersoneelslidToevoegen) , groepId);
         }
+
+        [HttpPost]
+        public IActionResult PersoneelslidVerwijderenUitSecuritygroep(int gebruikerId, int groepId)
+        {
+            _securityService.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
+
+            return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
+        }
     }
 }
