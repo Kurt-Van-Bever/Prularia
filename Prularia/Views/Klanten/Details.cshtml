@@ -1,0 +1,134 @@
+﻿@model KlantDetailViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Klant Details</h1>
+<div class="alert alert-success">
+    @TempData["Gelukt"]
+</div>
+<table class="table">
+    <tbody>
+        @if(Model.Natuurlijkepersoon != null)
+        {
+            <tr>
+                <td><label asp-for="Voornaam"></label></td>
+                <td>@Model.Natuurlijkepersoon.Voornaam  </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Familienaam"></label></td>
+                <td>@Model.Natuurlijkepersoon.Familienaam  </td>
+            </tr>
+
+            <tr>
+                <td><label asp-for="Emailadres"></label></td>
+                <td>@Model.Natuurlijkepersoon.GebruikersAccount.Emailadres  </td>
+            </tr>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            @* <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a> *@
+        }
+        @if(Model.Rechtspersoon != null)
+        {
+            <tr>
+                <td><label asp-for="Naam"></label></td>
+                <td>@Model.Rechtspersoon.Naam  </td>
+            </tr>
+            <tr>
+                <td><label asp-for="BtwNummer"></label></td>
+                <td>@Model.Rechtspersoon.BtwNummer  </td>
+            </tr>
+            <a asp-action="KlantBestellingen" asp-route-id="@Model.KlantId" class="btn btn-success">Bestellingen</a>
+            <a asp-action="ContactPersonen" asp-route-id="@Model.KlantId" class="btn btn-success">Contactpersonen</a>
+        }
+        <tr>
+            <td><label asp-for="FacturatieAdres"></label></td>
+            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer, @Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" class="btn btn-primary" asp-route-type="Facturatie">Wijzig Adres</a>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="LeveringsAdres"></label></td>
+            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer, @Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" class="btn btn-primary" asp-route-type="Levering">Wijzig Adres</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == false)
+{
+
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Disable</a>
+    <div class="modal fade" id="disableModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@Model.KlantId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant disabelen</h5>
+                    <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt disabelen?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="DisabelenKlantPopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
+{
+    <div class="housestyle-warning">Deze klant is gedisabeled</div>
+    <!-- Button to trigger the popup -->
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate(@Model.KlantId)">Activeren</a>
+    <div class="modal fade" id="activateModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel-@Model.KlantId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Bestelling Annuleren</h5>
+                    <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
+                </div>
+                <div class="modal-body">
+                    Weet u zeker dat u deze gebruiker wilt activeren?
+                </div>
+                <div class="modal-footer">
+                    <form asp-action="ActivateKlantPopup" method="post">
+                        <input type="hidden" name="id" value="@Model.KlantId" />
+                        <button type="submit" class="btn btn-success">Ja</button>
+                    </form>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<a asp-action="Index"><button class="btn btn-secondary">Terug</button></a>
+
+@section Scripts {
+    <script>
+        function showModalPopupDisable(id) {
+            $('#disableModal-' + id).modal('show');
+        }
+
+        function showModalPopupActivate(id) {
+            $('#activateModal-' + id).modal('show');
+        }
+
+        $(document).ready(function () {
+            $('.modal').on('click', '.btn-secondary', function () {
+                $(this).closest('.modal').modal('hide');
+            });
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+}
