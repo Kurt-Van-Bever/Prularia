@@ -3,6 +3,7 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Prularia.Controllers
 {
@@ -134,14 +135,25 @@ namespace Prularia.Controllers
             _securityService.RemovePersoneelFromSecurityGroep(groepId, personeelId);
             return RedirectToAction(nameof(SecurityGroepen));
         }
-        public IActionResult GroepAddPersoneel(int groepId)
-        { 
-            return View();
+
+        public async Task<IActionResult> GroepAddPersoneel(int groepId)
+        {
+            Securitygroep groep = _securityService.GetSecuritygroep(groepId)!;
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (Personeelslid lid in await _securityService.GetPersoneelsleden())
+                if (groep.Personeelsleden.Contains(lid) == false)
+                    items.Add(new SelectListItem { Value = lid.PersoneelslidId.ToString(), Text = $"{lid.Voornaam} {lid.Familienaam}" });
+
+            ViewBag.GroupId = groep.SecurityGroepId;
+            return View(items);
         }
 
         [HttpPost]
         public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
         {
+            if (personeelId == -1) return RedirectToAction(nameof(GroepAddPersoneel), new { groepId = groepId });
+
             _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
             return RedirectToAction(nameof(SecurityGroepen));
         }

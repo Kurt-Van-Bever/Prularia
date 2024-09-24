@@ -1,0 +1,14 @@
+﻿@model IEnumerable<SelectListItem>
+@{
+    ViewData["Title"] = "GroepAddPersoneel";
+}
+
+<form asp-action="GroepAddPersoneelDoorvoeren" method="post">
+    <input type="hidden" name="groepId" value="@ViewBag.GroupId" />
+
+    <select name="personeelId" asp-items="@Model">
+        <option value="-1">Selecteer een persoon</option>
+    </select>
+
+    <button type="submit">Toevoegen</button>
+</form>

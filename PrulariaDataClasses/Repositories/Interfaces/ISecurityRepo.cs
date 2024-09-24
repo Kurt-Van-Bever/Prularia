@@ -12,5 +12,6 @@ namespace Prularia.Repositories
         void UpdateAccount(Personeelslidaccount account);
         void UpdateSecurityGroep(Securitygroep groep);
         Task<IEnumerable<Securitygroep>?> GetSecurityGroepen();
+        Task<IEnumerable<Personeelslid>?> GetPersoneelsleden();
     }    
 }

@@ -36,9 +36,8 @@ namespace Prularia.Repositories
             _context.SaveChanges();
         }
 
-        public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen()
-        {
-            return await _context.Securitygroepen.Include(g => g.Personeelsleden).ToListAsync();
-        }  
+        public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen() => await _context.Securitygroepen.Include(g => g.Personeelsleden).ToListAsync();
+
+        public async Task<IEnumerable<Personeelslid>?> GetPersoneelsleden() => await _context.Personeelsleden.ToListAsync();
     }    
 }

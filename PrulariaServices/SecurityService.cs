@@ -12,6 +12,7 @@ public class SecurityService
     }
 
     public Personeelslidaccount? GetAccount(int id) => _securityRepo.GetAccount(id);
+    public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
 
     public void UpdatePassword(int id , string nieuwPasswoord)
     {
@@ -57,6 +58,11 @@ public class SecurityService
     {
         return await _securityRepo.GetSecurityGroepen();
     }
+    public async Task<IEnumerable<Personeelslid>?> GetPersoneelsleden()
+    {
+        return await _securityRepo.GetPersoneelsleden();
+    }
+
     public void RemovePersoneelFromSecurityGroep(int groepId, int personeelId)
     {
         Securitygroep groep = _securityRepo.GetSecuritygroep(groepId)!;
