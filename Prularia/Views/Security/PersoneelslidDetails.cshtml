@@ -1,0 +1,42 @@
+﻿@model PersoneelslidAccountViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details - @Model.Voornaam @Model.Familienaam</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td><label asp-for="Id"></label></td>
+            <td>@Model.Id</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Voornaam"></label></td>
+            <td>@Model.Voornaam</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Familienaam"></label></td>
+            <td>@Model.Familienaam</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Securitygroepen"></label></td>
+            <td>@string.Join(",", Model.Securitygroepen.Select(s => s.SecurityGroepId))</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Email"></label></td>
+            <td>@Model.Email</td>
+        </tr>
+        <tr>
+            <td><label asp-for="Disabled"></label></td>
+            <td>@(Model.Disabled == true ? "ja" : "nee")</td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-action="PersoneelslidWijzigen"><button class="btn btn-secondary">Wijzigen</button></a>
+
+<a asp-action="PersoneelslidDisabelen"><button class="btn btn-secondary">Disable</button></a>
+
+<a asp-action="Personeelsleden"><button class="btn btn-secondary">Terug</button></a>
+
