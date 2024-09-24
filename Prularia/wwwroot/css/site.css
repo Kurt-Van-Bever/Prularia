@@ -45,10 +45,10 @@ body {
     border-color: white;
 }
 
-    .btn-success:hover {
-        background-color: #c3b4ee92;
-        border-color: white;
-    }
+.btn-success:hover {
+    background-color: #c3b4ee92;
+    border-color: white;
+}
 
 .housestyle-warning {
     background-color: #ABD7A8;

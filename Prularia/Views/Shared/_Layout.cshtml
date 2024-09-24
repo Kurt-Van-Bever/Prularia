@@ -4,97 +4,133 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Prularia</title>
-    
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Prularia.styles.css" asp-append-version="true" />
 
     <style>
+        /* Styles for the header */
+        header {
+            position: fixed; /* Keep the header fixed at the top */
+            top: 0; /* Align to the top */
+            left: 0; /* Align to the left */
+            right: 0; /* Align to the right */
+            background-color: #a9cea8; /* New header color */
+            color: white; /* White text color */
+            padding: 10px 15px; /* Padding around the header */
+            display: flex; /* Use flexbox to align items */
+            align-items: center; /* Center items vertically */
+            z-index: 1000; /* Ensure it stays on top */
+        }
+
+        /* Logo styling */
+        .logo-container {
+            margin-right: 15px; /* Space between logo and text */
+        }
+
+        .logo {
+            height: 40px; /* Set a height for the logo */
+            width: auto; /* Maintain aspect ratio */
+        }
+
+        /* Toggle button styling */
+        .toggle-button {
+            background-color: #87a687; /* Match sidebar color */
+            color: white; /* White text color */
+            border: none; /* Remove border */
+            border-radius: 5px; /* Rounded corners */
+            padding: 5px 10px; /* Padding for the button */
+            cursor: pointer; /* Pointer cursor on hover */
+            transition: background-color 0.3s; /* Smooth background change */
+            display: inline-flex; /* Ensure it is an inline flex container */
+            align-items: center; /* Center button contents */
+        }
+
+        .toggle-button:hover {
+                background-color: #a9cea8; /* Lighter shade on hover */
+        }
+
         /* Sidebar styling */
         #sidebar {
-            height: 100%; /* Full-height */
-            width: 250px; /* Default width */
-            position: fixed; /* Stay in place */
-            top: 0;
-            left: 0;
-            background-color: #111; /* Dark background */
-            padding-top: 20px;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            transition: 0.3s; /* Smooth transition */
+            position: fixed; /* Fix the sidebar on the left */
+            top: 60px; /* Align sidebar below the header */
+            bottom: 0; /* Align sidebar to the bottom of the page */
+            width: 200px; /* Set width for the sidebar */
+            background-color: #87a687; /* Background for the sidebar */
+            padding: 15px; /* Padding inside the sidebar */
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
+            transition: transform 0.3s ease; /* Smooth transition for toggle */
+        }
+        /* Sidebar link styling */
+        .nav-link {
+            color: white; /* Default link color */
+            transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
         }
 
-        /* Sidebar links */
-        #sidebar a {
-            padding: 10px 15px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
+        .nav-link:hover {
+            background-color: #a9cea8; /* Lighter color on hover, matching the header */
+            color: black; /* Change text color to black on hover for better contrast */
         }
 
-        /* Sidebar link hover */
-        #sidebar a:hover {
-            color: #fff; /* Change text color to white */
-            background-color: #575757; /* Change background color on hover */
-            border-left: 4px solid #f1f1f1; /* Add left border on hover */
-            transform: translateX(5px); /* Slightly shift the link to the right */
-        }
-        /* When the sidebar is closed */
+        /* Hide sidebar when closed */
         #sidebar.closed {
-            width: 0; /* Collapse sidebar width */
-            overflow: hidden; /* Ensure that the content is hidden */
+            transform: translateX(-100%); /* Move sidebar off-screen */
         }
 
-        /* Main content */
+        /* Adjust main content padding */
+        #main {
+            margin-left: 220px; /* Adjust to account for sidebar width */
+            padding: 15px; /* Padding for the main content */
+            position: relative; /* Position relative for sidebar alignment */
+            height: calc(100vh - 60px); /* Full height minus header */
+            overflow-y: auto; /* Allow scrolling if content exceeds height */
+            transition: margin-left 0.3s ease; /* Smooth transition for main content */
+        }
+
+            /* Adjust main content when sidebar is closed */
+            #main.closed {
+                margin-left: 20px; /* Adjust to make room for button */
+            }
+
+        /* Ensure main content area is pushed down for header */
         .main-content {
-            transition: margin-left 0.3s;
-            padding: 16px;
-            margin-left: 250px; /* Align with sidebar */
-        }
-
-        /* When sidebar is closed, main content margin resets */
-        .main-content.closed {
-            margin-left: 0;
+            padding-top: 60px; /* Adjust based on header height */
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="logo-container">
+            <img src="~/images/logo_prularia_transparant.png" alt="Prularia Logo" class="logo" />
+        </div>
+        <button class="toggle-button" onclick="toggleSidebar()">☰</button> <!-- Sidebar toggle button -->
+    </header>
 
     <!-- Sidebar -->
-    <div id="sidebar" class="bg-dark">
+    <div id="sidebar">
         <div>
             <a class="nav-link text-light" asp-area="" asp-controller="Bestellingen" asp-action="Index">Bestellingen</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Klanten" asp-action="Index">Klanten</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="Index">Account beheer</a>
-        </div>        
+        </div>
     </div>
 
     <!-- Main content area -->
     <div id="main" class="main-content">
-        <!-- Button to open the sidebar -->
-        <button class="btn btn-primary" onclick="toggleSidebar()">☰ Navigatie</button>
-
         <!-- Main content from views will be injected here -->
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <!-- Footer -->
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Prularia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-
     <!-- JavaScript for sidebar toggle -->
     <script>
         function toggleSidebar() {
             var sidebar = document.getElementById("sidebar");
             var mainContent = document.getElementById("main");
-            
+
             sidebar.classList.toggle("closed");
             mainContent.classList.toggle("closed");
         }
