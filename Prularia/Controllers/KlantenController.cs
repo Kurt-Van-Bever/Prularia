@@ -14,13 +14,33 @@ public class KlantenController : Controller
         _klantService = klantService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer)
     {
         string klantType = TempData["KlantType"] as string ?? "natuurlijk";
         TempData.Keep("KlantType");
 
+
+
+        if (searchValue != null)
+        {
+            HttpContext.Session.SetString("searchvalueKlant", searchValue);
+        }
+        else
+        {
+            HttpContext.Session.Remove("searchvalueKlant");
+
+        }
+
+
+
+
+  
+
         if (klantType == "natuurlijk")
         {
+
+
+
             var natuurlijkePersonen = await _klantService.GetNatuurlijkePersonenAsync();
             var vm = natuurlijkePersonen.Select(n => new NatuurlijkePersoonViewModel
             {

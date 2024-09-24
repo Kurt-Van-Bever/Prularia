@@ -3,12 +3,15 @@
 
 @{
     ViewBag.Title = "Bestellingen"; 
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlant");
+    string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 } 
 
 
 
 <h2>Bestellingen</h2>
 
+           
 
 <div class="formContainer">
 
@@ -16,13 +19,10 @@
 
         @{
 
-            string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
-            string? zoekvalue = @HttpContextAccessor.HttpContext?.Session.GetString("zoek");
-            string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 
             if(searchvalue != null)
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="@searchvalue">
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
             } else
             {
                     <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
@@ -58,44 +58,54 @@
 
 <div class="bestellingen">
     
+    
+    @{
+        if (@Model.BestellingItems.Count > 0)
+        {
+            <table class="table table-hover">
 
-    <table class="table table-hover">
+                <thead>
+                    <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
+                </thead>
 
-        <thead>
-            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
-        </thead>
+                <tbody>
 
-        <tbody>
+                    @if (Model != null && Model.BestellingItems != null)
+                    {
+                        @foreach (var bestellingItem in Model.BestellingItems)
+                        {
+                            <tr>
+                                <td>@bestellingItem.BestelId</td>
+                                <td>@bestellingItem.Besteldatum</td>
+                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
 
-            @if(Model != null && Model.BestellingItems != null)
-            {
-                @foreach (var bestellingItem in Model.BestellingItems)
-                {
-                    <tr>
-                        <td>@bestellingItem.BestelId</td>
-                        <td>@bestellingItem.Besteldatum</td>
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
-                   
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                        <td>@bestellingItem.Bedrijfsnaam</td>
-                        <td>@bestellingItem.BtwNummer</td>
-                        <td>@bestellingItem.BestellingsStatus.Naam</td>
+                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
+                                <td>@bestellingItem.Bedrijfsnaam</td>
+                                <td>@bestellingItem.BtwNummer</td>
+                                <td>@bestellingItem.BestellingsStatus.Naam</td>
 
-                        <td>
-                            <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                                <button class="btn btn-success">Ga naar bestelling</button>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            } else
-            {
-                <p>No data found</p>
-            }
-      
-        
-    </tbody>
-    </table>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                        <button class="btn btn-success">Ga naar bestelling</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        } else
+        {
+            
+            <h2>Nieks gevonden</h2>
+        }
+    }
+
+    
 </div>
 
 

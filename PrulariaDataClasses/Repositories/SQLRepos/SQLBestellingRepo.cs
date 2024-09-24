@@ -67,12 +67,12 @@ public class SQLBestellingRepo : IBestellingRepo
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .Where(bestelling => 
-            bestelling.Bedrijfsnaam!.ToUpper().Contains(searchValue.ToUpper()) 
-            || bestelling.BtwNummer!.ToUpper().Contains(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().Contains(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().Contains(searchValue.ToUpper())
-            || bestelling.BestellingsStatus.Naam!.ToUpper().Contains(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+            bestelling.Bedrijfsnaam!.ToUpper().StartsWith(searchValue.ToUpper()) 
+            || bestelling.BtwNummer!.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
 
 
             search.ForEach(bestellingLoop => returnList.Remove(returnList.Find(bestelling => bestelling!.BestelId == bestellingLoop.BestelId)));
@@ -80,7 +80,8 @@ public class SQLBestellingRepo : IBestellingRepo
 
 
 
-            return returnList!;
+        return returnList!;
+            
 
         
 

@@ -22,6 +22,8 @@ public class SQLKlantRepo : IKlantRepo
             .ToListAsync();
     }
 
+
+
     public async Task<List<Klant>> GetRechtspersonenAsync()
     {
         return await _context.Klanten
