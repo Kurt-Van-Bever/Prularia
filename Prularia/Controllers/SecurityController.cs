@@ -121,5 +121,29 @@ namespace Prularia.Controllers
             else
                 return NotFound();
         }
+
+        public async Task<IActionResult> SecurityGroepen()
+        {
+            IEnumerable<Securitygroep>? groepen = await _securityService.GetSecurityGroepen();
+            return View(groepen);
+        }
+
+        [HttpPost]
+        public IActionResult GroepVerwijderPersoneel(int groepId, int personeelId)
+        {
+            _securityService.RemovePersoneelFromSecurityGroep(groepId, personeelId);
+            return RedirectToAction(nameof(SecurityGroepen));
+        }
+        public IActionResult GroepAddPersoneel(int groepId)
+        { 
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
+        {
+            _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
+            return RedirectToAction(nameof(SecurityGroepen));
+        }
     }
 }

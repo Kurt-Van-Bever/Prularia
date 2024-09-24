@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Securitygroep>?
+@{
+    ViewData["Title"] = "Security groepen";
+}
+
+@if (Model != null)
+{
+    int groupCount = Model.Count();
+
+    <div style="display: flex; flex-wrap: wrap; overflow-x: auto;">
+        @foreach (var group in Model)
+        {
+            <div style="flex: 1 1 0; min-width: 250px; padding: 10px;">
+                <table class="table table-bordered table-striped" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                @group.Naam 
+                                <a asp-action="GroepAddPersoneel" asp-route-groepId="@group.SecurityGroepId" class="btn btn-success" style="float:right; height:35px">+</a>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var lid in group.Personeelsleden)
+                        {
+                            <tr>
+                                <td>
+                                    <form asp-action="GroepVerwijderPersoneel" asp-route-groepId="@group.SecurityGroepId" asp-route-personeelId="@lid.PersoneelslidId" method="post">
+                                        @lid.Voornaam @lid.Familienaam
+                                        <input type="submit" class="btn btn-danger" style="float:right; height:35px" value="X" />
+                                    </form>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+    </div>
+}
+
+    
+
+

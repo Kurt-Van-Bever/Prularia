@@ -14,9 +14,7 @@ namespace Prularia.Repositories
         
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
-            var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
-            if (acc == null) return null;
-            return acc;
+            return await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
         }
 
         public async Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account)
@@ -25,10 +23,22 @@ namespace Prularia.Repositories
         }
 
         public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts.Find(id);
+        public Personeelslid? GetPersoneelslid(int id) => _context.Personeelsleden.Find(id);
+        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Include(g => g.Personeelsleden).FirstOrDefault(g => g.SecurityGroepId == id);
         public void UpdateAccount(Personeelslidaccount account)
         {
             _context.Update(account);
             _context.SaveChanges();
         }
+        public void UpdateSecurityGroep(Securitygroep groep)
+        {
+            _context.Update(groep);
+            _context.SaveChanges();
+        }
+
+        public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen()
+        {
+            return await _context.Securitygroepen.Include(g => g.Personeelsleden).ToListAsync();
+        }  
     }    
 }

@@ -52,4 +52,24 @@ public class SecurityService
         _securityRepo.UpdateAccount(acc);
         return true;
     }
+
+    public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen()
+    {
+        return await _securityRepo.GetSecurityGroepen();
+    }
+    public void RemovePersoneelFromSecurityGroep(int groepId, int personeelId)
+    {
+        Securitygroep groep = _securityRepo.GetSecuritygroep(groepId)!;
+        Personeelslid lid = _securityRepo.GetPersoneelslid(personeelId)!;
+        groep.Personeelsleden.Remove(lid);
+        _securityRepo.UpdateSecurityGroep(groep);
+    }
+
+    public void AddPersoneelToSecurityGroup(int groepId, int personeelId)
+    {
+        Securitygroep groep = _securityRepo.GetSecuritygroep(groepId)!;
+        Personeelslid lid = _securityRepo.GetPersoneelslid(personeelId)!;
+        groep.Personeelsleden.Add(lid);
+        _securityRepo.UpdateSecurityGroep(groep);
+    }
 }
