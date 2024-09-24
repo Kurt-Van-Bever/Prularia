@@ -58,13 +58,24 @@ namespace Prularia.Repositories
 
         public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id)
         {
+            var groep = _context.Securitygroepen.Find(id);
+
             var personeelsleden = _context.Personeelsleden
-                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId != id))
+                .Where(p => !p.SecurityGroepen.Contains(groep!))
                 .Include(p => p.PersoneelslidAccount)
                 .Include(p => p.SecurityGroepen)
                 .ToList();
 
             return personeelsleden;
+        }
+
+        public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        {
+            var groep = _context.Securitygroepen.Find(groepId);
+            var gebruiker = _context.Personeelsleden.Find(gebruikerId);
+            if (gebruiker != null && groep != null)
+                groep.Personeelsleden.Add(gebruiker);
+            _context.SaveChanges();
         }
     }
 }

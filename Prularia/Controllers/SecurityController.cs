@@ -209,7 +209,9 @@ namespace Prularia.Controllers
         [HttpPost]
         public IActionResult PersoneelslidToevoegen(int gebruikerId, int groepId)
         {
+            _securityService.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
 
+            return RedirectToAction(nameof(PersoneelslidToevoegen) , groepId);
         }
     }
 }

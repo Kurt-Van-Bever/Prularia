@@ -57,10 +57,11 @@ public class SecurityService
     public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
     public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
     public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
-        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);
-    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
-   
+        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);   
     public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
     public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
     public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id) => _securityRepo.GetAllPersoneelsledenNotInGroup(id);
+    public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        => _securityRepo.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
 }
+
