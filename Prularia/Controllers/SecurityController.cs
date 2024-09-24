@@ -194,8 +194,9 @@ namespace Prularia.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool gelukt = 
+                _securityService.GebruikerToevoegen(account);
             }
+            return RedirectToAction("Index");
         }
     }
 }

@@ -7,10 +7,24 @@
 <h2>Gebruiker Toevoegen</h2>
 
 <form class="form" asp-action="Toevoegen" method="post">
+     <div>
+        <label asp-for="Emailadres" class="control-label"></label>
+        <input asp-for="Emailadres" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="Paswoord" class="control-label"></label>
+        <input asp-for="Paswoord" type="password" class="form-control" />
+    </div>
+
+    <div>
+        <label asp-for="Disabled" class="control-label"></label>
+        <input asp-for="Disabled" type="checkbox" class="form-control" />
+    </div>
 
 
     <div>
-        <button type="submit" class="btn btn-primary">Gebruiker Toevoegen</button>
+        <input type="submit" value="Toevoegen" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-danger">Annuleren</a>
     </div>
 </form>
