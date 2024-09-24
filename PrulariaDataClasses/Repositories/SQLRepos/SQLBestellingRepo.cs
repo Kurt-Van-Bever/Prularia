@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
 using System.Buffers;
 using System.Numerics;
@@ -48,78 +49,40 @@ public class SQLBestellingRepo : IBestellingRepo
 
     public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
 
-    //public  async Task<Bestelling?> Annuleren(int id)
-    //{
-    //    //return await _context.Bestellingen
-    //    //    .Include(bestelling => bestelling.Klant)
-    //    //    .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-    //    //    .ThenInclude(bestelling => bestelling.GebruikersAccount)
-    //    //    .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
-
-    //}
-
-    public async Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie)
+  
+    public async Task<List<Bestelling>> SearchBestelling(string searchValue)
     {
-        if(ZoekOptie == "klantnaam" && searchValue != null)
-        {
-            return await _context.Bestellingen
-              .Include(bestelling => bestelling.Klant)
-              .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-              .ThenInclude(bestelling => bestelling!.GebruikersAccount)
-              .Include(bestelling => bestelling.BestellingsStatus)
-              .Where(bestelling => bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
+        
+        //Velden
+        List<Bestelling?> returnList = new List<Bestelling?>();
 
+        if(searchValue.IsNullOrEmpty())
+        {
+            return await GetBestellingenAsync();
         }
 
-        if(ZoekOptie == "klantfamillienaam" && searchValue != null)
-        {
-            return await _context.Bestellingen
-             .Include(bestelling => bestelling.Klant)
-             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
-             .Include(bestelling => bestelling.BestellingsStatus)
-             .Where(bestelling => bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
-        }
-
-		if (ZoekOptie == "btwnummer" && searchValue != null)
-		{
-			return await _context.Bestellingen
-			 .Include(bestelling => bestelling.Klant)
-			 .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-			 .ThenInclude(bestelling => bestelling!.GebruikersAccount)
-			 .Include(bestelling => bestelling.BestellingsStatus)
-			 .Where(bestelling => bestelling.BtwNummer!.Contains(searchValue)).ToListAsync();
-		}
+            var search = await _context.Bestellingen
+            .Include(bestelling => bestelling.Klant)
+            .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
+            .ThenInclude(bestelling => bestelling!.GebruikersAccount)
+            .Include(bestelling => bestelling.BestellingsStatus)
+            .Where(bestelling => 
+            bestelling.Bedrijfsnaam!.ToUpper().Contains(searchValue.ToUpper()) 
+            || bestelling.BtwNummer!.ToUpper().Contains(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().Contains(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().Contains(searchValue.ToUpper())
+            || bestelling.BestellingsStatus.Naam!.ToUpper().Contains(searchValue.ToUpper())
+            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
 
 
-		if (ZoekOptie == "bedrijfsnaam" && searchValue != null)
-		{
-            return await _context.Bestellingen
-             .Include(bestelling => bestelling.Klant)
-             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
-             .Include(bestelling => bestelling.BestellingsStatus)
-             .Where(bestelling => bestelling.Bedrijfsnaam!.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
-		}
+            search.ForEach(bestellingLoop => returnList.Remove(returnList.Find(bestelling => bestelling!.BestelId == bestellingLoop.BestelId)));
+            search.ForEach(returnList.Add);
 
 
 
-		//	  < option value = "bedrijfsnaam" > Bedrijfsnaam </ option >
+            return returnList!;
 
-		//< option value = "btwnummer" > BTW nummer </ option >
-
-		//< option value = "klantnaam" > Klant voornaam </ option >
-
-		//< option value = "klantfamillienaam" > Klant famillienaam </ option >
-
-
-
-
-		return await _context.Bestellingen
-	      .Include(bestelling => bestelling.Klant)
-	      .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
-	      .ThenInclude(bestelling => bestelling!.GebruikersAccount)
-	      .Include(bestelling => bestelling.BestellingsStatus).ToListAsync();
+        
 
 	}
 
