@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Prularia.Models;
+using Prularia.Models; 
 
 namespace Prularia.Repositories
 {
@@ -11,12 +11,10 @@ namespace Prularia.Repositories
         {
             _context = context;
         }
-
+        
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
-            var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
-            if (acc == null) return null;
-            return acc;
+            return await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
         }
 
         public async Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account)
@@ -25,38 +23,21 @@ namespace Prularia.Repositories
         }
 
         public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts.Find(id);
+        public Personeelslid? GetPersoneelslid(int id) => _context.Personeelsleden.Find(id);
+        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Include(g => g.Personeelsleden).FirstOrDefault(g => g.SecurityGroepId == id);
         public void UpdateAccount(Personeelslidaccount account)
         {
             _context.Update(account);
             _context.SaveChanges();
         }
-
-        public List<Securitygroep> GetAllSecurityGroepen() => _context.Securitygroepen.ToList();
-
-        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Find(id);
-
-        public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id)
-            => _context.Personeelsleden
-                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId == id))
-                .Include(p => p.PersoneelslidAccount)
-                .Include(p => p.SecurityGroepen)
-                .ToList();
-        public List<Personeelslid> GetAllPersoneelsleden()
-                => _context.Personeelsleden
-                        .Include(acc => acc.PersoneelslidAccount)
-                        .ToList();
-
-        public Personeelslid? GetPersoneelslid(int id)
+        public void UpdateSecurityGroep(Securitygroep groep)
         {
-            var personeelslid = _context.Personeelsleden
-            .Include(p => p.PersoneelslidAccount)
-            .Include(p => p.SecurityGroepen)
-            .SingleOrDefault(p => p.PersoneelslidId == id);
-
-            return personeelslid;
+            _context.Update(groep);
+            _context.SaveChanges();
         }
 
-    }
+        public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen() => await _context.Securitygroepen.Include(g => g.Personeelsleden).ToListAsync();
 
-
+        public async Task<IEnumerable<Personeelslid>?> GetPersoneelsleden() => await _context.Personeelsleden.ToListAsync();
+    }    
 }

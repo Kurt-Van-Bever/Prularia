@@ -3,7 +3,6 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
-using System.Numerics;
 
 namespace Prularia.Controllers
 {
@@ -181,6 +180,41 @@ namespace Prularia.Controllers
                 return RedirectToAction("~/Security/PersoneelsAccounts");
             else
                 return NotFound();
+        }
+
+        public async Task<IActionResult> SecurityGroepen()
+        {
+            IEnumerable<Securitygroep>? groepen = await _securityService.GetSecurityGroepen();
+            return View(groepen);
+        }
+
+        [HttpPost]
+        public IActionResult GroepVerwijderPersoneel(int groepId, int personeelId)
+        {
+            _securityService.RemovePersoneelFromSecurityGroep(groepId, personeelId);
+            return RedirectToAction(nameof(SecurityGroepen));
+        }
+
+        public async Task<IActionResult> GroepAddPersoneel(int groepId)
+        {
+            Securitygroep groep = _securityService.GetSecuritygroep(groepId)!;
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (Personeelslid lid in await _securityService.GetPersoneelsleden())
+                if (groep.Personeelsleden.Contains(lid) == false)
+                    items.Add(new SelectListItem { Value = lid.PersoneelslidId.ToString(), Text = $"{lid.Voornaam} {lid.Familienaam}" });
+
+            ViewBag.GroupId = groep.SecurityGroepId;
+            return View(items);
+        }
+
+        [HttpPost]
+        public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
+        {
+            if (personeelId == -1) return RedirectToAction(nameof(GroepAddPersoneel), new { groepId = groepId });
+
+            _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
+            return RedirectToAction(nameof(SecurityGroepen));
         }
     }
 }

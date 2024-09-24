@@ -1,6 +1,5 @@
 ﻿using Prularia.Models;
 using Prularia.Repositories;
-using ZstdSharp.Unsafe;
 
 namespace Prularia.Services;
 
@@ -13,6 +12,7 @@ public class SecurityService
     }
 
     public Personeelslidaccount? GetAccount(int id) => _securityRepo.GetAccount(id);
+    public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
 
     public void UpdatePassword(int id , string nieuwPasswoord)
     {
@@ -54,12 +54,28 @@ public class SecurityService
         return true;
     }
 
-    public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
-    public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
-    public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
-        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);
-    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
-   
-    public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
-    public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
+    public async Task<IEnumerable<Securitygroep>?> GetSecurityGroepen()
+    {
+        return await _securityRepo.GetSecurityGroepen();
+    }
+    public async Task<IEnumerable<Personeelslid>?> GetPersoneelsleden()
+    {
+        return await _securityRepo.GetPersoneelsleden();
+    }
+
+    public void RemovePersoneelFromSecurityGroep(int groepId, int personeelId)
+    {
+        Securitygroep groep = _securityRepo.GetSecuritygroep(groepId)!;
+        Personeelslid lid = _securityRepo.GetPersoneelslid(personeelId)!;
+        groep.Personeelsleden.Remove(lid);
+        _securityRepo.UpdateSecurityGroep(groep);
+    }
+
+    public void AddPersoneelToSecurityGroup(int groepId, int personeelId)
+    {
+        Securitygroep groep = _securityRepo.GetSecuritygroep(groepId)!;
+        Personeelslid lid = _securityRepo.GetPersoneelslid(personeelId)!;
+        groep.Personeelsleden.Add(lid);
+        _securityRepo.UpdateSecurityGroep(groep);
+    }
 }
