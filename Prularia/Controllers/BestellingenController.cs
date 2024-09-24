@@ -25,7 +25,7 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchValue, string? zoek, string? sorteer, int? page)
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page)
     {
         var vm = new BestellingenViewModel();
 
@@ -35,17 +35,11 @@ public class BestellingenController : Controller
         } else
         {
             HttpContext.Session.Remove("searchvalue");
+
         }
 
         
 
-        if(zoek != null)
-        {
-            HttpContext.Session.SetString("zoek", zoek);
-        } else
-        {
-            HttpContext.Session.Remove("zoek");
-        }
    
         if(sorteer != null) {
             HttpContext.Session.SetString("sorteer", sorteer);
@@ -54,6 +48,7 @@ public class BestellingenController : Controller
             HttpContext.Session.Remove("sorteer");
         }
   
+            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
     
 
         
@@ -63,8 +58,6 @@ public class BestellingenController : Controller
         ViewBag.pagedList = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
         vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), 3);
             return View(vm);
-        
-
 
     }
 

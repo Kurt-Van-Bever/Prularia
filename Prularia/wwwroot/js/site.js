@@ -14,22 +14,22 @@
             });
         });
 
-        function showModalPopupDisable() {
-            $('#disableModal').modal('show');
+        function showModalPopupDisable(id) {
+            $('#disableModal-' + id).modal('show');
         }
-        $(document).ready(function () {
-            $('#disableModal').on('click', '.btn-secondary', function () {
-                $('#disableModal').modal('hide');
+        $(document).ready(function (id) {
+            $('#disableModal-' + id).on('click', '.btn-secondary', function () {
+                $('#disableModal-' + id).modal('hide');
             });
         });
 
-        function showModalPopupActivate() {
+        function showModalPopupActivate(id) {
             // Modern way to open a modal popup using Bootstrap
-            $('#activateModal').modal('show');
+            $('#activateModal-' + id).modal('show');
         }
-        $(document).ready(function () {
-            $('#activateModal').on('click', '.btn-secondary', function () {
-                $('#activateModal').modal('hide');
+        $(document).ready(function (id) {
+            $('#activateModal-' + id).on('click', '.btn-secondary', function () {
+                $('#activateModal-' + id).modal('hide');
             });
         });
 

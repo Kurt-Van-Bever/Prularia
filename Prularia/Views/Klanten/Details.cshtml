@@ -54,13 +54,13 @@
 {
 
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable()">Disabel</a>
-    <div class="modal fade" id="disableModal" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel" aria-hidden="true">
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Disable</a>
+    <div class="modal fade" id="disableModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="disableModalLabel">Klant disabelen</h5>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant disabelen</h5>
+                    <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
                     Weet u zeker dat u deze gebruiker wilt disabelen?
@@ -80,13 +80,13 @@
 {
     <div class="housestyle-warning">Deze klant is gedisabeled</div>
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate()">Activeren</a>
-    <div class="modal fade" id="activateModal" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel" aria-hidden="true">
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate(@Model.KlantId)">Activeren</a>
+    <div class="modal fade" id="activateModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="activateModalLabel">Bestelling Annuleren</h5>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" aria-label="Close">X</button>
+                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Bestelling Annuleren</h5>
+                    <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
                     Weet u zeker dat u deze gebruiker wilt activeren?
@@ -104,3 +104,24 @@
 }
 
 <a asp-action="Index"><button class="btn btn-secondary">Terug</button></a>
+
+@section Scripts {
+    <script>
+        function showModalPopupDisable(id) {
+            $('#disableModal-' + id).modal('show');
+        }
+
+        function showModalPopupActivate(id) {
+            $('#activateModal-' + id).modal('show');
+        }
+
+        $(document).ready(function () {
+            $('.modal').on('click', '.btn-secondary', function () {
+                $(this).closest('.modal').modal('hide');
+            });
+        });
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+}

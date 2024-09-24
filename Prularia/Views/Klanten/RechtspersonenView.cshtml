@@ -1,4 +1,10 @@
 ﻿@model List<RechtspersoonViewModel>
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlant");
+    //string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
+}
 
 <h2>Rechtspersonen</h2>
 
@@ -7,7 +13,38 @@
     <button type="submit" class="btn btn-success">Toon Natuurlijke Personen</button>
 </form>
 
-<table class="table">
+   <form class="SearchForm" method="get">
+
+        @{
+
+
+            if (searchvalue != null)
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
+            }
+
+        }
+
+
+
+
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+
+
+            <option selected>Selecteer sorteer optie</option>
+            <option value="datum">Datum</option>
+            <option value="alfabetisch">Alfabetisch</option>
+            <option value="status">Status</option>
+        </select>
+
+    <button class="btn btn-success">Search</button>
+        </form>
+
+<table class="table table-hover">
     <thead>
         <tr>
             <th>Naam</th>
