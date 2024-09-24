@@ -27,4 +27,87 @@ body {
 
 .btn-secondary {
     background-color: #ABD7A8;
+    border: none;
 }
+
+.card-body {
+    display: inline-block;
+
+}
+
+.inputWijzigen{
+    width: 100%;
+    clear: both;
+}
+
+.btn-success {
+    background-color: #bcd99d;
+    border-color: white;
+}
+
+    .btn-success:hover {
+        background-color: #c3b4ee92;
+        border-color: white;
+    }
+
+.housestyle-warning {
+    background-color: #ABD7A8;
+    padding: 1em 1em;
+    margin: 1em 0em;
+    font-weight: bold;
+}
+.selectOptie {
+    width: 20%;
+}
+
+.selectOrder {
+    width: 20%;
+}
+
+.noaccess-card .card-header {
+    background-color: #ad0000;
+}
+
+#inputSearch {
+    width: 50%;
+}
+
+.SearchForm {
+    display: flex;
+    align-content: center;
+}
+
+.card {
+    margin: 0 auto;
+    float: none;
+    align-content: center;
+    display: flex;
+
+}
+
+.card-header {
+    background-color: #bcd99d;
+    color: white;
+}
+
+.card-body {
+    background-color: white;
+    text-align: center;
+    clear: both;
+    width: auto;
+}
+
+.loginfield {
+    display: inline-block;
+    margin-right: auto;
+}
+
+.login-label{
+    margin-right: 10%;
+}
+
+.ImageLogin {
+    width: 10%;
+    margin-left: 5%;
+}
+

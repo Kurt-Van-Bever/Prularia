@@ -1,37 +1,115 @@
-﻿@model BestellingenViewModel
+﻿    @model BestellingenViewModel
+    @inject IHttpContextAccessor HttpContextAccessor
 
 @{
     ViewBag.Title = "Bestellingen"; 
-}
+} 
+
+
 
 <h2>Bestellingen</h2>
 
-<table class="table table-hover">
-    <thead>
-        <tr> 
-            <th>ID</th> 
-            <th>Besteldatum</th> 
-            <th>Klant Voornaam</th> 
-            <th>Klant Famillienaam</th> 
-            <th>Klant Email</th> 
-            <th>Bestelling status</th></tr>
-    </thead>
-    <tbody>
-        @foreach(var bestellingItem in Model.BestellingItems) {
-            <tr>
-                <td>@bestellingItem.BestelId</td> 
-                <td>@bestellingItem.Besteldatum</td> 
-                <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam</td> 
-                <td>@bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td> 
-                <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                <td>@bestellingItem.BestellingsStatus.Naam</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                        <button class="btn btn-success">Ga naar bestelling</button></a>
-                </td>
-            </tr>
+
+<div class="formContainer">
+
+    <form class="SearchForm" method="get">
+
+        @{
+
+            string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
+            string? zoekvalue = @HttpContextAccessor.HttpContext?.Session.GetString("zoek");
+            string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
+
+            if(searchvalue != null)
+            {
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="@searchvalue">
+            } else
+            {
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
+            }
+
+        
+
+                    <select name="zoek" class="selectOptie form-select" aria-label="selecteer zoek optie">
+                        <option selected>Selecteer zoek optie</option>
+                        <option value="bedrijfsnaam">Bedrijfsnaam</option>
+                        <option value="btwnummer">BTW nummer</option>
+                        <option value="klantnaam">Klant voornaam</option>
+                        <option value="klantfamillienaam">Klant famillienaam</option>
+                    </select>
+
+
+              
+           
         }
+
+       
+
+
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+
+           
+            <option selected>Selecteer sorteer optie</option>
+            <option value="datum">Datum</option>
+            <option value="alfabetisch">Alfabetisch</option>
+            <option value="status">Status</option>
+        </select>
+
+
+
+        
+      
+        <button class="btn btn-success">Search</button>
+        
+
+    </form>
+
+
+
+</div>
+
+
+<div class="bestellingen">
+    
+
+    <table class="table table-hover">
+
+        <thead>
+            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
+        </thead>
+
+        <tbody>
+
+            @if(Model != null && Model.BestellingItems != null)
+            {
+                @foreach (var bestellingItem in Model.BestellingItems)
+                {
+                    <tr>
+                        <td>@bestellingItem.BestelId</td>
+                        <td>@bestellingItem.Besteldatum</td>
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
+                   
+                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
+                        <td>@bestellingItem.Bedrijfsnaam</td>
+                        <td>@bestellingItem.BtwNummer</td>
+                        <td>@bestellingItem.BestellingsStatus.Naam</td>
+
+                        <td>
+                            <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                <button class="btn btn-success">Ga naar bestelling</button>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            } else
+            {
+                <p>No data found</p>
+            }
+      
+        
     </tbody>
-</table>
+    </table>
+</div>
+
 
 

@@ -1,0 +1,28 @@
+﻿@model UserLoginViewModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<form asp-action="LoginDoorvoeren" asp-controller="Security" method="post" class="form">
+
+
+    <div class="card text-center g-success mb-3" style="max-width: 20rem;">
+        <div class="card-header">Authorized user login<img class="ImageLogin" src="~/images/userIcon.png"/></div>
+        <div class="card-body text-center">
+
+            <div class="loginfield">
+                <label class="login-label"  asp-for="Email"></label>
+                <input class="form-text" asp-for="Email" />
+            </div>
+
+            <div class="loginfield" >
+                <label class="login-label" asp-for="Password"></label>
+                <input class="form-text"  asp-for="Password" type="password" />
+            </div>
+
+        </div>
+   
+    <button type="submit" class="btn btn-success">Login</button>
+
+    </div>
+</form>

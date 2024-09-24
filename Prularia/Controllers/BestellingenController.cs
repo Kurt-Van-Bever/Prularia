@@ -1,23 +1,71 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
 using Prularia.Services;
+using System.Buffers;
+using System.Web;
 using Prularia.Models;
+using Prularia.Filters;
 
 namespace Prularia.Controllers;
 
+[AuthorizationGroup("Cwebsite")]
 public class BestellingenController : Controller
 {
     private readonly BestellingService _bestellingService;
-    public BestellingenController(BestellingService bestellingService)
+    private readonly IHttpContextAccessor _contextAccessor;
+
+    public BestellingenController(BestellingService bestellingService, IHttpContextAccessor httpContextAccessor)
     {
         _bestellingService = bestellingService;
+        _contextAccessor = httpContextAccessor;
+
+
+
     }
 
-    public async Task<IActionResult> Index()
+    [HttpGet]
+    public async Task<IActionResult> Index(string? searchValue, string? zoek, string? sorteer)
     {
-        BestellingenViewModel model = new BestellingenViewModel();
-        model.BestellingItems = await _bestellingService.getBestellingenAsync();
-        return View(model);
+        var vm = new BestellingenViewModel();
+
+        if(searchValue != null)
+        {
+            HttpContext.Session.SetString("searchvalue", searchValue);
+        } else
+        {
+            HttpContext.Session.Remove("searchvalue");
+        }
+
+        
+
+        if(zoek != null)
+        {
+            HttpContext.Session.SetString("zoek", zoek);
+        } else
+        {
+            HttpContext.Session.Remove("zoek");
+        }
+   
+        if(sorteer != null) {
+            HttpContext.Session.SetString("sorteer", sorteer);
+        } else
+        {
+            HttpContext.Session.Remove("sorteer");
+        }
+  
+    
+
+        
+
+            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, zoek!, sorteer!);
+            return View(vm);
+        
+
+
     }
+
+
+  
 
     public async Task<IActionResult> Details(int id)
     {
@@ -48,6 +96,7 @@ public class BestellingenController : Controller
 
         return View(vm);
     }
+    
 
     [HttpGet]
     public IActionResult Wijzigen(int id)
@@ -72,7 +121,7 @@ public class BestellingenController : Controller
         if (this.ModelState.IsValid)
         {
             var bestelling = _bestellingService.Get(vm.BestelId);
-            bestelling.Betaald = vm.Betaald;
+            bestelling!.Betaald = vm.Betaald;
             bestelling.Bedrijfsnaam = vm.Bedrijfsnaam;
             bestelling.BtwNummer = vm.BtwNummer;
             bestelling.Voornaam = vm.Voornaam;
@@ -83,28 +132,19 @@ public class BestellingenController : Controller
         return View("Wijzigen", vm);
     }
 
-
-    //[HttpPost]
-    //public async Task<IActionResult> AnnulerenPopup(int id)
-    //{
-    //    var bestelling = await _bestellingService.GetAsync(id);
-    //    await _bestellingService.AnnulerenAsync(id);
-
-    //    return RedirectToAction("Details", id=id);
-    //}
-
     [HttpPost]
-    public async Task<IActionResult> AnnulerenPopup(int id)
+    public async Task<IActionResult> AnnulerenPopupAsync(int id)
     {
         var bestelling = await _bestellingService.GetAsync(id);
 
         if (bestelling == null)
         {
-            return NotFound();  // Of geef een gebruikersvriendelijke foutmelding terug
+            return NotFound();
         }
 
         await _bestellingService.AnnulerenAsync(id);
 
         return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
     }
+	
 }

@@ -1,0 +1,33 @@
+﻿@model List<RechtspersoonViewModel>
+
+<h2>Rechtspersonen</h2>
+
+<form asp-action="ToggleKlantType" method="post">
+    <input type="hidden" name="huidigType" value="rechtspersoon" />
+    <button type="submit" class="btn btn-success">Toon Natuurlijke Personen</button>
+</form>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Naam</th>
+            <th>BTW nummer</th>
+            <th>Postcode</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var klant in Model)
+        {
+            <tr>
+                <td>@klant.Naam</td>
+                <td>@klant.BTWNummer</td>
+                <td>@klant.Postcode</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@klant.KlantId">
+                        <button class="btn btn-success">Details</button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

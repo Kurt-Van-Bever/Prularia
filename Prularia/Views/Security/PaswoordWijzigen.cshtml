@@ -1,0 +1,68 @@
+﻿@model PaswoordViewModel
+
+@{
+    ViewBag.Title = "Paswoord wijzigen";
+}
+
+
+
+<span = class="text-danger">@ViewBag.ErrorMessage</span>
+
+
+
+
+
+<form class="form" asp-action="PaswoordWijzigen" method="post">
+
+
+    <div style="width: 50%;"  class="card text-center g-success mb-6" style="max-width: 20rem;">
+        <div class="card-header">Manage Account</div>
+        <div class="card-body text-center">
+
+   
+
+            <div class="inputWijzigen">
+                <label asp-for="OudPaswoord"></label>
+                <input asp-for="OudPaswoord" type="password" id="oudPaswoord"/>
+                <button type="button" class="btn btn-success" onclick="togglePassword('oudPaswoord')">Toon/Verberg</button>
+                <span asp-validation-for="OudPaswoord" class="text-danger"></span>
+            </div>
+
+            <div class="inputWijzigen">
+                <label asp-for="NieuwPaswoord"></label>
+                <input asp-for="NieuwPaswoord" type="password" id="nieuwPaswoord" />
+                <button type="button" class="btn btn-success" onclick="togglePassword('nieuwPaswoord')">Toon/Verberg</button>
+                <span asp-validation-for="NieuwPaswoord" class="text-danger"></span>
+            </div>
+
+            <div class="inputWijzigen">
+                <label asp-for="NieuwPaswoordConfirmatie"></label>
+                <input asp-for="NieuwPaswoordConfirmatie" type="password" id="nieuwPaswoordConfirmatie" />
+                <button type="button" class="btn btn-success" onclick="togglePassword('nieuwPaswoordConfirmatie')">Toon/Verberg</button>
+                <span asp-validation-for="NieuwPaswoordConfirmatie" class="text-danger"></span>
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success">Wijzigingen doorvoeren</button>
+                <a asp-action="Index" class="btn btn-danger">Annuleren</a>
+            </div>
+
+
+        </div>
+
+
+
+</form>
+
+@section Scripts {
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+}
