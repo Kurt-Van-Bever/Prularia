@@ -119,10 +119,10 @@ namespace Prularia.Controllers
             var vm = new GebruikerWijzigenViewModel();
             vm.PersoneelslidAccountId = id;
             vm.Emailadres = account.Emailadres;
-            vm.Disabled = account.Disabled;
+            //vm.Disabled = account.Disabled;
             vm.Voornaam = account.Personeelsleden.First().Voornaam;
             vm.Familienaam = account.Personeelsleden.First().Familienaam;
-            vm.InDienst = account.Personeelsleden.First().InDienst;
+            vm.InDienst = (bool)account.Personeelsleden.First().InDienst;
             return View(vm);
         }
         [HttpPost]
@@ -130,7 +130,14 @@ namespace Prularia.Controllers
         {
             if (this.ModelState.IsValid)
             {
-
+                var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
+                account.Emailadres = vm.Emailadres;           
+                account.Personeelsleden.First().Voornaam = vm.Voornaam;
+                account.Personeelsleden.First().Familienaam = vm.Familienaam;
+                account.Personeelsleden.First().InDienst = vm.InDienst;
+                if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
+                _securityService.UpdateAccount(account);
+                return RedirectToAction(nameof(Index));
             }
             return View("GebruikerWijzigen",vm);
         }

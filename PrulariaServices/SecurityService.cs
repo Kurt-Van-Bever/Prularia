@@ -23,6 +23,11 @@ public class SecurityService
         }
     }
 
+    public void UpdateAccount(Personeelslidaccount account)
+    {
+        _securityRepo.UpdateAccount(account);
+    }
+
     public bool VerifyPaswoord(string paswoord, string paswoordHash)
     {
         return BCrypt.Net.BCrypt.Verify(paswoord, paswoordHash);
