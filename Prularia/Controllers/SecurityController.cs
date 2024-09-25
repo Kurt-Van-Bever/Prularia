@@ -3,7 +3,7 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Numerics;
 
 namespace Prularia.Controllers
 {
@@ -116,14 +116,14 @@ namespace Prularia.Controllers
 
         public IActionResult Securitygroepen()
         {
-            var securitygroepen = _securityService.GetSecurityGroepen();
+            var securitygroepen = _securityService.GetAllSecuritygroepen();
             return View(securitygroepen);
         }
 
         public IActionResult SecuritygroepDetails(int id)
         {
             var securitygroep = _securityService.GetSecuritygroep(id);
-            var members = securitygroep.Personeelsleden;
+            var members = _securityService.GetPersoneelsledenBySecuritygroepId(id);
             if (securitygroep == null) return NotFound();
 
             var vm = new SecuritygroepDetailsViewModel()
@@ -151,7 +151,7 @@ namespace Prularia.Controllers
 
         public IActionResult PersoneelsLeden()
         {
-            var personeelsleden = _securityService.GetPersoneelsleden();
+            var personeelsleden = _securityService.GetAllPersoneelsleden();
             return View(personeelsleden);
         }
         public IActionResult AdminPage() { return View(); }
@@ -183,39 +183,44 @@ namespace Prularia.Controllers
                 return NotFound();
         }
 
-        public async Task<IActionResult> SecurityGroepen()
+        [HttpGet]
+        public IActionResult PersoneelslidToevoegen(int id) 
         {
-            IEnumerable<Securitygroep>? groepen = await _securityService.GetSecurityGroepen();
-            return View(groepen);
+            var personeelsleden = _securityService.GetAllPersoneelsledenNotInGroup(id);
+            var vm = new PersoneelslidToevoegenAanGroepViewModel
+            {
+                SecuritygroepId = id
+            };
+            foreach (var p in personeelsleden)
+            {
+                vm.Personeelsleden.Add(new PersoneelslidAccountViewModel
+                {
+                    Id = p.PersoneelslidId,
+                    Voornaam = p.Voornaam,
+                    Familienaam = p.Familienaam,
+                    Email = p.PersoneelslidAccount.Emailadres,
+                    Securitygroepen = p.SecurityGroepen.ToList(),
+                    Disabled = p.PersoneelslidAccount.Disabled
+                });
+            }
+
+            return View(vm);
         }
 
         [HttpPost]
-        public IActionResult GroepVerwijderPersoneel(int groepId, int personeelId)
+        public IActionResult PersoneelslidToevoegen(int gebruikerId, int groepId)
         {
-            _securityService.RemovePersoneelFromSecurityGroep(groepId, personeelId);
-            return RedirectToAction(nameof(SecurityGroepen));
+            _securityService.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
+
+            return RedirectToAction(nameof(PersoneelslidToevoegen) , groepId);
         }
 
-        //public async Task<IActionResult> GroepAddPersoneel(int groepId)
-        //{
-        //    Securitygroep groep = _securityService.GetSecuritygroep(groepId)!;
-        //    List<SelectListItem> items = new List<SelectListItem>();
+        [HttpPost]
+        public IActionResult PersoneelslidVerwijderenUitSecuritygroep(int gebruikerId, int groepId)
+        {
+            _securityService.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
 
-        //    foreach (Personeelslid lid in await _securityService.GetPersoneelsleden())
-        //        if (groep.Personeelsleden.Contains(lid) == false)
-        //            items.Add(new SelectListItem { Value = lid.PersoneelslidId.ToString(), Text = $"{lid.Voornaam} {lid.Familienaam}" });
-
-        //    ViewBag.GroupId = groep.SecurityGroepId;
-        //    return View(items);
-        //}
-
-        //[HttpPost]
-        //public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
-        //{
-        //    if (personeelId == -1) return RedirectToAction(nameof(GroepAddPersoneel), new { groepId = groepId });
-
-        //    _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
-        //    return RedirectToAction(nameof(SecurityGroepen));
-        //}
+            return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
+        }
     }
 }

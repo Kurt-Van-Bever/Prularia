@@ -1,16 +1,9 @@
-﻿@model SecuritygroepDetailsViewModel
+﻿@model PersoneelslidToevoegenAanGroepViewModel
 @{
-    ViewData["Title"] = "Securitygroep Details";
+    ViewData["Title"] = "Personeelsleden toevoegen aan Securitygroep";
 }
 
-<h1>Details Securitygroep - @Model.Naam</h1>
-
-<div>
-    SecuritygroepId: @Model.Id
-</div>
-
-
-<h3>Gebruikers</h3>
+<h1>Personeelsleden toevoegen aan Securitygroep</h1>
 
 <table class="table">
     <thead>
@@ -31,19 +24,16 @@
                 <td>@gebruiker.Email</td>
                 <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
                 <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
-                <td><a asp-action="PersoneelslidDetails" asp-route-id="@gebruiker.Id"><button class="btn btn-secondary">Details</button></a></td>
                 <td>
-                    <form asp-action="PersoneelslidVerwijderenUitSecuritygroep" method="post">
+                    <form asp-action="PersoneelslidToevoegen" method="post">
                         <input type="hidden" name="gebruikerId" value="@gebruiker.Id" />
-                        <input type="hidden" name="groepId" value="@Model.Id" />
-                        <button type="submit" class="btn btn-danger">X</button>
+                        <input type="hidden" name="groepId" value="@Model.SecuritygroepId" />
+                        <button type="submit" class="btn btn-secondary">Toevoegen</button>
                     </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="PersoneelslidToevoegen" asp-route-id="@Model.Id"><button class="btn btn-secondary">Gebruiker toevoegen</button></a>
 
-<a asp-action="Securitygroepen"><button class="btn btn-secondary">Terug</button></a>
-
+<a asp-action="SecuritygroepDetails" asp-route-id="@Model.SecuritygroepId" class="btn btn-secondary">Terug</a>

@@ -7,11 +7,14 @@ namespace Prularia.Repositories
         Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email);
         Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account);
         Personeelslidaccount? GetAccount(int id);
-        Personeelslid? GetPersoneelslid(int id);
-        Securitygroep? GetSecuritygroep(int id);
         void UpdateAccount(Personeelslidaccount account);
-        void UpdateSecurityGroep(Securitygroep groep);
-        Task<IEnumerable<Securitygroep>?> GetSecurityGroepen();
-        Task<IEnumerable<Personeelslid>?> GetPersoneelsleden();
-    }    
+        List<Securitygroep> GetAllSecurityGroepen();
+        Securitygroep? GetSecuritygroep(int id);
+        List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id);
+        List<Personeelslid> GetAllPersoneelsleden();
+        Personeelslid? GetPersoneelslid(int id);
+        List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id);
+        void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId);
+        void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId);
+    }
 }
