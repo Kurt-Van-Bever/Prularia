@@ -81,12 +81,12 @@ public class KlantenController : Controller
         if(this.ModelState.IsValid)
         {
             var klant = _klantService.Get(form.KlantId);
-
             int? plaatsId = _klantService.GetPlaatsId(form.PostCode);
             var bestaandAdres =  _klantService.CheckAdres(form.Straat, form.HuisNummer, plaatsId);
             
             if (bestaandAdres == null)
             {
+                
                 Adres adres = new Adres()
                 {
                     Straat = form.Straat,
@@ -97,13 +97,29 @@ public class KlantenController : Controller
                     
                 };
                 _klantService.AdresToevoegenTabel(adres);
-                klant.LeveringsAdresId = adres.AdresId;
-                //hier nog oude adres op false zetten
+
+                Adres oudeAdres = new Adres();
+                if (form.Type == "Facturatie")
+                {
+                    oudeAdres = _klantService.GetAdres(klant.FacturatieAdresId);
+                    klant.FacturatieAdresId = adres.AdresId;
+                }
+                else if (form.Type == "Levering")
+                {
+                    oudeAdres = _klantService.GetAdres(klant.LeveringsAdresId);
+                    klant.LeveringsAdresId = adres.AdresId;
+                }
+
+                _klantService.Update(klant);
+                oudeAdres.Actief = false;
+                _klantService.UpdateAdres(oudeAdres);
+
                 TempData["Gelukt"] = "Adres is succesvol gewijzigd en toegevoegd";
                 return RedirectToAction(nameof(Details), new { id = klant.KlantId });
             }
 
             int bestaandAdresId = bestaandAdres.AdresId;
+            
 
             if (form.Type == "Facturatie")
             {

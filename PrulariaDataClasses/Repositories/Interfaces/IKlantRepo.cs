@@ -22,4 +22,7 @@ public interface IKlantRepo
     Adres? CheckAdres(string straat, string huisNummer, int? plaatsId);
     int? GetPlaatsId(string postcode);
     void AdresToevoegenTabel(Adres adres);
+    void UpdateAdres(Adres adres);
+    Adres GetAdres(int id);
+   
 }

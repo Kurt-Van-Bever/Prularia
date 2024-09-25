@@ -149,5 +149,18 @@ public class SQLKlantRepo : IKlantRepo
         _context.Adressen.Add(adres);
         _context.SaveChanges();
     }
+
+    public void UpdateAdres(Adres adres)
+    {
+        if (adres != null)
+        {
+            _context.SaveChanges();
+        }
+    }
+
+    public Adres? GetAdres(int id)
+    {
+        return _context.Adressen.Find(id);
+    }
 }
 

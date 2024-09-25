@@ -93,4 +93,14 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
+
+    public void UpdateAdres(Adres adres)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Adres GetAdres(int id)
+    {
+        throw new NotImplementedException();
+    }
 }

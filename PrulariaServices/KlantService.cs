@@ -57,4 +57,12 @@ public class KlantService
     {
         _klantRepo.AdresToevoegenTabel(adres);
     }
+    public void UpdateAdres(Adres adres)
+    {
+        _klantRepo.UpdateAdres(adres);
+    }
+    public Adres GetAdres(int id)
+    {
+       return  _klantRepo.GetAdres(id);
+    }
 }
