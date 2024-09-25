@@ -217,3 +217,24 @@ body {
     width: 50%;
 }
 
+.kleur-status-Lopend {
+    background-color: #efbe7d;
+}
+.kleur-status-Betaald {
+    background-color: #6ea554;
+}
+.kleur-status-Klaarmaken,
+.kleur-status-Onderweg,
+.kleur-status-Geleverd {
+    background-color: #b1a2ca;
+}
+.kleur-status-Geannuleerd,
+.kleur-status-Beschadigd,
+.kleur-status-Retour,
+.kleur-status-RetourInStock {
+    background-color: #ff6d6a;
+}
+
+.status-label {
+    padding: 0.5em;
+}
