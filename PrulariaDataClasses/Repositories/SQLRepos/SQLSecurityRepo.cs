@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Prularia.Models; 
+using Prularia.Models;
 
 namespace Prularia.Repositories
 {
@@ -11,7 +11,7 @@ namespace Prularia.Repositories
         {
             _context = context;
         }
-        
+
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
             var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
@@ -30,5 +30,33 @@ namespace Prularia.Repositories
             _context.Update(account);
             _context.SaveChanges();
         }
-    }    
+
+        public List<Securitygroep> GetAllSecurityGroepen() => _context.Securitygroepen.ToList();
+
+        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Find(id);
+
+        public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id)
+            => _context.Personeelsleden
+                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId == id))
+                .Include(p => p.PersoneelslidAccount)
+                .Include(p => p.SecurityGroepen)
+                .ToList();
+        public List<Personeelslid> GetAllPersoneelsleden()
+                => _context.Personeelsleden
+                        .Include(acc => acc.PersoneelslidAccount)
+                        .ToList();
+
+        public Personeelslid? GetPersoneelslid(int id)
+        {
+            var personeelslid = _context.Personeelsleden
+            .Include(p => p.PersoneelslidAccount)
+            .Include(p => p.SecurityGroepen)
+            .SingleOrDefault(p => p.PersoneelslidId == id);
+
+            return personeelslid;
+        }
+
+    }
+
+
 }

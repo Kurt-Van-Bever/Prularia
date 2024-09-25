@@ -5,7 +5,7 @@
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Bestellingen"; 
-    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlant");
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
     string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 } 
 
@@ -76,6 +76,10 @@
                     {
                         @foreach (var bestellingItem in Model.BestellingItems)
                         {
+
+
+
+                           
                             <tr>
                                 <td>@bestellingItem.BestelId</td>
                                 <td>@bestellingItem.Besteldatum</td>
@@ -84,7 +88,79 @@
                                 <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
                                 <td>@bestellingItem.Bedrijfsnaam</td>
                                 <td>@bestellingItem.BtwNummer</td>
-                                <td>@bestellingItem.BestellingsStatus.Naam</td>
+
+
+
+
+                                @{
+
+
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Lopend")
+                                    {
+                                        <td><span style="color: #9d9d9d;">@bestellingItem.BestellingsStatus.Naam</span></td>
+                                    }
+
+
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Betaald")
+                                    {
+                                        <td><span style="color: #0f3;">@bestellingItem.BestellingsStatus.Naam</span></td>
+                                       
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Geannuleerd")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Klaarmaken")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Onderweg")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Geleverd")
+                                    {
+                                        <td><span style ="color: #9f3;">@bestellingItem.BestellingsStatus.Naam</span>
+
+                                        </td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Verloren")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Beschadigd")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Retour")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "RetourInStock")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+                                }
+
+
 
                                 <td>
                                     <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
