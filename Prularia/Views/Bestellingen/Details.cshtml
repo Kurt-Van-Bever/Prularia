@@ -3,20 +3,11 @@
     ViewData["Title"] = "Details";
 }
 
-<div class="detailstitel">
-    <h1>Bestelling # @Model.BestelId</h1>
-    <h1 style="background-color:@(Model.BestellingsStatus.Naam == "Betaald" 
-            ? "#6ea554"
-            : Model.BestellingsStatus.Naam == "Lopend" 
-            ? "#efbe7d"
-            : new[] {"Klaarmaken", "Onderweg", "Geleverd"}.Contains(Model.BestellingsStatus.Naam)
-            ? "#b1a2ca"
-            : new[] {"Geannuleerd", "Beschadigd", "Retour", "RetourInStock"}.Contains(Model.BestellingsStatus.Naam)
-            ? "#ff6d6a"
-            : "white");
-            padding: 0.5em;">
+<div class="detailstitel mb-3 mt-2">
+    <h2>Bestelling # @Model.BestelId</h2>
+    <h2 class="status-label kleur-status-@Model.BestellingsStatus.Naam">
             @Model.BestellingsStatus.Naam
-    </h1>
+    </h2>
 </div>
 
 

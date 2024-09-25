@@ -24,6 +24,11 @@ public class SecurityService
         }
     }
 
+    public void UpdateAccount(Personeelslidaccount account)
+    {
+        _securityRepo.UpdateAccount(account);
+    }
+
     public bool VerifyPaswoord(string paswoord, string paswoordHash)
     {
         return BCrypt.Net.BCrypt.Verify(paswoord, paswoordHash);
@@ -65,5 +70,9 @@ public class SecurityService
         => _securityRepo.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
     public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
         => _securityRepo.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
+    public async Task<Personeelslidaccount?> GetPersoneelslidaccountAsync(int id)
+    {
+        return await _securityRepo.GetAccountAsync(id);
+    }
 }
 

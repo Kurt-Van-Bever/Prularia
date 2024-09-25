@@ -4,7 +4,7 @@
     ViewData["Title"] = "Bestelling wijzigen";
 }
 
-<h2 class="text-center">Bestelling wijzigen</h2>
+<h2 class="mb-3 mt-2">Bestelling wijzigen</h2>
 
 <form class="form form-responsive" asp-action="WijzigenDoorvoeren" method="post">
     <input asp-for="BestelId" hidden />
@@ -33,9 +33,9 @@
         <input asp-for="Familienaam" class="form-control" />
     </div>
 
-    <div class="form-buttons">
+    <div class="mt-3">
         <button type="submit" class="btn btn-success">Wijzigingen doorvoeren</button>
-        <a asp-action="Details" asp-route-id="@Model.BestelId" class="btn btn-danger">Annuleren</a>
+        <a asp-action="Details" asp-route-id="@Model.BestelId" class="btn btn-secondary">Annuleren</a>
     </div>
 
 
