@@ -32,8 +32,8 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(b => b.BestellingsStatus)
             .Include(b => b.Betaalwijze)
             .Include(b => b.Klant)
-            .Include(b => b.FacturatieAdres)
-            .Include(b => b.LeveringsAdres)
+            .Include(b => b.FacturatieAdres).ThenInclude(fa => fa.Plaats)
+            .Include(b => b.LeveringsAdres).ThenInclude(la => la.Plaats)
             .Include(b => b.Bestellijnen).ThenInclude(l => l.Artikel)
             .FirstOrDefaultAsync(b => b.BestelId == id);
     }
