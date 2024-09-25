@@ -24,7 +24,14 @@
 					@* wat willen we laten zien? *@
 					<td>@item.BestelId</td>
 					<td>@item.Besteldatum</td>
-					<td>@item.ActiecodeGebruikt</td>
+					@if (item.ActiecodeGebruikt)
+					{
+						<td>ja</td>
+					}
+					else
+					{
+						<td>nee</td>
+					}
 					<td>@item.KlantId</td>
 					<td>@item.Betaald</td>
 					<td>@item.Betalingscode</td>

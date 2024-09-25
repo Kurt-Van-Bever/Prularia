@@ -101,20 +101,7 @@ public class SQLBestellingRepo : IBestellingRepo
              .Include(bestelling => bestelling.BestellingsStatus)
              .Where(bestelling => bestelling.Bedrijfsnaam!.ToUpper().Contains(searchValue.ToUpper())).ToListAsync();
 		}
-
-
-
-		//	  < option value = "bedrijfsnaam" > Bedrijfsnaam </ option >
-
-		//< option value = "btwnummer" > BTW nummer </ option >
-
-		//< option value = "klantnaam" > Klant voornaam </ option >
-
-		//< option value = "klantfamillienaam" > Klant famillienaam </ option >
-
-
-
-
+               
 		return await _context.Bestellingen
 	      .Include(bestelling => bestelling.Klant)
 	      .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)

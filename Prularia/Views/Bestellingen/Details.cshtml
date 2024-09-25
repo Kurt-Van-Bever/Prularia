@@ -3,7 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Bestelling details</h1>
+<h1>Bestelling details @Model.BestelId status @Model.BestellingsStatus.Naam</h1>
 
 <div>
     <a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a>
@@ -12,17 +12,10 @@
 <table class="table">
      <tbody>
         <tr>
-            <td><label asp-for="BestelId"></label></td>
-            <td>@Model.BestelId</td>
-        </tr>
-        <tr>
             <td><label asp-for="Besteldatum"></label></td>
             <td>@Model.Besteldatum</td>
         </tr>
-        <tr>
-            <td><label asp-for="Betaald"></label></td>
-            <td>@Model.Betaald</td>
-        </tr>
+       
         @if (!String.IsNullOrEmpty(Model.Betalingscode)){
         <tr>
             <td><label asp-for="Betalingscode"></label></td>
@@ -31,7 +24,12 @@
         }
         <tr>
             <td><label asp-for="Annulatie"></label></td>
-            <td>@Model.Annulatie</td>
+            @if (Model.Annulatie){
+                <td>ja</td>
+            }else
+            {
+                <td>nee</td>
+            }
         </tr>
         @if(Model.Annulatie){
         <tr>
@@ -47,7 +45,12 @@
         }
         <tr>
             <td><label asp-for="ActiecodeGebruikt"></label></td>
-            <td>@Model.ActiecodeGebruikt</td>
+            @if (Model.ActiecodeGebruikt) {
+                <td>ja</td>
+            }else
+            {
+                <td>nee</td>
+            }
         </tr>
         @if(!String.IsNullOrEmpty(Model.Bedrijfsnaam)){
         <tr>
@@ -61,11 +64,6 @@
             <td>@Model.BtwNummer</td>
         </tr>
         }
-
-        <tr>
-            <td><label asp-for="BestellingsStatus"></label></td>
-            <td>@Model.BestellingsStatus.Naam</td>
-        </tr>
         <tr>
             <td><label asp-for="Betaalwijze"></label></td>
             <td>@Model.Betaalwijze.Naam</td>
@@ -107,7 +105,7 @@
             <tr>
                 <td>@lijn.BestellijnId</td>
                 <td>@lijn.Artikel.Naam</td>
-                <td>@lijn.Artikel.Prijs</td>
+                <td>@lijn.Artikel.Prijs.ToString("F2")</td>
                 <td>@lijn.AantalBesteld</td>
             </tr>
         }

@@ -26,18 +26,18 @@
                     @if (persoon != null && !persoon.Disable)
                     {
                         <!-- Button to trigger the disable popup -->
-                        <button class="btn btn-success" onclick="showModalPopupDisable(@persoon.ContactpersoonId)">Disable</button>
+                        <button class="btn btn-success" onclick="showModalPopupDisable(@persoon.ContactpersoonId)">Blokkeren</button>
 
                         <!-- Disable Modal -->
                         <div class="modal fade" id="disableModal-@persoon.ContactpersoonId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@persoon.ContactpersoonId" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="disableModalLabel-@persoon.ContactpersoonId">Contactpersoon disabelen</h5>
+                                        <h5 class="modal-title" id="disableModalLabel-@persoon.ContactpersoonId">Contactpersoon blokkeren</h5>
                                         <button type="button" class="btn btn-secondary p-1" data-dismiss="modal">X</button>
                                     </div>
                                     <div class="modal-body">
-                                        Weet u zeker dat u deze persoon wilt disabelen?
+                                        Weet u zeker dat u deze persoon wilt blokkeren?
                                     </div>
                                     <div class="modal-footer">
                                         <form asp-action="DisabelenContactpersoonPopup" method="post">

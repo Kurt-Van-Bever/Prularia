@@ -54,16 +54,16 @@
 {
 
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Disable</a>
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Blokkeren</a>
     <div class="modal fade" id="disableModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant disabelen</h5>
+                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant blokkeren</h5>
                     <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
-                    Weet u zeker dat u deze gebruiker wilt disabelen?
+                    Weet u zeker dat u deze gebruiker wilt blokkeren?
                 </div>
                 <div class="modal-footer">
                     <form asp-action="DisabelenKlantPopup" method="post">
@@ -78,14 +78,14 @@
 }
 @if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
 {
-    <div class="housestyle-warning">Deze klant is gedisabeled</div>
+    <div class="housestyle-warning">Deze klant is geblokkeerd</div>
     <!-- Button to trigger the popup -->
     <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate(@Model.KlantId)">Activeren</a>
     <div class="modal fade" id="activateModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Bestelling Annuleren</h5>
+                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Klant activeren</h5>
                     <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
