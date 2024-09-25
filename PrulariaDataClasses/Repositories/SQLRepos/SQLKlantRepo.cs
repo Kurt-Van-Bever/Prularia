@@ -30,6 +30,7 @@ public class SQLKlantRepo : IKlantRepo
             return await GetNatuurlijkePersonenAsync();
         }
 
+        
 
         return await _context.Klanten
             .Where(k => k.Natuurlijkepersoon != null)
@@ -41,6 +42,7 @@ public class SQLKlantRepo : IKlantRepo
             || klant.Natuurlijkepersoon.Familienaam!.ToUpper().StartsWith(searchValue.ToUpper())
             || klant.FacturatieAdres.Plaats.Postcode!.ToUpper().StartsWith(searchValue.ToUpper())
             || klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+           
     }
 
 
