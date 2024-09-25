@@ -92,70 +92,26 @@
 
                                 @{
 
+                                    <td>
 
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Lopend")
-                                    {
-                                        <td><span style="color: #9d9d9d;">@bestellingItem.BestellingsStatus.Naam</span></td>
-                                    }
-
-
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Betaald")
-                                    {
-                                        <td><span style="color: #0f3;">@bestellingItem.BestellingsStatus.Naam</span></td>
-                                       
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Geannuleerd")
-                                    {
-                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Klaarmaken")
-                                    {
-                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Onderweg")
-                                    {
-                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Geleverd")
-                                    {
-                                        <td><span style ="color: #9f3;">@bestellingItem.BestellingsStatus.Naam</span>
-
-                                        </td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Verloren")
-                                    {
-                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Beschadigd")
-                                    {
-                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "Retour")
-                                    {
-                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
-
-                                    if (bestellingItem.BestellingsStatus.Naam == "RetourInStock")
-                                    {
-                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
-
-                                    }
+                                      
+                                            
+                                            <p style="color:@(bestellingItem.BestellingsStatus.Naam == "Betaald"
+                                                    ? "#6ea554"
+                                                    : bestellingItem.BestellingsStatus.Naam == "Lopend"
+                                                    ? "#efbe7d"
+                                                    : new[] {"Klaarmaken", "Onderweg", "Geleverd"}.Contains(bestellingItem.BestellingsStatus.Naam)
+                                                    ? "#b1a2ca"
+                                                    : new[] {"Geannuleerd", "Beschadigd", "Retour", "RetourInStock"}.Contains(bestellingItem.BestellingsStatus.Naam)
+                                                    ? "#ff6d6a"
+                                                    : "white");">
+                                                @bestellingItem.BestellingsStatus.Naam
+                                            </p>
+                                     
+                                    
+                                    </td>
+                 
+                                  
                                 }
 
 
