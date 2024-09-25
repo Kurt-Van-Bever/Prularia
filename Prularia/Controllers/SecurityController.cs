@@ -183,7 +183,7 @@ namespace Prularia.Controllers
                 return NotFound();
         }
 
-        public IActionResult GebruikerToevoegen()
+        public IActionResult PersoneelToevoegen()
         {
             var vm = new Gebruikersaccount();
             return View(vm);
