@@ -9,96 +9,6 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Prularia.styles.css" asp-append-version="true" />
-
-    <style>
-        /* Styles for the header */
-        header {
-            position: fixed; /* Keep the header fixed at the top */
-            top: 0; /* Align to the top */
-            left: 0; /* Align to the left */
-            right: 0; /* Align to the right */
-            background-color: #a9cea8; /* New header color */
-            color: white; /* White text color */
-            padding: 10px 15px; /* Padding around the header */
-            display: flex; /* Use flexbox to align items */
-            align-items: center; /* Center items vertically */
-            z-index: 1000; /* Ensure it stays on top */
-        }
-
-        /* Logo styling */
-        .logo-container {
-            margin-right: 15px; /* Space between logo and text */
-        }
-
-        .logo {
-            height: 40px; /* Set a height for the logo */
-            width: auto; /* Maintain aspect ratio */
-        }
-
-        /* Toggle button styling */
-        .toggle-button {
-            background-color: #87a687; /* Match sidebar color */
-            color: white; /* White text color */
-            border: none; /* Remove border */
-            border-radius: 5px; /* Rounded corners */
-            padding: 5px 10px; /* Padding for the button */
-            cursor: pointer; /* Pointer cursor on hover */
-            transition: background-color 0.3s; /* Smooth background change */
-            display: inline-flex; /* Ensure it is an inline flex container */
-            align-items: center; /* Center button contents */
-        }
-
-        .toggle-button:hover {
-                background-color: #a9cea8; /* Lighter shade on hover */
-        }
-
-        /* Sidebar styling */
-        #sidebar {
-            position: fixed; /* Fix the sidebar on the left */
-            top: 60px; /* Align sidebar below the header */
-            bottom: 0; /* Align sidebar to the bottom of the page */
-            width: 200px; /* Set width for the sidebar */
-            background-color: #87a687; /* Background for the sidebar */
-            padding: 15px; /* Padding inside the sidebar */
-            overflow-y: auto; /* Allow scrolling if content exceeds height */
-            transition: transform 0.3s ease; /* Smooth transition for toggle */
-        }
-        /* Sidebar link styling */
-        .nav-link {
-            color: white; /* Default link color */
-            transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
-        }
-
-        .nav-link:hover {
-            background-color: #a9cea8; /* Lighter color on hover, matching the header */
-            color: black; /* Change text color to black on hover for better contrast */
-        }
-
-        /* Hide sidebar when closed */
-        #sidebar.closed {
-            transform: translateX(-100%); /* Move sidebar off-screen */
-        }
-
-        /* Adjust main content padding */
-        #main {
-            margin-left: 220px; /* Adjust to account for sidebar width */
-            padding: 15px; /* Padding for the main content */
-            position: relative; /* Position relative for sidebar alignment */
-            height: calc(100vh - 60px); /* Full height minus header */
-            overflow-y: auto; /* Allow scrolling if content exceeds height */
-            transition: margin-left 0.3s ease; /* Smooth transition for main content */
-        }
-
-            /* Adjust main content when sidebar is closed */
-            #main.closed {
-                margin-left: 20px; /* Adjust to make room for button */
-            }
-
-        /* Ensure main content area is pushed down for header */
-        .main-content {
-            padding-top: 60px; /* Adjust based on header height */
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -114,6 +24,7 @@
             <a class="nav-link text-light" asp-area="" asp-controller="Bestellingen" asp-action="Index">Bestellingen</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Klanten" asp-action="Index">Klanten</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="Index">Account beheer</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="AdminPage">Admin</a>
         </div>
     </div>
 
