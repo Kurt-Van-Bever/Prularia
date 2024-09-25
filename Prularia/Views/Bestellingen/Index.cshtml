@@ -1,7 +1,7 @@
-﻿    @model BestellingenViewModel
-    @inject IHttpContextAccessor HttpContextAccessor
-    @using X.PagedList.Mvc.Core;
-    @using X.PagedList;
+﻿@model BestellingenViewModel
+@inject IHttpContextAccessor HttpContextAccessor
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Bestellingen"; 
@@ -201,39 +201,25 @@
             PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
     })
 
-@{
-    var pageSizeKeuzes = new SelectListItem[] {
-                        new SelectListItem() { Text = "10", Value = "10" },
-                        new SelectListItem() { Text = "20", Value = "20" },
-                        new SelectListItem() { Text = "30", Value = "30" },
-                        new SelectListItem() { Text = "40", Value = "40" },
-                        new SelectListItem() { Text = "50", Value = "50" },
-                        new SelectListItem() { Text = "100", Value = "100" }
-            };
-}
-<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" onchange="paginaWissel()">
+<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" >
     
 </select> 
-@* @Html.DropDownListFor(ViewBag.pageSize, pageSizeKeuzes, "tekst", "value") *@
-    
-@* @Html.DropDownList("Pagina hoeveelheid", 
-                    ,
-                    new { onchange = Url.Action("Index",
-                        new
-                        {
-                            // page = page,
-                            searchValue = searchvalue,
-                            sorteer = sorteervalue,
-                            pageSize = ViewBag.pageSize
-                        })
-                        }) *@
 
+@section Scripts{
+    <script>
+        document.getElementById("actionSelect").onchange = function () {
+            var selectedValue = this.value;
 
+            
+            if (selectedValue) {                
+                var currentUrl = window.location.href;                
+                var url = new URL(currentUrl);                
+                var params = url.searchParams;                
+                params.set('pageSize', selectedValue);                
+                url.search = params.toString();                
+                window.location.href = url.toString();
+            }
+        }
+    </script>
+}
 
-
-<script>
-    function paginaWissel(){      
-        var path = @HttpContextAccessor.HttpContext?.Request.Path;
-        window.location.href = path + '&pageSize=' + selectedValue;
-    }
-</script>
