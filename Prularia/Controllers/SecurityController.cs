@@ -91,10 +91,11 @@ namespace Prularia.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                int accountId = GetSession_LoggedInUser(HttpContext).UserId;
+                int accountId = GetSession_LoggedInUser(HttpContext)!.UserId;
+                
                 var account = _securityService.GetAccount(accountId);
 
-                if (!_securityService.VerifyPaswoord(vm.OudPaswoord, account!.Paswoord))
+                if(!_securityService.VerifyPaswoord(vm.OudPaswoord!, account!.Paswoord))
                 {
                     ViewBag.ErrorMessage = "Foutief paswoord ingegeven.";
                     return View(new PaswoordViewModel());
@@ -106,8 +107,8 @@ namespace Prularia.Controllers
                     return View(new PaswoordViewModel());
                 }
 
-                _securityService.UpdatePassword(accountId,
-                    _securityService.EncrypteerPaswoord(vm.NieuwPaswoord));
+                _securityService.UpdatePassword(accountId, 
+                    _securityService.EncrypteerPaswoord(vm.NieuwPaswoord!));
                 return RedirectToAction(nameof(Index));
             }
             return View(vm);
@@ -221,6 +222,37 @@ namespace Prularia.Controllers
             _securityService.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
 
             return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
+        }
+        [HttpGet] 
+        public async Task<IActionResult> GebruikerWijzigen(int id)
+        {
+            var account = await _securityService.GetPersoneelslidaccountAsync(id);
+            if (account == null) return NotFound();
+            var vm = new GebruikerWijzigenViewModel();
+            vm.PersoneelslidAccountId = id;
+            vm.Emailadres = account.Emailadres;
+            //vm.Disabled = account.Disabled;
+            vm.Voornaam = account.Personeelsleden.First().Voornaam;
+            vm.Familienaam = account.Personeelsleden.First().Familienaam;
+            vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
+                if (account == null) return NotFound();
+                account.Emailadres = vm.Emailadres;           
+                account.Personeelsleden.First().Voornaam = vm.Voornaam;
+                account.Personeelsleden.First().Familienaam = vm.Familienaam;
+                account.Personeelsleden.First().InDienst = vm.InDienst;
+                if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
+                _securityService.UpdateAccount(account);
+                return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
+            }
+            return View("GebruikerWijzigen",vm);
         }
     }
 }

@@ -86,5 +86,15 @@ namespace Prularia.Repositories
                 groep.Personeelsleden.Remove(gebruiker);
             _context.SaveChanges();
         }
+
+        public async Task<Personeelslidaccount?> GetAccountAsync(int id)
+        {
+            return await _context.Personeelslidaccounts
+                .Include(p => p.Personeelsleden)
+                .FirstOrDefaultAsync(p => p.PersoneelslidAccountId == id);
+        }
     }
-}
+
+        
+    }    
+
