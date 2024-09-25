@@ -56,9 +56,14 @@ namespace Prularia.Repositories
             return personeelslid;
         }
 
-        public void AddGebruiker(Gebruikersaccount account)
+        void AddPersoneelslidAccount(Personeelslidaccount account)
         {
-            _context.Gebruikersaccount.Add(account);
+            _context.Personeelslidaccounts.Add(account);
+            _context.SaveChanges();
+        }
+        void AddPersoneelslid(Personeelslid lid)
+        {
+            _context.Personeelsleden.Add(lid);
             _context.SaveChanges();
         }
 

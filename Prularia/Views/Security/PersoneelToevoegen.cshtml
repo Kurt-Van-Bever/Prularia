@@ -1,4 +1,4 @@
-﻿@model Gebruikersaccount
+﻿@model PersoneelslidToevoegenViewModel
 
 @{
     ViewData["Title"] = "Gebruiker Toevoegen";
@@ -7,6 +7,14 @@
 <h2>Personeelslid Toevoegen</h2>
 
 <form class="form" asp-action="Toevoegen" method="post">
+    <div>
+        <label asp-for="Voornaam" class="control-label"></label>
+        <input asp-for="Voornaam" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Familienaam" class="control-label"></label>
+        <input asp-for="Familienaam" class="form-control" />
+    </div>
      <div>
         <label asp-for="Emailadres" class="control-label"></label>
         <input asp-for="Emailadres" class="form-control" />
@@ -15,6 +23,10 @@
     <div>
         <label asp-for="Paswoord" class="control-label"></label>
         <input asp-for="Paswoord" type="password" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Indienst" class="control-label"></label>
+        <input asp-for="Indienst" type="checkbox" class="form-control" />
     </div>
 
     <div>

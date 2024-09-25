@@ -185,16 +185,25 @@ namespace Prularia.Controllers
 
         public IActionResult PersoneelToevoegen()
         {
-            var vm = new Gebruikersaccount();
+            var vm = new PersoneelToevoegenViewModel();
             return View(vm);
         }
 
         [HttpPost]
-        public IActionResult Toevoegen(Gebruikersaccount account)
+        public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
         {
             if (ModelState.IsValid)
             {
-                _securityService.GebruikerToevoegen(account);
+                var account = new Personeelslidaccount();
+                var lid = new Personeelslid();
+                account.Emailadres = vm.Emailadres;
+                account.Paswoord = vm.Paswoord;
+                account.Disabled = vm.Disabled;
+
+                lid.Voornaam = vm.Voornaam;
+                lid.Familienaam = vm.Familienaam;
+                lid.InDienst = vm.InDienst;
+                _securityService.PersoneelslidToevoegen(account, lid);
             }
             return RedirectToAction("Index");
         }

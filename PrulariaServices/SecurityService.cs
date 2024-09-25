@@ -63,8 +63,9 @@ public class SecurityService
     public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
     public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
 
-    public void GebruikerToevoegen(Gebruikersaccount account)
+    public void PersoneelslidToevoegen(Personeelslidaccount account, Personeelslid lid)
     {
-        _securityRepo.AddGebruiker(account);
+        _securityRepo.AddPersoneelslidAccount(account);
+        _securityRepo.AddPersoneelslid(lid);
     }
 }
