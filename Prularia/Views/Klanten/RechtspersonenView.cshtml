@@ -1,4 +1,10 @@
 ﻿@model List<RechtspersoonViewModel>
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlantRechtspersoon");
+    //string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
+}
 
 <h2>Rechtspersonen</h2>
 
@@ -7,27 +13,64 @@
     <button type="submit" class="btn btn-success">Toon Natuurlijke Personen</button>
 </form>
 
-<table class="table table-hover">
-    <thead>
-        <tr>
-            <th>Naam</th>
-            <th>BTW nummer</th>
-            <th>Postcode</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var klant in Model)
-        {
-            <tr>
-                <td>@klant.Naam</td>
-                <td>@klant.BTWNummer</td>
-                <td>@klant.Postcode</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@klant.KlantId">
-                        <button class="btn btn-success">Details</button>
-                    </a>
-                </td>
-            </tr>
+   <form class="SearchForm" method="get">
+
+        @{
+
+
+            if (searchvalue != null)
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
+            }
+
         }
-    </tbody>
-</table>
+
+
+
+
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+
+
+            <option selected>Selecteer sorteer optie</option>
+            <option value="alfabetisch">Alfabetisch</option>
+            <option value="postcode">Postcode</option>
+        </select>
+
+    <button class="btn btn-success">Search</button>
+        </form>
+
+
+@if(Model.Count > 0)
+{
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Naam</th>
+                <th>BTW nummer</th>
+                <th>Postcode</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var klant in Model)
+            {
+                <tr>
+                    <td>@klant.Naam</td>
+                    <td>@klant.BTWNummer</td>
+                    <td>@klant.Postcode</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@klant.KlantId">
+                            <button class="btn btn-success">Details</button>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else
+{
+    <h2>niks gevonden</h2>
+}

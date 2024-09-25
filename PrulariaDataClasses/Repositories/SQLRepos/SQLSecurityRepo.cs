@@ -14,9 +14,7 @@ namespace Prularia.Repositories
 
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
-            var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
-            if (acc == null) return null;
-            return acc;
+            return await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
         }
 
         public async Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account)

@@ -68,4 +68,14 @@ public class DummyKlantRepo : IKlantRepo
     {
         throw new NotImplementedException();
     }
+
+    public Task<List<Klant>> searchNatuurlijkePersonen(string searchValue)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<List<Klant>> searchRechtspersonenPersonen(string searchValue)
+    {
+        throw new NotImplementedException();
+    }
 }

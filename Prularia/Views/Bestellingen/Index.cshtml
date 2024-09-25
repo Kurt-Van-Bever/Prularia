@@ -3,12 +3,15 @@
 
 @{
     ViewBag.Title = "Bestellingen"; 
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
+    string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 } 
 
 
 
 <h2>Bestellingen</h2>
 
+           
 
 <div class="formContainer">
 
@@ -16,31 +19,15 @@
 
         @{
 
-            string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
-            string? zoekvalue = @HttpContextAccessor.HttpContext?.Session.GetString("zoek");
-            string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 
             if(searchvalue != null)
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="@searchvalue">
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
             } else
             {
                     <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
             }
 
-        
-
-                    <select name="zoek" class="selectOptie form-select" aria-label="selecteer zoek optie">
-                        <option selected>Selecteer zoek optie</option>
-                        <option value="bedrijfsnaam">Bedrijfsnaam</option>
-                        <option value="btwnummer">BTW nummer</option>
-                        <option value="klantnaam">Klant voornaam</option>
-                        <option value="klantfamillienaam">Klant famillienaam</option>
-                    </select>
-
-
-              
-           
         }
 
        
@@ -71,44 +58,130 @@
 
 <div class="bestellingen">
     
+    
+    @{
+        if (@Model.BestellingItems.Count > 0)
+        {
+            <table class="table table-hover">
 
-    <table class="table table-hover">
+                <thead>
+                    <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
+                </thead>
 
-        <thead>
-            <tr> <th>ID</th> <th>Besteldatum</th> <th>Klant naam</th> <th>Klant Email</th> <th>Bedrijf Naam</th> <th>BTW Nummer</th> <th>Bestelling status</th></tr>
-        </thead>
+                <tbody>
 
-        <tbody>
+                    @if (Model != null && Model.BestellingItems != null)
+                    {
+                        @foreach (var bestellingItem in Model.BestellingItems)
+                        {
 
-            @if(Model != null && Model.BestellingItems != null)
-            {
-                @foreach (var bestellingItem in Model.BestellingItems)
-                {
-                    <tr>
-                        <td>@bestellingItem.BestelId</td>
-                        <td>@bestellingItem.Besteldatum</td>
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
-                   
-                        <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                        <td>@bestellingItem.Bedrijfsnaam</td>
-                        <td>@bestellingItem.BtwNummer</td>
-                        <td>@bestellingItem.BestellingsStatus.Naam</td>
 
-                        <td>
-                            <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                                <button class="btn btn-success">Ga naar bestelling</button>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            } else
-            {
-                <p>No data found</p>
-            }
-      
-        
-    </tbody>
-    </table>
+
+                           
+                            <tr>
+                                <td>@bestellingItem.BestelId</td>
+                                <td>@bestellingItem.Besteldatum</td>
+                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
+
+                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
+                                <td>@bestellingItem.Bedrijfsnaam</td>
+                                <td>@bestellingItem.BtwNummer</td>
+
+
+
+
+                                @{
+
+
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Lopend")
+                                    {
+                                        <td><span style="color: #9d9d9d;">@bestellingItem.BestellingsStatus.Naam</span></td>
+                                    }
+
+
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Betaald")
+                                    {
+                                        <td><span style="color: #0f3;">@bestellingItem.BestellingsStatus.Naam</span></td>
+                                       
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Geannuleerd")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Klaarmaken")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Onderweg")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Geleverd")
+                                    {
+                                        <td><span style ="color: #9f3;">@bestellingItem.BestellingsStatus.Naam</span>
+
+                                        </td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Verloren")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Beschadigd")
+                                    {
+                                        <td><span style="color: red;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "Retour")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+
+                                    if (bestellingItem.BestellingsStatus.Naam == "RetourInStock")
+                                    {
+                                        <td><span style="color: darkorange;">@bestellingItem.BestellingsStatus.Naam</span></td>
+
+                                    }
+                                }
+
+
+
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                        <button class="btn btn-success">Ga naar bestelling</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+
+
+                </tbody>
+            </table>
+
+        } else
+        {
+            
+            <h2>Niks gevonden</h2>
+        }
+    }
+
+    
 </div>
 
 

@@ -4,51 +4,50 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Prularia</title>
+
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Prularia.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img id="logo" src="~/images/logo_prularia_zwart.jpg" /></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">                        
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Bestellingen" asp-action="Index">Bestellingen</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Klanten" asp-action="Index">Klanten</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="AdminPage">Admin</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Security" asp-action="Index">Account management</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        <div class="logo-container">
+            <img src="~/images/logo_prularia_transparant.png" alt="Prularia Logo" class="logo" />
+        </div>
+        <button class="toggle-button" onclick="toggleSidebar()">☰</button> <!-- Sidebar toggle button -->
     </header>
-    <div class="container">
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <div>
+            <a class="nav-link text-light" asp-area="" asp-controller="Bestellingen" asp-action="Index">Bestellingen</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Klanten" asp-action="Index">Klanten</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="Index">Account beheer</a>
+            <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="AdminPage">Admin</a>
+        </div>
+    </div>
+
+    <!-- Main content area -->
+    <div id="main" class="main-content">
+        <!-- Main content from views will be injected here -->
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - Prularia - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <!-- JavaScript for sidebar toggle -->
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("main");
+
+            sidebar.classList.toggle("closed");
+            mainContent.classList.toggle("closed");
+        }
+    </script>
+
+    <!-- Scripts for Bootstrap and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
