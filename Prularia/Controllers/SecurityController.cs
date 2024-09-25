@@ -3,6 +3,7 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Prularia.Controllers
 {
@@ -115,14 +116,14 @@ namespace Prularia.Controllers
 
         public IActionResult Securitygroepen()
         {
-            var securitygroepen = _securityService.GetAllSecuritygroepen();
+            var securitygroepen = _securityService.GetSecurityGroepen();
             return View(securitygroepen);
         }
 
         public IActionResult SecuritygroepDetails(int id)
         {
             var securitygroep = _securityService.GetSecuritygroep(id);
-            var members = _securityService.GetPersoneelsledenBySecuritygroepId(id);
+            var members = securitygroep.Personeelsleden;
             if (securitygroep == null) return NotFound();
 
             var vm = new SecuritygroepDetailsViewModel()
@@ -150,7 +151,7 @@ namespace Prularia.Controllers
 
         public IActionResult PersoneelsLeden()
         {
-            var personeelsleden = _securityService.GetAllPersoneelsleden();
+            var personeelsleden = _securityService.GetPersoneelsleden();
             return View(personeelsleden);
         }
         public IActionResult AdminPage() { return View(); }
@@ -195,26 +196,26 @@ namespace Prularia.Controllers
             return RedirectToAction(nameof(SecurityGroepen));
         }
 
-        public async Task<IActionResult> GroepAddPersoneel(int groepId)
-        {
-            Securitygroep groep = _securityService.GetSecuritygroep(groepId)!;
-            List<SelectListItem> items = new List<SelectListItem>();
+        //public async Task<IActionResult> GroepAddPersoneel(int groepId)
+        //{
+        //    Securitygroep groep = _securityService.GetSecuritygroep(groepId)!;
+        //    List<SelectListItem> items = new List<SelectListItem>();
 
-            foreach (Personeelslid lid in await _securityService.GetPersoneelsleden())
-                if (groep.Personeelsleden.Contains(lid) == false)
-                    items.Add(new SelectListItem { Value = lid.PersoneelslidId.ToString(), Text = $"{lid.Voornaam} {lid.Familienaam}" });
+        //    foreach (Personeelslid lid in await _securityService.GetPersoneelsleden())
+        //        if (groep.Personeelsleden.Contains(lid) == false)
+        //            items.Add(new SelectListItem { Value = lid.PersoneelslidId.ToString(), Text = $"{lid.Voornaam} {lid.Familienaam}" });
 
-            ViewBag.GroupId = groep.SecurityGroepId;
-            return View(items);
-        }
+        //    ViewBag.GroupId = groep.SecurityGroepId;
+        //    return View(items);
+        //}
 
-        [HttpPost]
-        public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
-        {
-            if (personeelId == -1) return RedirectToAction(nameof(GroepAddPersoneel), new { groepId = groepId });
+        //[HttpPost]
+        //public IActionResult GroepAddPersoneelDoorvoeren(int groepId, int personeelId)
+        //{
+        //    if (personeelId == -1) return RedirectToAction(nameof(GroepAddPersoneel), new { groepId = groepId });
 
-            _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
-            return RedirectToAction(nameof(SecurityGroepen));
-        }
+        //    _securityService.AddPersoneelToSecurityGroup(groepId, personeelId);
+        //    return RedirectToAction(nameof(SecurityGroepen));
+        //}
     }
 }

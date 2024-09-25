@@ -24,7 +24,7 @@ namespace Prularia.Repositories
 
         public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts.Find(id);
         public Personeelslid? GetPersoneelslid(int id) => _context.Personeelsleden.Find(id);
-        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Include(g => g.Personeelsleden).FirstOrDefault(g => g.SecurityGroepId == id);
+        public Securitygroep? GetSecuritygroep(int id) => _context.Securitygroepen.Include(g => g.Personeelsleden).ThenInclude(p => p.PersoneelslidAccount).FirstOrDefault(g => g.SecurityGroepId == id);
         public void UpdateAccount(Personeelslidaccount account)
         {
             _context.Update(account);

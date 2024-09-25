@@ -78,4 +78,6 @@ public class SecurityService
         groep.Personeelsleden.Add(lid);
         _securityRepo.UpdateSecurityGroep(groep);
     }
+
+    public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
 }
