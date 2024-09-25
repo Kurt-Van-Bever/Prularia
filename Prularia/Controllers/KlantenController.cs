@@ -82,6 +82,7 @@ public class KlantenController : Controller
         {
             var klant = _klantService.Get(form.KlantId);
             int? plaatsId = _klantService.GetPlaatsId(form.PostCode);
+            if(plaatsId == null) return  View("AdresWijzigenKlant", form);
             var bestaandAdres =  _klantService.CheckAdres(form.Straat, form.HuisNummer, plaatsId);
             
             if (bestaandAdres == null)
@@ -111,6 +112,7 @@ public class KlantenController : Controller
 
                 _klantService.Update(klant);
                 oudeAdres.Actief = false;
+                //oudeadresID pakken en dit in klantenlist.Contains doen? om te zien of dit adres actief is of niet
                 _klantService.UpdateAdres(oudeAdres);
 
                 TempData["Gelukt"] = "Adres is succesvol gewijzigd";
