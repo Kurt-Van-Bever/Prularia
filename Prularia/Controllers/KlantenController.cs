@@ -86,7 +86,6 @@ public class KlantenController : Controller
             
             if (bestaandAdres == null)
             {
-                
                 Adres adres = new Adres()
                 {
                     Straat = form.Straat,
@@ -114,12 +113,11 @@ public class KlantenController : Controller
                 oudeAdres.Actief = false;
                 _klantService.UpdateAdres(oudeAdres);
 
-                TempData["Gelukt"] = "Adres is succesvol gewijzigd en toegevoegd";
+                TempData["Gelukt"] = "Adres is succesvol gewijzigd";
                 return RedirectToAction(nameof(Details), new { id = klant.KlantId });
             }
 
             int bestaandAdresId = bestaandAdres.AdresId;
-            
 
             if (form.Type == "Facturatie")
             {
@@ -129,7 +127,9 @@ public class KlantenController : Controller
             {
                 klant.LeveringsAdresId = bestaandAdresId;
             }
-      
+            bestaandAdres.Actief =true; //indien het op false zou staan wordt het nu op true gezet
+            _klantService.UpdateAdres(bestaandAdres);
+
             _klantService.Update(klant);
             TempData["Gelukt"] = "Adres is succesvol gewijzigd";
             return RedirectToAction(nameof(Details), new { id = klant.KlantId });
