@@ -51,8 +51,7 @@ body {
     }
 
 .housestyle-warning {
-    background-color: #ABD7A8;
-    padding: 1em 1em;
+    padding: 1em 0em;
     margin: 1em 0em;
     font-weight: bold;
 }
@@ -109,5 +108,23 @@ body {
 .ImageLogin {
     width: 10%;
     margin-left: 5%;
+}
+.detailstitel {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    flex-wrap: nowrap;
+    margin-bottom: 2em;
+    margin-top: 2em;
+}
+.detailsoverzicht {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-bottom: 2em;
+    margin-top: 2em;
+    font-size: 1.2em;
+}
+#bestellingsgegevens {
+    width: 50%;
 }
 

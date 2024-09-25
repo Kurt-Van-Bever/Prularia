@@ -3,93 +3,59 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Bestelling details @Model.BestelId status @Model.BestellingsStatus.Naam</h1>
+<div class="detailstitel">
+    <h1>Bestelling # @Model.BestelId</h1>
+    <h1 style="background-color:@(Model.BestellingsStatus.Naam == "Betaald" 
+            ? "#6ea554"
+            : Model.BestellingsStatus.Naam == "Lopend" 
+            ? "#efbe7d"
+            : new[] {"Klaarmaken", "Onderweg", "Geleverd"}.Contains(Model.BestellingsStatus.Naam)
+            ? "#b1a2ca"
+            : new[] {"Geannuleerd", "Beschadigd", "Retour", "RetourInStock"}.Contains(Model.BestellingsStatus.Naam)
+            ? "#ff6d6a"
+            : "white");
+            padding: 0.5em;">
+            @Model.BestellingsStatus.Naam
+    </h1>
+</div>
 
 <div>
     <a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a>
 </div>
 
-<table class="table">
-     <tbody>
-        <tr>
-            <td><label asp-for="Besteldatum"></label></td>
-            <td>@Model.Besteldatum</td>
-        </tr>
-       
-        @if (!String.IsNullOrEmpty(Model.Betalingscode)){
-        <tr>
-            <td><label asp-for="Betalingscode"></label></td>
-            <td>@Model.Betalingscode</td>
-        </tr>
+
+<div class="detailsoverzicht">
+    <div id="bestellingsgegevens">
+        <div class="fw-bold">Bestelling</div>
+        <div>Datum: @Model.Besteldatum.ToShortDateString()</div>
+        <div>Betaalwijze:  @Model.Betaalwijze.Naam</div>
+        <div>Betaalcode: @Model.Betalingscode</div>
+        <div>Actiecode: @(Model.ActiecodeGebruikt == true ? "Ja" : "Neen")</div>
+        <div></div>
+        @if ( Model.Annulatiedatum != null && Model.Annulatie == true)
+        {
+            <div class="housestyle-warning">Deze bestelling werd geannuleerd op @(((DateTime)Model.Annulatiedatum).ToShortDateString())</div>
         }
-        <tr>
-            <td><label asp-for="Annulatie"></label></td>
-            @if (Model.Annulatie){
-                <td>ja</td>
-            }else
-            {
-                <td>nee</td>
-            }
-        </tr>
-        @if(Model.Annulatie){
-        <tr>
-            <td><label asp-for="Annulatiedatum"></label></td>
-            <td>@Model.Annulatiedatum</td>
-        </tr>
+    </div>
+    <div id="contactgegevens">
+        @if(Model.Bedrijfsnaam != null)
+        {
+            <div class="fw-bold">@Model.Bedrijfsnaam</div>
+            <div>BTW: @Model.BtwNummer</div>
         }
-        @if (!String.IsNullOrEmpty(Model.Terugbetalingscode)){
-        <tr>
-            <td><label asp-for="Terugbetalingscode"></label></td>
-        <td>@Model.Terugbetalingscode</td>
-        </tr>
-        }
-        <tr>
-            <td><label asp-for="ActiecodeGebruikt"></label></td>
-            @if (Model.ActiecodeGebruikt) {
-                <td>ja</td>
-            }else
-            {
-                <td>nee</td>
-            }
-        </tr>
-        @if(!String.IsNullOrEmpty(Model.Bedrijfsnaam)){
-        <tr>
-            <td><label asp-for="Bedrijfsnaam"></label></td>
-            <td>@Model.Bedrijfsnaam</td>
-        </tr>
-        }
-        @if(!String.IsNullOrEmpty(Model.BtwNummer)){
-        <tr>
-            <td><label asp-for="BtwNummer"></label></td>
-            <td>@Model.BtwNummer</td>
-        </tr>
-        }
-        <tr>
-            <td><label asp-for="Betaalwijze"></label></td>
-            <td>@Model.Betaalwijze.Naam</td>
-        </tr>
-        <tr>
-            <td><label asp-for="Voornaam"></label></td>
-            <td>@Model.Voornaam</td>
-        </tr>
-        <tr>
-            <td><label asp-for="Familienaam"></label></td>
-            <td>@Model.Familienaam</td>
-        </tr>
-        <tr>
-            <td><label asp-for="FacturatieAdres"></label></td>
-            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer</td>
-        </tr>
-        @*<tr>
-            <td><label asp-for="Klant"></label></td>
-            <td>@Model.Klant</td>
-        </tr>*@
-        <tr>
-            <td><label asp-for="LeveringsAdres"></label></td>
-            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer</td>
-        </tr>
-    </tbody>
-</table>
+        <div>@Model.Voornaam @Model.Familienaam</div>
+        <div id="leveringsadres">
+            <div class="fw-bold">Leveringsadres</div>
+            <div>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer</div>
+            <div>@Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam</div>
+        </div>
+        <div id="facturatieadres">
+            <div class="fw-bold">Facturatieadres</div>
+            <div>@Model.FacturatieAdres.Straat @Model.FacturatieAdres.HuisNummer</div>
+            <div>@Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam</div>
+        </div>
+    </div>
+</div>
 
 <h2>Bestellijnen</h2>
 <table class="table table-striped">
@@ -112,10 +78,6 @@
     </tbody>
 </table>
 
-@if ( Model.Annulatie == true)
-{
-    <div class="housestyle-warning">Deze bestelling werd reeds geannuleerd</div>
-}
 
 @if (Model.BestellingsStatus.Naam == "Lopend" || Model.BestellingsStatus.Naam == "Betaald" && Model.Annulatie == false)
 {
