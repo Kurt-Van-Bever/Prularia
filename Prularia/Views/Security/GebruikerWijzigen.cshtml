@@ -36,6 +36,6 @@
         <input asp-for="PaswoordResetten" />
     <div>
         <button type="submit" class="btn btn-primary">Wijzigingen doorvoeren</button>
-        <a asp-action="Index" class="btn btn-danger">Annuleren</a>
+            <a asp-action="PersoneelslidDetails" asp-route-id="@Model.PersoneelslidAccountId" class="btn btn-danger">Annuleren</a>
     </div>
 </form>

@@ -250,7 +250,7 @@ namespace Prularia.Controllers
                 account.Personeelsleden.First().InDienst = vm.InDienst;
                 if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
                 _securityService.UpdateAccount(account);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
             }
             return View("GebruikerWijzigen",vm);
         }

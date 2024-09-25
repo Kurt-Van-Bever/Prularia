@@ -77,7 +77,7 @@
 
 
 
-                           
+
                             <tr>
                                 <td>@bestellingItem.BestelId</td>
                                 <td>@bestellingItem.Besteldatum</td>
@@ -94,9 +94,9 @@
 
                                     <td>
 
-                                      
-                                            
-                                            <p style="color:@(bestellingItem.BestellingsStatus.Naam == "Betaald"
+
+
+                                        <p style="color:@(bestellingItem.BestellingsStatus.Naam == "Betaald"
                                                     ? "#6ea554"
                                                     : bestellingItem.BestellingsStatus.Naam == "Lopend"
                                                     ? "#efbe7d"
@@ -105,30 +105,30 @@
                                                     : new[] {"Geannuleerd", "Beschadigd", "Retour", "RetourInStock"}.Contains(bestellingItem.BestellingsStatus.Naam)
                                                     ? "#ff6d6a"
                                                     : "white");">
-                                                @bestellingItem.BestellingsStatus.Naam
-                                            </p>
-                                     
-                                    
+                                            @bestellingItem.BestellingsStatus.Naam
+                                        </p>
+
+
                                     </td>
-                 
-                                  
+
+
                                 }
 
 
 
-                        <td>
-                            <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
-                                <button class="btn btn-success">Ga naar bestelling</button>
-                            </a>
-                        </td>
-                    </tr>
-                }
-            } 
-      
-        
-    </tbody>
-    </table>
-</div>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                        <button class="btn btn-success">Ga naar bestelling</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    } 
 
 
+                </tbody>
+            </table>
+            
+        }
+        }
 
