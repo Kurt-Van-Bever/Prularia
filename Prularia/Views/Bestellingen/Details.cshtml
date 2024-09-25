@@ -62,7 +62,7 @@
             <tr>
                 <td>@lijn.BestellijnId</td>
                 <td>@lijn.Artikel.Naam</td>
-                <td>@lijn.Artikel.Prijs.ToString("F2")</td>
+                <td>@lijn.Artikel.Prijs.ToString("C", new System.Globalization.CultureInfo("nl-NL"))</td>
                 <td>@lijn.AantalBesteld</td>
             </tr>
         }
