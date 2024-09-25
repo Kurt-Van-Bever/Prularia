@@ -179,7 +179,7 @@
         } else
         {
             
-            <h2>Nieks gevonden</h2>
+            <h2>Niets gevonden</h2>
         }
     }
 
@@ -192,7 +192,8 @@
 @Html.PagedListPager(Model.BestellingItems, page => Url.Action("Index",
             new { page = page, 
                 searchValue = searchvalue,    
-                    sorteer = sorteervalue
+                sorteer = sorteervalue,
+                pageSize = ViewBag.pageSize
                 }),
         new PagedListRenderOptions
     {
@@ -200,3 +201,39 @@
             PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
     })
 
+@{
+    var pageSizeKeuzes = new SelectListItem[] {
+                        new SelectListItem() { Text = "10", Value = "10" },
+                        new SelectListItem() { Text = "20", Value = "20" },
+                        new SelectListItem() { Text = "30", Value = "30" },
+                        new SelectListItem() { Text = "40", Value = "40" },
+                        new SelectListItem() { Text = "50", Value = "50" },
+                        new SelectListItem() { Text = "100", Value = "100" }
+            };
+}
+<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" onchange="paginaWissel()">
+    
+</select> 
+@* @Html.DropDownListFor(ViewBag.pageSize, pageSizeKeuzes, "tekst", "value") *@
+    
+@* @Html.DropDownList("Pagina hoeveelheid", 
+                    ,
+                    new { onchange = Url.Action("Index",
+                        new
+                        {
+                            // page = page,
+                            searchValue = searchvalue,
+                            sorteer = sorteervalue,
+                            pageSize = ViewBag.pageSize
+                        })
+                        }) *@
+
+
+
+
+<script>
+    function paginaWissel(){      
+        var path = @HttpContextAccessor.HttpContext?.Request.Path;
+        window.location.href = path + '&pageSize=' + selectedValue;
+    }
+</script>
