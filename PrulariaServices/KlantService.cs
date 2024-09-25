@@ -72,7 +72,7 @@ public class KlantService
 
         if (sorteerOptie == "alfabetisch")
         {
-            return klanten.OrderBy(klant => klant.Natuurlijkepersoon?.Voornaam).ThenBy(klant => klant.Natuurlijkepersoon?.Familienaam).ToList();
+            return klanten.OrderBy(klant => klant.Rechtspersoon!.Naam).ToList();
         }
 
         if (sorteerOptie == "postcode")
