@@ -90,10 +90,11 @@ namespace Prularia.Controllers
         {
             if (this.ModelState.IsValid)
             {
-                int accountId = GetSession_LoggedInUser(HttpContext).UserId;
+                int accountId = GetSession_LoggedInUser(HttpContext)!.UserId;
+                
                 var account = _securityService.GetAccount(accountId);
 
-                if(!_securityService.VerifyPaswoord(vm.OudPaswoord, account!.Paswoord))
+                if(!_securityService.VerifyPaswoord(vm.OudPaswoord!, account!.Paswoord))
                 {
                     ViewBag.ErrorMessage = "Foutief paswoord ingegeven.";
                     return View(new PaswoordViewModel());
@@ -106,7 +107,7 @@ namespace Prularia.Controllers
                 }
 
                 _securityService.UpdatePassword(accountId, 
-                    _securityService.EncrypteerPaswoord(vm.NieuwPaswoord));
+                    _securityService.EncrypteerPaswoord(vm.NieuwPaswoord!));
                 return RedirectToAction(nameof(Index));
             }
             return View (vm);
@@ -122,7 +123,7 @@ namespace Prularia.Controllers
             //vm.Disabled = account.Disabled;
             vm.Voornaam = account.Personeelsleden.First().Voornaam;
             vm.Familienaam = account.Personeelsleden.First().Familienaam;
-            vm.InDienst = (bool)account.Personeelsleden.First().InDienst;
+            vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
             return View(vm);
         }
         [HttpPost]
@@ -131,6 +132,7 @@ namespace Prularia.Controllers
             if (this.ModelState.IsValid)
             {
                 var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
+                if (account == null) return NotFound();
                 account.Emailadres = vm.Emailadres;           
                 account.Personeelsleden.First().Voornaam = vm.Voornaam;
                 account.Personeelsleden.First().Familienaam = vm.Familienaam;
