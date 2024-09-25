@@ -124,6 +124,8 @@ body {
 
 }
 
+
+
 .inputWijzigen{
     width: 100%;
     clear: both;
@@ -174,7 +176,7 @@ body {
 }
 
 .card-header {
-    background-color: #bcd99d;
+    background-color: #a9cea8;
     color: white;
 }
 
@@ -186,13 +188,18 @@ body {
 }
 
 .loginfield {
-    display: inline-block;
-    margin-right: auto;
+    display: flex;
+    align-items: center; /* Aligns label and input vertically centered */
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.login-label {
+    width: 30%; /* Defines the width for the label */
+    text-align: right;
+    margin-right: 10px;
 }
 
-.login-label{
-    margin-right: 10%;
-}
 
 .ImageLogin {
     width: 10%;
@@ -217,3 +224,100 @@ body {
     width: 50%;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-responsive {
+    display: flex;
+    flex-direction: column;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+    .form-group label {
+        margin-bottom: 5px;
+    }
+
+    .form-group input {
+        padding: 8px;
+        font-size: 1rem;
+    }
+
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn {
+    padding: 10px 15px;
+    font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+    .form-group {
+        flex-direction: row;
+        align-items: center;
+    }
+
+        .form-group label {
+            width: 30%;
+            margin-bottom: 0;
+        }
+
+        .form-group input {
+            width: 70%;
+        }
+
+    .form-buttons {
+        justify-content: flex-end;
+    }
+
+   
+}

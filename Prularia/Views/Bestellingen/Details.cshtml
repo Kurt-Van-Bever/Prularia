@@ -19,9 +19,9 @@
     </h1>
 </div>
 
-<div>
-    <a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a>
-</div>
+
+   
+
 
 
 <div class="detailsoverzicht">
@@ -85,7 +85,7 @@
     <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupAnnuleren()">Annuleren</a>
 }
 
-<a asp-action="Index" class="btn btn-success">Terug naar alle bestellingen</a>
+<a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a><a asp-action="Index" class="btn btn-success">Terug naar alle bestellingen</a>
 
 <!-- Modal HTML (using Bootstrap) -->
     
