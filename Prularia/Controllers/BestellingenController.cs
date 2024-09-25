@@ -9,7 +9,7 @@ using Prularia.Filters;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
-public class BestellingenController : Controller
+public class BestellingenController : Controller 
 {
     private readonly BestellingService _bestellingService;
     private readonly IHttpContextAccessor _contextAccessor;
