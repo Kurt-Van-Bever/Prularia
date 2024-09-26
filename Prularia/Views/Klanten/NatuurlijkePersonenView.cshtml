@@ -1,5 +1,8 @@
-﻿@model List<NatuurlijkePersoonViewModel>
+﻿@model IPagedList<NatuurlijkePersoonViewModel>
 @inject IHttpContextAccessor HttpContextAccessor
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h2 class="mb-3 mt-2">Natuurlijke Personen</h2>
 
@@ -17,13 +20,14 @@
 <div class="formContainer">
     <form class="SearchForm" method="get">
         @{
+            <input name="pageSize" value="@Model.PageSize" type="hidden" />
             if (searchvalue != null)
             {
                 <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
             }
             else
             {
-                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="zoekveld">
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
             }
         }
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
@@ -31,7 +35,7 @@
             <option value="alfabetisch">Alfabetisch</option>
             <option value="postcode">Postcode</option>
         </select>
-        <button class="btn btn-success">Search</button>
+        <button class="btn btn-success">zoeken</button>
     </form>
 </div>
 
@@ -67,4 +71,42 @@
 else
 {
     <h2>Niks gevonden</h2>
+}
+
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+                        new
+                        {
+                            page = page,
+                            searchValue = searchvalue,
+                            // sorteer = sorteervalue,
+                            pageSize = ViewBag.pageSize
+                        }),
+                    new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+                    PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+                })
+
+<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+</select>
+
+@section Scripts {
+    <script>
+        document.getElementById("actionSelect").onchange = function () {
+            var selectedValue = this.value;
+
+
+            if (selectedValue) {
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                var params = url.searchParams;
+                params.set('pageSize', selectedValue);
+                params.set('page', "1");
+                url.search = params.toString();
+                window.location.href = url.toString();
+            }
+        }
+    </script>
 }

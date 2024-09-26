@@ -1,4 +1,7 @@
-﻿@model List<Personeelslid>
+﻿@model IPagedList<Personeelslid>
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "Personeelslid Accounts";
 }
@@ -33,4 +36,41 @@
 </table>
 
 <a asp-action="PersoneelToevoegen"><button class="btn btn-secondary">Nieuw personeelslid aanmaken</button></a>
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("PersoneelsLeden",
+                        new
+                        {
+                            page = page,
+                            // searchValue = searchvalue,
+                            // sorteer = sorteervalue,
+                            pageSize = ViewBag.pageSize
+                        }),
+                    new PagedListRenderOptions
+                {
+                    LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+                    PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+                })
+
+<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+</select>
+
+@section Scripts {
+    <script>
+        document.getElementById("actionSelect").onchange = function () {
+            var selectedValue = this.value;
+
+
+            if (selectedValue) {
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                var params = url.searchParams;
+                params.set('pageSize', selectedValue);
+                params.set('page', "1");
+                url.search = params.toString();
+                window.location.href = url.toString();
+            }
+        }
+    </script>
+}
 <a asp-action="AdminPage"><button class="btn btn-secondary">Terug</button></a>
