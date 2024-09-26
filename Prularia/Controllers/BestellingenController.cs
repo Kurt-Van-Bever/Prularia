@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Prularia.Services;
-using System.Buffers;
-using System.Web;
 using Prularia.Models;
 using Prularia.Filters;
 
