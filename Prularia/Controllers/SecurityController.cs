@@ -170,6 +170,7 @@ namespace Prularia.Controllers
             keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
 
             ViewBag.PageSizeKeuze = keuzes;
+            ViewBag.pageSize = pageSize;
             var personeelsleden = _securityService.GetAllPersoneelsleden()
                 .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
             return View(personeelsleden);
