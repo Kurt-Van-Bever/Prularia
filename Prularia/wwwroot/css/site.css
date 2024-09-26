@@ -238,7 +238,7 @@ body {
 .kleur-status-Geannuleerd,
 .kleur-status-Beschadigd,
 .kleur-status-Retour,
-.kleur-status-RetourInStock
+.kleur-status-RetourInStock,
 .kleur-status-Verloren{
     background-color: #ff6d6a;
 }
