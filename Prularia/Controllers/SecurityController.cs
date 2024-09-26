@@ -200,8 +200,8 @@ public class SecurityController : Controller
         return View(vm);
     }
 
-    [AuthorizationGroup("Cwebsite")]
     [HttpPost]
+    [AuthorizationGroup("Cwebsite")]
     public IActionResult PersoneelAccountSetDisabled(int personeelslidAccountId, bool disabled)
     {
         bool success = _securityService.TryPersoneelAccountSetDisabled(personeelslidAccountId, disabled);
@@ -254,7 +254,9 @@ public class SecurityController : Controller
 
         return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
     }
+
     [HttpGet]
+    [AuthorizationGroup("Cwebsite")]
     public async Task<IActionResult> GebruikerWijzigen(int id)
     {
         var account = await _securityService.GetPersoneelslidaccountAsync(id);
@@ -268,7 +270,9 @@ public class SecurityController : Controller
         vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
         return View(vm);
     }
+
     [HttpPost]
+    [AuthorizationGroup("Cwebsite")]
     public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
     {
         if (this.ModelState.IsValid)
@@ -286,6 +290,7 @@ public class SecurityController : Controller
         return View("GebruikerWijzigen", vm);
     }
 
+    [AuthorizationGroup("Cwebsite")]
     public IActionResult PersoneelToevoegen()
     {
         var vm = new PersoneelToevoegenViewModel();
@@ -294,6 +299,7 @@ public class SecurityController : Controller
     }
 
     [HttpPost]
+    [AuthorizationGroup("Cwebsite")]
     public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
     {
         if (ModelState.IsValid)

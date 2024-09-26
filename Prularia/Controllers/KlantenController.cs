@@ -7,7 +7,7 @@ using X.PagedList;
 
 namespace Prularia.Controllers;
 
-//[AuthorizationGroup("Cwebsite")]
+[AuthorizationGroup("Cwebsite")]
 public class KlantenController : Controller
 {
     private readonly KlantService _klantService;
