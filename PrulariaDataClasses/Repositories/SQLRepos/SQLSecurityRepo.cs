@@ -93,8 +93,19 @@ namespace Prularia.Repositories
                 .Include(p => p.Personeelsleden)
                 .FirstOrDefaultAsync(p => p.PersoneelslidAccountId == id);
         }
+        public void AddPersoneelslidAccount(Personeelslidaccount account)
+        {
+            _context.Personeelslidaccounts.Add(account);
+            _context.SaveChanges();
+        }
+        public void AddPersoneelslid(Personeelslid lid)
+        {
+            _context.Personeelsleden.Add(lid);
+            _context.SaveChanges();
+        }
+
     }
 
-        
-    }    
+
+}
 
