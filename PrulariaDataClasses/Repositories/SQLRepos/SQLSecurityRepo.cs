@@ -106,6 +106,6 @@ namespace Prularia.Repositories
 
     }
 
-        
-    }    
+
+}
 
