@@ -109,6 +109,7 @@
                 var url = new URL(currentUrl);
                 var params = url.searchParams;
                 params.set('pageSize', selectedValue);
+                params.set('page', "1");
                 url.search = params.toString();
                 window.location.href = url.toString();
             }
