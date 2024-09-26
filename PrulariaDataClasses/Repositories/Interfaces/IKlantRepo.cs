@@ -25,4 +25,10 @@ public interface IKlantRepo
     Task<Contactpersoon?> DisableContactpersoonAsync(int id);
     Task<Contactpersoon?> ActivateContactpersoonAsync(int id);
     Task<List<Bestelling?>> GetBestellingenByKlantAsync(int id);
+    Adres? CheckAdres(string straat, string huisNummer, int? plaatsId);
+    int? GetPlaatsId(string postcode);
+    void AdresToevoegenTabel(Adres adres);
+    void UpdateAdres(Adres adres);
+    Adres GetAdres(int id);
+   
 }

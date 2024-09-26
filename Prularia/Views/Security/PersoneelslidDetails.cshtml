@@ -28,7 +28,7 @@
             <td>@Model.Email</td>
         </tr>
         <tr>
-            <td><label asp-for="Disabled"></label></td>
+            <td><label asp-for="Disabled">Geblokkeerd</label></td>
             <td>@(Model.Disabled == true ? "ja" : "nee")</td>
         </tr>
     </tbody>
@@ -36,7 +36,7 @@
 
 <a asp-action="GebruikerWijzigen" asp-route-id="@Model.Id"><button class="btn btn-secondary">Wijzigen</button></a>
 
-<a asp-action="PersoneelslidDisabelen"><button class="btn btn-secondary">Disable</button></a>
+<a asp-action="PersoneelslidDisabelen"><button class="btn btn-secondary">Blokkeren</button></a>
 
 <a asp-action="Personeelsleden"><button class="btn btn-secondary">Terug</button></a>
 
