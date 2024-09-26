@@ -31,7 +31,10 @@
                 <td>@gebruiker.Email</td>
                 <td>@string.Join(",", gebruiker.Securitygroepen.Select(s => s.SecurityGroepId))</td>
                 <td>@(gebruiker.Disabled == true ? "ja" : "nee")</td>
-                <td><a asp-action="PersoneelslidDetails" asp-route-id="@gebruiker.Id"><button class="btn btn-secondary">Details</button></a></td>
+                <td>
+                    <a asp-action="PersoneelslidDetails" asp-route-id="@gebruiker.Id"
+                       class="btn btn-secondary">Details</a>
+                </td>
                 <td>
                     <form asp-action="PersoneelslidVerwijderenUitSecuritygroep" method="post">
                         <input type="hidden" name="gebruikerId" value="@gebruiker.Id" />
@@ -43,7 +46,9 @@
         }
     </tbody>
 </table>
-<a asp-action="PersoneelslidToevoegen" asp-route-id="@Model.Id"><button class="btn btn-secondary">Gebruiker toevoegen</button></a>
+<a asp-action="PersoneelslidToevoegen" asp-route-id="@Model.Id"
+   class="btn btn-secondary">Gebruiker toevoegen</a>
 
-<a asp-action="Securitygroepen"><button class="btn btn-secondary">Terug</button></a>
+<a asp-action="Securitygroepen"
+   class="btn btn-secondary">Terug</a>
 

@@ -23,13 +23,14 @@
                 <td>@account.Familienaam</td>
                 <td>@account.PersoneelslidAccount.Emailadres</td>
                 <td>
-                    <a asp-action="PersoneelslidDetails" asp-route-id="@account.PersoneelslidId">
-                        <button class="btn btn-success">Details</button>
+                    <a asp-action="PersoneelslidDetails" asp-route-id="@account.PersoneelslidId"
+                       class="btn btn-success">
+                        Details
                     </a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<a asp-action="AdminPage"><button class="btn btn-secondary">Terug</button></a>
-<a asp-action="PersoneelslidAanmaken"><button class="btn btn-secondary">Nieuw personeelslid aanmaken</button></a>
+<a asp-action="PersoneelslidAanmaken" class="btn btn-secondary">Nieuw personeelslid aanmaken</a>
+<a asp-action="AdminPage" class="btn btn-secondary">Terug</a>
