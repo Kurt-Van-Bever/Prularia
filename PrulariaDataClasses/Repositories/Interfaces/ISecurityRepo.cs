@@ -19,5 +19,7 @@ namespace Prularia.Repositories
         void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId);
         void AddPersoneelslidAccount(Personeelslidaccount account);
         void AddPersoneelslid(Personeelslid account);
+
+        Task<List<Personeelslid>> SearchPersoneelsLid(string searchValue);
     }      
 }
