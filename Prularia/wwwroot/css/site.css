@@ -249,3 +249,21 @@ body {
 .custom-width {
     max-width: 400px; 
 }
+.pagelist-item {
+    background-color: #bcd99d;
+    border-color: white;
+}
+
+.page-item.active .page-link {
+    z-index: 3;
+    color: #fff;
+    background-color: #bcd99d;
+    border-color: white;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d;
+    pointer-events: none;
+    background-color: #fff;
+    border-color: #dee2e6;
+}

@@ -4,6 +4,8 @@ using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
 using System.Numerics;
+using X.PagedList;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Prularia.Controllers
 {
@@ -11,6 +13,8 @@ namespace Prularia.Controllers
     {
         public const string SESSION_LOGGEDIN_USER = "LOGGEDIN_USERID";
         private readonly SecurityService _securityService;
+
+        private const int PAGINATION_DEFAULT_PAGESIZE = 5;
 
         public SecurityController(SecurityService securityService)
         {
@@ -150,9 +154,24 @@ namespace Prularia.Controllers
             return View(vm);
         }
 
-        public IActionResult PersoneelsLeden()
+        public IActionResult PersoneelsLeden( int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
         {
-            var personeelsleden = _securityService.GetAllPersoneelsleden();
+            var keuzes = new SelectListItem[] {
+            new SelectListItem() { Text = "5", Value = "5" },
+            new SelectListItem() { Text = "10", Value = "10" },
+            new SelectListItem() { Text = "20", Value = "20" },
+            new SelectListItem() { Text = "30", Value = "30" },
+            new SelectListItem() { Text = "40", Value = "40" },
+            new SelectListItem() { Text = "50", Value = "50" },
+            new SelectListItem() { Text = "100", Value = "100" }
+        };
+
+
+            keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+
+            ViewBag.PageSizeKeuze = keuzes;
+            var personeelsleden = _securityService.GetAllPersoneelsleden()
+                .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
             return View(personeelsleden);
         }
         public IActionResult AdminPage() { return View(); }
@@ -254,6 +273,35 @@ namespace Prularia.Controllers
                 return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
             }
             return View("GebruikerWijzigen",vm);
+        }
+
+        public IActionResult PersoneelToevoegen()
+        {
+            var vm = new PersoneelToevoegenViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = new Personeelslidaccount();
+                var lid = new Personeelslid();
+                account.Emailadres = vm.Emailadres;
+                account.Paswoord = _securityService.EncrypteerPaswoord( vm.Paswoord);
+                account.Disabled = vm.Disabled;
+
+                lid.Voornaam = vm.Voornaam;
+                lid.Familienaam = vm.Familienaam;
+                lid.InDienst = vm.InDienst;
+                lid.PersoneelslidAccount = account;
+
+                account.Personeelsleden.Add(lid); 
+                _securityService.PersoneelslidToevoegen(/*account,*/ lid);
+            }
+            return RedirectToAction("PersoneelsLeden");
         }
     }
 }
