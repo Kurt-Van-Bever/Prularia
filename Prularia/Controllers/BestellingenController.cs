@@ -2,6 +2,7 @@
 using Prularia.Services;
 using Prularia.Models;
 using Prularia.Filters;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 
 namespace Prularia.Controllers;
 
@@ -19,31 +20,44 @@ public class BestellingenController : Controller
 
     [HttpGet]
     public async Task<IActionResult> Index(string? searchValue, string? sorteer)
-    {
-        var vm = new BestellingenViewModel();
+    {      
 
         if (searchValue != null)
-        {
             HttpContext.Session.SetString("searchvalue", searchValue);
-        }
         else
-        {
             HttpContext.Session.Remove("searchvalue");
 
-        }
-
         if (sorteer != null)
-        {
             HttpContext.Session.SetString("sorteer", sorteer);
-        }
         else
-        {
             HttpContext.Session.Remove("sorteer");
+        
+        var bestellingen = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
+        var vm = new List<BestellingenViewModel>();
+        string email = string.Empty;
+        foreach (var b in bestellingen)
+        {
+            email = string.Empty;
+            if (b.Klant.Natuurlijkepersoon != null)
+                email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
+            else 
+                email = b.Klant.Rechtspersoon!.Contactpersonen
+                    .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam)!
+                    .GebruikersAccount.Emailadres;
+
+            vm.Add(new BestellingenViewModel
+            {
+                BestelId = b.BestelId,
+                Besteldatum = b.Besteldatum,
+                Voornaam = b.Voornaam,
+                Familienaam = b.Familienaam,
+                Emailadres = email,
+                Bedrijfsnaam = b.Bedrijfsnaam,
+                BtwNummer = b.BtwNummer,
+                BestellingsStatus = b.BestellingsStatus,
+            });
         }
-
-        vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
         return View(vm);
-
     }
 
 
@@ -76,18 +90,15 @@ public class BestellingenController : Controller
             Bestellijnen = b.Bestellijnen
         };
         if (b.Klant.Natuurlijkepersoon != null)
-        {
             vm.Email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
-        }
         else
-        {
             vm.Email = b.Klant.Rechtspersoon!.Contactpersonen
                 .FirstOrDefault(c => c.Voornaam == vm.Voornaam && c.Familienaam == vm.Familienaam)!
                 .GebruikersAccount.Emailadres;
-        }
+
 
         return View(vm);
-    }    
+    }
 
     [HttpPost]
     public async Task<IActionResult> AnnulerenPopupAsync(int id)

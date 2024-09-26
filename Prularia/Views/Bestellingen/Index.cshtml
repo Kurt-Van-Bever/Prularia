@@ -1,23 +1,24 @@
-﻿    @model BestellingenViewModel
-    @inject IHttpContextAccessor HttpContextAccessor
+﻿@model List<BestellingenViewModel>
+@inject IHttpContextAccessor HttpContextAccessor
 
 @{
-    ViewBag.Title = "Bestellingen"; 
+    ViewBag.Title = "Bestellingen";
     string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
     string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
-} 
+}
 
 <h2 class="mb-3 mt-2">Bestellingen</h2>
 
 <div class="formContainer mb-3">
     <form class="SearchForm" method="get">
         @{
-            if(searchvalue != null)
+            if (searchvalue != null)
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
-            } else
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
             }
         }
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
@@ -32,9 +33,9 @@
 
 
 <div class="bestellingen">
-    
+
     @{
-        if (@Model.BestellingItems.Count > 0)
+        if (@Model.Count > 0)
         {
             <table class="table table-hover">
 
@@ -44,21 +45,21 @@
 
                 <tbody>
 
-                    @if (Model != null && Model.BestellingItems != null)
+                    @if (Model != null && Model != null)
                     {
-                        @foreach (var bestellingItem in Model.BestellingItems)
+                        @foreach (var bestelling in Model)
                         {
                             <tr>
-                                <td>@bestellingItem.BestelId</td>
-                                <td>@bestellingItem.Besteldatum.ToShortDateString()</td>
-                                <td>@bestellingItem.Voornaam @bestellingItem.Familienaam</td>
+                                <td>@bestelling.BestelId</td>
+                                <td>@bestelling.Besteldatum.ToShortDateString()</td>
+                                <td>@bestelling.Voornaam @bestelling.Familienaam</td>
 
-                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                                <td>@bestellingItem.Bedrijfsnaam</td>
-                                <td>@bestellingItem.BtwNummer</td>
-                                <td>@bestellingItem.BestellingsStatus.Naam</td>
+                                <td>@bestelling.Emailadres</td>
+                                <td>@bestelling.Bedrijfsnaam</td>
+                                <td>@bestelling.BtwNummer</td>
+                                <td>@bestelling.BestellingsStatus.Naam</td>
                                 <td>
-                                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                    <a asp-action="Details" asp-route-id="@bestelling.BestelId">
                                         <button class="btn btn-success">Ga naar bestelling</button>
                                     </a>
                                 </td>

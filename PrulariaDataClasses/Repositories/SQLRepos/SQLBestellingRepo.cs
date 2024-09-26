@@ -22,6 +22,10 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
+            .Include(b => b.Klant)
+            .ThenInclude(k => k.Rechtspersoon)
+            .ThenInclude(rp => rp.Contactpersonen)
+            .ThenInclude(cp => cp.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .ToListAsync();
     }
@@ -61,6 +65,10 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
+            .Include(b => b.Klant)
+            .ThenInclude(k => k.Rechtspersoon)
+            .ThenInclude(rp => rp.Contactpersonen)
+            .ThenInclude(cp => cp.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .Where(bestelling => 
             bestelling.Bedrijfsnaam!.ToUpper().StartsWith(searchValue.ToUpper()) 

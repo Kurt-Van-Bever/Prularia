@@ -1,8 +1,13 @@
-﻿namespace Prularia.Models
+﻿namespace Prularia.Models;
+
+public class BestellingenViewModel
 {
-    public class BestellingenViewModel
-    {
-        //bestelling Items
-        public List<Bestelling> BestellingItems { get; set; } = new List<Bestelling>();
-    }
+    public int BestelId { get; set; }
+    public DateTime Besteldatum { get; set; }
+    public string? Voornaam { get; set; }
+    public string? Familienaam {  get; set; }
+    public string? Emailadres { get; set; }
+    public string? Bedrijfsnaam { get; set; }
+    public string? BtwNummer { get; set; }
+    public Bestellingsstatus BestellingsStatus { get; set; }
 }
