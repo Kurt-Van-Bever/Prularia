@@ -186,6 +186,7 @@ namespace Prularia.Controllers
         public IActionResult PersoneelToevoegen()
         {
             var vm = new PersoneelToevoegenViewModel();
+            vm.Securitygroepen = _securityService.GetAllSecurityGroepen() ?? new List<Securitygroep>(); ;
             return View(vm);
         }
 
@@ -203,6 +204,7 @@ namespace Prularia.Controllers
                 lid.Voornaam = vm.Voornaam;
                 lid.Familienaam = vm.Familienaam;
                 lid.InDienst = vm.InDienst;
+                lid.SecurityGroepen.Add(_securityService.GetSecuritygroep(vm.SelectedSecuritygroepId));
                 _securityService.PersoneelslidToevoegen(account, lid);
             }
             return RedirectToAction("Index");
