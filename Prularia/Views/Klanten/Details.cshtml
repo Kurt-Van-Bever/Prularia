@@ -4,9 +4,17 @@
 }
 
 <h1>Klant Details</h1>
-<div class="alert alert-success">
-    @TempData["Gelukt"]
-</div>
+
+@if(TempData["Gelukt"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Gelukt"]
+    </div>
+
+}
+
+
+
 <table class="table">
     <tbody>
         @if(Model.Natuurlijkepersoon != null)
