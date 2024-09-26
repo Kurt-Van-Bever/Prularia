@@ -325,4 +325,3 @@ public class SecurityController : Controller
             return View("GebruikerWijzigen",vm);
         }
     }
-}
