@@ -172,11 +172,12 @@ public class SecurityController : Controller
 
         keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
 
-        ViewBag.PageSizeKeuze = keuzes;
-        var personeelsleden = _securityService.GetAllPersoneelsleden()
-            .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
-        return View(personeelsleden);
-    }
+            ViewBag.PageSizeKeuze = keuzes;
+            ViewBag.pageSize = pageSize;
+            var personeelsleden = _securityService.GetAllPersoneelsleden()
+                .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
+            return View(personeelsleden);
+        }
 
     [AuthorizationGroup("Cwebsite")]
     public IActionResult AdminPage() { return View(); }

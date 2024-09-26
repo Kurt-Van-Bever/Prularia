@@ -19,6 +19,7 @@
 <div class="formContainer">
    <form class="SearchForm mb-3" method="get">
         @{
+            <input name="pageSize" value="@Model.PageSize" type="hidden" />
             if (searchvalue != null)
             {
                 <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">

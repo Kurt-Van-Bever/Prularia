@@ -14,7 +14,8 @@
 <div class="formContainer mb-3">
     <form class="SearchForm" method="get">
         @{
-            if (searchvalue != null)
+            <input name="pageSize" value="@Model.BestellingItems.PageSize" type="hidden" />
+            if(searchvalue != null)
             {
                 <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
             }
@@ -29,7 +30,7 @@
             <option value="alfabetisch">Alfabetisch</option>
             <option value="status">Status</option>
         </select>
-        <button class="btn btn-success">Zoeken</button>
+        <button class="btn btn-success">zoeken</button>
     </form>
 </div>
 
