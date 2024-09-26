@@ -3,7 +3,7 @@
     ViewData["Title"] = "Personeelsleden toevoegen aan Securitygroep";
 }
 
-<h1>Personeelsleden toevoegen aan Securitygroep</h1>
+<h2 class="mb-3 mt-2">Toevoegen aan Securitygroep @Model.SecuritygroepNaam</h2>
 
 <table class="table">
     <thead>
@@ -12,7 +12,7 @@
     <th>Familienaam</th>
     <th>Email</th>
     <th>SecurityGroepen</th>
-    <th>Disabled</th>
+    <th>Geblokkeerd</th>
     </thead>
     <tbody>
         @foreach (var gebruiker in Model.Personeelsleden)

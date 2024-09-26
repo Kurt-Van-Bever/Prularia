@@ -124,6 +124,8 @@ body {
 
 }
 
+
+
 .inputWijzigen{
     width: 100%;
     clear: both;
@@ -174,7 +176,7 @@ body {
 }
 
 .card-header {
-    background-color: #bcd99d;
+    background-color: #a9cea8;
     color: white;
 }
 
@@ -186,13 +188,18 @@ body {
 }
 
 .loginfield {
-    display: inline-block;
-    margin-right: auto;
+    display: flex;
+    align-items: center; /* Aligns label and input vertically centered */
+    justify-content: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+}
+.login-label {
+    width: 30%; /* Defines the width for the label */
+    text-align: right;
+    margin-right: 10px;
 }
 
-.login-label{
-    margin-right: 10%;
-}
 
 .ImageLogin {
     width: 10%;
@@ -217,6 +224,31 @@ body {
     width: 50%;
 }
 
+.kleur-status-Lopend {
+    background-color: #efbe7d;
+}
+.kleur-status-Betaald {
+    background-color: #6ea554;
+}
+.kleur-status-Klaarmaken,
+.kleur-status-Onderweg,
+.kleur-status-Geleverd {
+    background-color: #b1a2ca;
+}
+.kleur-status-Geannuleerd,
+.kleur-status-Beschadigd,
+.kleur-status-Retour,
+.kleur-status-RetourInStock {
+    background-color: #ff6d6a;
+}
+
+.status-label {
+    padding: 0.5em;
+}
+
+.custom-width {
+    max-width: 400px; 
+}
 .pagelist-item {
     background-color: #bcd99d;
     border-color: white;

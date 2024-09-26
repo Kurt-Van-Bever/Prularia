@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
 using System.Buffers;
+using System.Globalization;
 using System.Numerics;
 
 namespace Prularia.Repositories;
@@ -53,9 +54,10 @@ public class SQLBestellingRepo : IBestellingRepo
     public async Task<List<Bestelling>> SearchBestelling(string searchValue)
     {
 
-       
 
-        if(searchValue.IsNullOrEmpty())
+
+
+        if (searchValue.IsNullOrEmpty())
         {
             return await GetBestellingenAsync();
         }
@@ -71,9 +73,13 @@ public class SQLBestellingRepo : IBestellingRepo
             || bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
+         
 
-	}
+            ).ToListAsync();
+            
+
+    }
 
     public Task<List<Bestelling>> GetBestellingen()
     {

@@ -7,7 +7,7 @@ using X.PagedList;
 
 namespace Prularia.Controllers;
 
-[AuthorizationGroup("Cwebsite")]
+//[AuthorizationGroup("Cwebsite")]
 public class KlantenController : Controller
 {
     private readonly KlantService _klantService;
@@ -109,20 +109,87 @@ public class KlantenController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult AdresWijzigen(int id)
+    public IActionResult AdresWijzigenKlant(int id, string type)
     {
+
         var klant = _klantService.Get(id);
-        if (klant == null) return NotFound();
-
-        var vm = new AdresWijzigenViewModel();
+        if(klant == null) return NotFound();
+        var vm = new AdresWijzigenFormModel();
         vm.KlantId = klant.KlantId;
-        vm.FacturatieAdres = klant.FacturatieAdres;
-        vm.LeveringsAdres = klant.LeveringsAdres;
-
+        vm.Type = type;
         return View(vm);
     }
 
     [HttpPost]
+    public IActionResult AdresWijzigenDoorvoeren(AdresWijzigenFormModel form)
+    {
+        
+        if(this.ModelState.IsValid)
+        {
+            var klant = _klantService.Get(form.KlantId);
+            int? plaatsId = _klantService.GetPlaatsId(form.PostCode);
+            if(plaatsId == null)
+            {
+                ViewBag.PostCode = "Postcode bestaat niet";
+                return View("AdresWijzigenKlant", form);
+            }
+            var bestaandAdres =  _klantService.CheckAdres(form.Straat, form.HuisNummer, plaatsId);
+            
+            if (bestaandAdres == null)
+            {
+                Adres adres = new Adres()
+                {
+                    Straat = form.Straat,
+                    HuisNummer = form.HuisNummer,
+                    Bus = form.Bus ?? string.Empty,
+                    PlaatsId = plaatsId ?? 0,
+                    Actief = true
+                    
+                };
+                _klantService.AdresToevoegenTabel(adres);
+
+                Adres oudeAdres = new Adres();
+                if (form.Type == "Facturatie")
+                {
+                    oudeAdres = _klantService.GetAdres(klant.FacturatieAdresId);
+                    klant.FacturatieAdresId = adres.AdresId;
+                }
+                else if (form.Type == "Levering")
+                {
+                    oudeAdres = _klantService.GetAdres(klant.LeveringsAdresId);
+                    klant.LeveringsAdresId = adres.AdresId;
+                }
+
+                _klantService.Update(klant);
+                oudeAdres.Actief = false;
+                //oudeadresID pakken en dit in klantenlist.Contains doen? om te zien of dit adres actief is of niet
+                _klantService.UpdateAdres(oudeAdres);
+
+                TempData["Gelukt"] = "Adres is succesvol gewijzigd";
+                return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+            }
+
+            int bestaandAdresId = bestaandAdres.AdresId;
+
+            if (form.Type == "Facturatie")
+            {
+                klant.FacturatieAdresId = bestaandAdresId; 
+            }
+            else if (form.Type == "Levering")
+            {
+                klant.LeveringsAdresId = bestaandAdresId;
+            }
+            bestaandAdres.Actief =true; //indien het op false zou staan wordt het nu op true gezet
+            _klantService.UpdateAdres(bestaandAdres);
+
+            _klantService.Update(klant);
+            TempData["Gelukt"] = "Adres is succesvol gewijzigd";
+            return RedirectToAction(nameof(Details), new { id = klant.KlantId });
+        }
+         return View("AdresWijzigenKlant", form);
+    }
+  
+   /* [HttpPost]
     public IActionResult WijzigingDoorvoeren(AdresWijzigenViewModel vm)
     {
         if (this.ModelState.IsValid)
@@ -130,11 +197,12 @@ public class KlantenController : Controller
             var klant = _klantService.Get(vm.KlantId);
             klant!.FacturatieAdres = vm.FacturatieAdres;
             klant.LeveringsAdres= vm.LeveringsAdres;
+
             _klantService.Update(klant);
             return RedirectToAction(nameof(Details), new { id = vm.KlantId });
         }
         return View("Wijzigen", vm);
-    }
+    }*/
 
     public async Task<IActionResult> Details(int id)
     {

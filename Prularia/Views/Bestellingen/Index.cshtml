@@ -9,57 +9,31 @@
     string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 } 
 
+<h2 class="mb-3 mt-2">Bestellingen</h2>
 
-
-<h2>Bestellingen</h2>
-
-           
-
-<div class="formContainer">
-
+<div class="formContainer mb-3">
     <form class="SearchForm" method="get">
-
         @{
-
-
             if(searchvalue != null)
             {
                     <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
             } else
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="search">
+                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
             }
-
         }
-
-       
-
-
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
-
-           
             <option selected>Selecteer sorteer optie</option>
             <option value="datum">Datum</option>
             <option value="alfabetisch">Alfabetisch</option>
             <option value="status">Status</option>
         </select>
-
-
-
-        
-      
         <button class="btn btn-success">Zoeken</button>
-        
-
     </form>
-
-
-
 </div>
 
 
 <div class="bestellingen">
-    
     
     @{
         if (@Model.BestellingItems.Count > 0)
@@ -82,39 +56,20 @@
                            
                             <tr>
                                 <td>@bestellingItem.BestelId</td>
-                                <td>@bestellingItem.Besteldatum</td>
-                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.Voornaam @bestellingItem.Klant.Natuurlijkepersoon?.Familienaam</td>
+                                <td>@bestellingItem.Besteldatum.ToShortDateString()</td>
+                                <td>@bestellingItem.Voornaam @bestellingItem.Familienaam</td>
 
                                 <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
                                 <td>@bestellingItem.Bedrijfsnaam</td>
                                 <td>@bestellingItem.BtwNummer</td>
 
-
-
-
-                                @{
-
-                                    <td>
-
-
-
-                                        <p style="color:@(bestellingItem.BestellingsStatus.Naam == "Betaald"
-                                                    ? "#6ea554"
-                                                    : bestellingItem.BestellingsStatus.Naam == "Lopend"
-                                                    ? "#efbe7d"
-                                                    : new[] {"Klaarmaken", "Onderweg", "Geleverd"}.Contains(bestellingItem.BestellingsStatus.Naam)
-                                                    ? "#b1a2ca"
-                                                    : new[] {"Geannuleerd", "Beschadigd", "Retour", "RetourInStock"}.Contains(bestellingItem.BestellingsStatus.Naam)
-                                                    ? "#ff6d6a"
-                                                    : "white");">
-                                            @bestellingItem.BestellingsStatus.Naam
-                                        </p>
-
-
-                                    </td>
-
-
-                                }
+                                <td>
+                                    <p class="status-label kleur-status-@bestellingItem.BestellingsStatus.Naam" style="border-radius: 2%; text-align: center; color: white;">
+                                        @bestellingItem.BestellingsStatus.Naam
+                                    </p>
+                                     
+                              
+                                </td>
 
 
 
@@ -125,8 +80,7 @@
                                 </td>
                             </tr>
                         }
-                    } 
-
+                    }
 
                 </tbody>
             </table>

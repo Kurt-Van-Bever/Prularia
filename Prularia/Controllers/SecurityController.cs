@@ -209,6 +209,7 @@ namespace Prularia.Controllers
             var personeelsleden = _securityService.GetAllPersoneelsledenNotInGroup(id);
             var vm = new PersoneelslidToevoegenAanGroepViewModel
             {
+                SecuritygroepNaam = _securityService.GetSecuritygroep(id)!.Naam,
                 SecuritygroepId = id
             };
             foreach (var p in personeelsleden)

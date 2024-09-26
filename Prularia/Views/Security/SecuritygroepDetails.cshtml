@@ -3,7 +3,7 @@
     ViewData["Title"] = "Securitygroep Details";
 }
 
-<h1>Details Securitygroep - @Model.Naam</h1>
+<h2 class="mb-3 mt-2">Details Securitygroep - @Model.Naam</h2>
 
 <div>
     SecuritygroepId: @Model.Id
@@ -19,7 +19,7 @@
     <th>Familienaam</th>
     <th>Email</th>
     <th>SecurityGroepen</th>
-    <th>Disabled</th>
+    <th>Geblokkeerd</th>
     </thead>
     <tbody>
         @foreach (var gebruiker in Model.Personeelsleden)

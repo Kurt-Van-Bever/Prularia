@@ -33,7 +33,16 @@
 						<td>nee</td>
 					}
 					<td>@item.KlantId</td>
-					<td>@item.Betaald</td>
+				
+					@if (item.Betaald)
+					{
+						<td>ja</td>
+					}
+					else
+					{
+						<td>nee</td>
+					}
+
 					<td>@item.Betalingscode</td>
 				</tr>
 			}
