@@ -1,10 +1,6 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
-using System.Buffers;
-using System.Globalization;
-using System.Numerics;
 
 namespace Prularia.Repositories;
 

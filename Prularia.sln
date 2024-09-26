@@ -8,9 +8,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prularia", "Prularia\Prular
 		{1A65A330-AA0A-4B2D-BA7C-160B26854734} = {1A65A330-AA0A-4B2D-BA7C-160B26854734}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrulariaModels", "PrulariaDataClasses\PrulariaModels.csproj", "{1A65A330-AA0A-4B2D-BA7C-160B26854734}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrulariaData", "PrulariaDataClasses\PrulariaData.csproj", "{1A65A330-AA0A-4B2D-BA7C-160B26854734}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrulariaServices", "PrulariaServices\PrulariaServices.csproj", "{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PrulariaServices", "PrulariaServices\PrulariaServices.csproj", "{2F90DDB5-0D8F-48BA-AC3B-B4DA4E9DF63D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

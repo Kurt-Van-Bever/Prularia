@@ -1,5 +1,4 @@
 ﻿using Prularia.Models;
-using System;
 
 namespace Prularia.Repositories;
 

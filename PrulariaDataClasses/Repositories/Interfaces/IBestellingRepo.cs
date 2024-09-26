@@ -1,5 +1,4 @@
 ﻿using Prularia.Models;
-using System.Threading.Tasks;
 
 namespace Prularia.Repositories;
 

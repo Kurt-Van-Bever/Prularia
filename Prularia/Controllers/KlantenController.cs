@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Prularia.Filters;
 using Prularia.Models;
 using Prularia.Services;
 
