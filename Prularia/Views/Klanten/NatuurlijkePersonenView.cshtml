@@ -1,5 +1,8 @@
-﻿@model List<NatuurlijkePersoonViewModel>
+﻿@model IPagedList<NatuurlijkePersoonViewModel>
 @inject IHttpContextAccessor HttpContextAccessor
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 <h2>Natuurlijke Personen</h2>
 
@@ -94,3 +97,41 @@
     {
         <h2>Niks gevonden</h2>
     }
+</div>
+
+<br />
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+                new
+                {
+                    page = page,
+                    searchValue = searchvalue,
+                    // sorteer = sorteervalue,
+                    pageSize = ViewBag.pageSize
+                }),
+            new PagedListRenderOptions
+        {
+            LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+            PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+        })
+
+<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+</select>
+
+@section Scripts {
+    <script>
+        document.getElementById("actionSelect").onchange = function () {
+            var selectedValue = this.value;
+
+
+            if (selectedValue) {
+                var currentUrl = window.location.href;
+                var url = new URL(currentUrl);
+                var params = url.searchParams;
+                params.set('pageSize', selectedValue);
+                url.search = params.toString();
+                window.location.href = url.toString();
+            }
+        }
+    </script>
+}
