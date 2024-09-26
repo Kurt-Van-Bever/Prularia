@@ -56,7 +56,17 @@
                                 <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
                                 <td>@bestellingItem.Bedrijfsnaam</td>
                                 <td>@bestellingItem.BtwNummer</td>
-                                <td>@bestellingItem.BestellingsStatus.Naam</td>
+
+                                <td>
+                                    <p class="status-label kleur-status-@bestellingItem.BestellingsStatus.Naam" style="border-radius: 2%; text-align: center; color: white;">
+                                        @bestellingItem.BestellingsStatus.Naam
+                                    </p>
+                                     
+                              
+                                </td>
+
+
+
                                 <td>
                                     <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
                                         <button class="btn btn-success">Ga naar bestelling</button>
