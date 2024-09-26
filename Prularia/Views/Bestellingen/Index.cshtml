@@ -1,26 +1,27 @@
-﻿@model BestellingenViewModel
+﻿@model IPagedList<BestellingenViewModel>
 @inject IHttpContextAccessor HttpContextAccessor
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
-    ViewBag.Title = "Bestellingen"; 
+    ViewBag.Title = "Bestellingen";
     string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
     string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
-} 
+}
 
 <h2 class="mb-3 mt-2">Bestellingen</h2>
 
 <div class="formContainer mb-3">
     <form class="SearchForm" method="get">
         @{
-            <input name="pageSize" value="@Model.BestellingItems.PageSize" type="hidden" />
+            <input name="pageSize" value="ViewBag.pageSize" type="hidden" />
             if(searchvalue != null)
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
-            } else
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
             {
-                    <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
             }
         }
         <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
@@ -35,9 +36,9 @@
 
 
 <div class="bestellingen">
-    
+
     @{
-        if (@Model.BestellingItems.Count > 0)
+        if (@Model.Count > 0)
         {
             <table class="table table-hover">
 
@@ -47,35 +48,21 @@
 
                 <tbody>
 
-                    @if (Model != null && Model.BestellingItems != null)
+                    @if (Model != null && Model != null)
                     {
-                        @foreach (var bestellingItem in Model.BestellingItems)
+                        @foreach (var bestelling in Model)
                         {
-
-
-
-                           
                             <tr>
-                                <td>@bestellingItem.BestelId</td>
-                                <td>@bestellingItem.Besteldatum.ToShortDateString()</td>
-                                <td>@bestellingItem.Voornaam @bestellingItem.Familienaam</td>
+                                <td>@bestelling.BestelId</td>
+                                <td>@bestelling.Besteldatum.ToShortDateString()</td>
+                                <td>@bestelling.Voornaam @bestelling.Familienaam</td>
 
-                                <td>@bestellingItem.Klant.Natuurlijkepersoon?.GebruikersAccount.Emailadres</td>
-                                <td>@bestellingItem.Bedrijfsnaam</td>
-                                <td>@bestellingItem.BtwNummer</td>
-
+                                <td>@bestelling.Emailadres</td>
+                                <td>@bestelling.Bedrijfsnaam</td>
+                                <td>@bestelling.BtwNummer</td>
+                                <td>@bestelling.BestellingsStatus.Naam</td>
                                 <td>
-                                    <p class="status-label kleur-status-@bestellingItem.BestellingsStatus.Naam" style="border-radius: 2%; text-align: center; color: white;">
-                                        @bestellingItem.BestellingsStatus.Naam
-                                    </p>
-                                     
-                              
-                                </td>
-
-
-
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@bestellingItem.BestelId">
+                                    <a asp-action="Details" asp-route-id="@bestelling.BestelId">
                                         <button class="btn btn-success">Ga naar bestelling</button>
                                     </a>
                                 </td>
@@ -85,7 +72,6 @@
 
                 </tbody>
             </table>
-            
         }
         }
 
@@ -94,7 +80,7 @@
 
 <br />
 
-@Html.PagedListPager(Model.BestellingItems, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("Index",
             new { page = page, 
                 searchValue = searchvalue,    
                 sorteer = sorteervalue,
@@ -106,7 +92,7 @@
             PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
     })
 
-<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" >
+<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
     
 </select> 
 

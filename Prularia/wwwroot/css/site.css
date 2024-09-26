@@ -268,3 +268,7 @@ body {
     background-color: #fff;
     border-color: #dee2e6;
 }
+
+.totaal{
+    text-align:right;
+}

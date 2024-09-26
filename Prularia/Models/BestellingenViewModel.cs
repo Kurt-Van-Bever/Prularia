@@ -1,26 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using X.PagedList;
+﻿namespace Prularia.Models;
 
-namespace Prularia.Models
+public class BestellingenViewModel
 {
-    public class BestellingenViewModel
-    {
-        public BestellingenViewModel(int? pageSize = 50)
-        {
-            if (pageSize != null)
-                pageSizeKeuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
-        }
-
-        //bestelling Items
-        public IPagedList<Bestelling>? BestellingItems { get; set; } 
-
-        public SelectListItem[] pageSizeKeuzes = {
-            new SelectListItem() { Text = "10", Value = "10" },
-            new SelectListItem() { Text = "20", Value = "20" },
-            new SelectListItem() { Text = "30", Value = "30" },
-            new SelectListItem() { Text = "40", Value = "40" },
-            new SelectListItem() { Text = "50", Value = "50" },
-            new SelectListItem() { Text = "100", Value = "100" }
-        };
-    }
+    public int BestelId { get; set; }
+    public DateTime Besteldatum { get; set; }
+    public string? Voornaam { get; set; }
+    public string? Familienaam {  get; set; }
+    public string? Emailadres { get; set; }
+    public string? Bedrijfsnaam { get; set; }
+    public string? BtwNummer { get; set; }
+    public Bestellingsstatus BestellingsStatus { get; set; }
 }

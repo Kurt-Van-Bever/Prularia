@@ -22,9 +22,10 @@ public class BestellingDetailViewModel
 
     public string? BtwNummer { get; set; }
 
-    public string Voornaam { get; set; } 
+    public string? Voornaam { get; set; } 
 
-    public string Familienaam { get; set; } 
+    public string? Familienaam { get; set; } 
+    public string? Email {  get; set; }
 
     public Bestellingsstatus BestellingsStatus { get; set; } = null!;
 
@@ -36,5 +37,5 @@ public class BestellingDetailViewModel
 
     public Adres LeveringsAdres { get; set; } = null!;
 
-    public ICollection<Bestellijn> Bestellijnen { get; set; }
+    public ICollection<Bestellijn>? Bestellijnen { get; set; }
 }

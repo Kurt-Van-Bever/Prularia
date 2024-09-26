@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Prularia.Services;
-using System.Buffers;
-using System.Web;
 using Prularia.Models;
 using Prularia.Filters;
 using X.PagedList;
-using X.PagedList.Mvc.Core;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -21,44 +18,64 @@ public class BestellingenController : Controller
     {
         _bestellingService = bestellingService;
         _contextAccessor = httpContextAccessor;
-
-
-
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page, int? pageSize)
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer,
+        int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
     {
-        var vm = new BestellingenViewModel(pageSize ?? PAGINATION_DEFAULT_PAGESIZE);
+        var keuzes = new SelectListItem[] {
+            new SelectListItem() { Text = "3", Value = "3" },
+            new SelectListItem() { Text = "10", Value = "10" },
+            new SelectListItem() { Text = "20", Value = "20" },
+            new SelectListItem() { Text = "30", Value = "30" },
+            new SelectListItem() { Text = "40", Value = "40" },
+            new SelectListItem() { Text = "50", Value = "50" },
+            new SelectListItem() { Text = "100", Value = "100" }
+        };
 
-        if(searchValue != null)
-        {
+        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+
+        ViewBag.PageSizeKeuze = keuzes;
+        ViewBag.pageSize = pageSize;
+
+        if (searchValue != null)
             HttpContext.Session.SetString("searchvalue", searchValue);
-        } else
-        {
+        else
             HttpContext.Session.Remove("searchvalue");
 
-        }
-
-        
-
-   
-        if(sorteer != null) {
+        if (sorteer != null)
             HttpContext.Session.SetString("sorteer", sorteer);
-        } else
-        {
+        else
             HttpContext.Session.Remove("sorteer");
-        }
 
         var bestellingen = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
-        ViewBag.pageSize = pageSize;
-        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
-            return View(vm);
+        var vm = new List<BestellingenViewModel>();
+        string email = string.Empty;
+        foreach (var b in bestellingen)
+        {
+            email = string.Empty;
+            if (b.Klant.Natuurlijkepersoon != null)
+                email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
+            else
+                email = b.Klant.Rechtspersoon!.Contactpersonen
+                    .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam)!
+                    .GebruikersAccount.Emailadres;
 
+            vm.Add(new BestellingenViewModel
+            {
+                BestelId = b.BestelId,
+                Besteldatum = b.Besteldatum,
+                Voornaam = b.Voornaam,
+                Familienaam = b.Familienaam,
+                Emailadres = email,
+                Bedrijfsnaam = b.Bedrijfsnaam,
+                BtwNummer = b.BtwNummer,
+                BestellingsStatus = b.BestellingsStatus,
+            });
+        }
+        return View(vm.ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE)));
     }
-
-
-  
 
     public async Task<IActionResult> Details(int id)
     {
@@ -86,43 +103,15 @@ public class BestellingenController : Controller
 
             Bestellijnen = b.Bestellijnen
         };
+        if (b.Klant.Natuurlijkepersoon != null)
+            vm.Email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
+        else
+            vm.Email = b.Klant.Rechtspersoon!.Contactpersonen
+                .FirstOrDefault(c => c.Voornaam == vm.Voornaam && c.Familienaam == vm.Familienaam)!
+                .GebruikersAccount.Emailadres;
+
 
         return View(vm);
-    }
-    
-
-    [HttpGet]
-    public IActionResult Wijzigen(int id)
-    {
-        var bestelling = _bestellingService.Get(id);
-        if (bestelling == null) return NotFound();
-
-        var vm = new BestellingWijzigenViewModel();
-        vm.BestelId = bestelling.BestelId;
-        vm.Betaald = bestelling.Betaald;
-        vm.Bedrijfsnaam = bestelling.Bedrijfsnaam;
-        vm.BtwNummer = bestelling.BtwNummer;
-        vm.Voornaam = bestelling.Voornaam;
-        vm.Familienaam = bestelling.Familienaam;
-
-        return View(vm);
-    }
-
-    [HttpPost]
-    public IActionResult WijzigenDoorvoeren(BestellingWijzigenViewModel vm)
-    {
-        if (this.ModelState.IsValid)
-        {
-            var bestelling = _bestellingService.Get(vm.BestelId);
-            bestelling!.Betaald = vm.Betaald;
-            bestelling.Bedrijfsnaam = vm.Bedrijfsnaam;
-            bestelling.BtwNummer = vm.BtwNummer;
-            bestelling.Voornaam = vm.Voornaam;
-            bestelling.Familienaam = vm.Familienaam;
-            _bestellingService.Update(bestelling);
-            return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
-        }
-        return View("Wijzigen", vm);
     }
 
     [HttpPost]
@@ -139,5 +128,5 @@ public class BestellingenController : Controller
 
         return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
     }
-	
+
 }
