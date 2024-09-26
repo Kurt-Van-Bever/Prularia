@@ -1,6 +1,8 @@
-﻿    @model BestellingenViewModel
-    @inject IHttpContextAccessor HttpContextAccessor
-
+﻿@model BestellingenViewModel
+@inject IHttpContextAccessor HttpContextAccessor
+@using X.PagedList.Mvc.Core;
+@using X.PagedList;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Bestellingen"; 
     string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
@@ -77,7 +79,7 @@
 
 
 
-
+                           
                             <tr>
                                 <td>@bestellingItem.BestelId</td>
                                 <td>@bestellingItem.Besteldatum</td>
@@ -131,4 +133,44 @@
             
         }
         }
+
+    
+</div>
+
+<br />
+@* Page @(Model.BestellingItems.PageCount < Model.BestellingItems.PageNumber ? 0 : Model.BestellingItems.PageNumber) of @Model.BestellingItems.PageCount
+ *@
+@Html.PagedListPager(Model.BestellingItems, page => Url.Action("Index",
+            new { page = page, 
+                searchValue = searchvalue,    
+                sorteer = sorteervalue,
+                pageSize = ViewBag.pageSize
+                }),
+        new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] {"page-item" /* "pagelist-item" */ },
+            PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+    })
+
+<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" >
+    
+</select> 
+
+@section Scripts{
+    <script>
+        document.getElementById("actionSelect").onchange = function () {
+            var selectedValue = this.value;
+
+            
+            if (selectedValue) {                
+                var currentUrl = window.location.href;                
+                var url = new URL(currentUrl);                
+                var params = url.searchParams;                
+                params.set('pageSize', selectedValue);                
+                url.search = params.toString();                
+                window.location.href = url.toString();
+            }
+        }
+    </script>
+}
 
