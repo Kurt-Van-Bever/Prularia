@@ -246,6 +246,10 @@ body {
     padding: 0.5em;
 }
 
+.custom-width {
+    max-width: 400px; 
+}
+
 .totaal{
     text-align:right;
 }
