@@ -200,16 +200,51 @@ public class SecurityController : Controller
         return View(vm);
     }
 
-    [HttpPost]
+        [HttpPost]
     [AuthorizationGroup("Cwebsite")]
     public IActionResult PersoneelAccountSetDisabled(int personeelslidAccountId, bool disabled)
-    {
-        bool success = _securityService.TryPersoneelAccountSetDisabled(personeelslidAccountId, disabled);
-        if (success)
-            return RedirectToAction("~/Security/PersoneelsAccounts");
-        else
-            return NotFound();
-    }
+        {
+            bool success = _securityService.TryPersoneelAccountSetDisabled(personeelslidAccountId, disabled);
+            if (success)
+            {
+                var account = _securityService.GetAccount(personeelslidAccountId);
+                var personeelsleden = account!.Personeelsleden.ToList();
+                var personeelslid = personeelsleden.FirstOrDefault();
+                var personeelslidId = personeelslid.PersoneelslidId;
+                return RedirectToAction(nameof(PersoneelslidDetails), new { id = personeelslidId });
+            }
+            else
+                return NotFound();
+        }
+
+        public IActionResult PersoneelToevoegen()
+        {
+            var vm = new PersoneelToevoegenViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = new Personeelslidaccount();
+                var lid = new Personeelslid();
+                account.Emailadres = vm.Emailadres;
+                account.Paswoord = _securityService.EncrypteerPaswoord( vm.Paswoord);
+                account.Disabled = vm.Disabled;
+
+                lid.Voornaam = vm.Voornaam;
+                lid.Familienaam = vm.Familienaam;
+                lid.InDienst = vm.InDienst;
+                lid.PersoneelslidAccount = account;
+
+                account.Personeelsleden.Add(lid); 
+                _securityService.PersoneelslidToevoegen(/*account,*/ lid);
+            }
+            return RedirectToAction("PersoneelsLeden");
+        }
 
     [HttpGet]
     [AuthorizationGroup("Cwebsite")]
@@ -252,72 +287,42 @@ public class SecurityController : Controller
     {
         _securityService.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
 
-        return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
-    }
+            return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
+        }
 
-    [HttpGet]
+        [HttpGet]
     [AuthorizationGroup("Cwebsite")]
     public async Task<IActionResult> GebruikerWijzigen(int id)
-    {
-        var account = await _securityService.GetPersoneelslidaccountAsync(id);
-        if (account == null) return NotFound();
-        var vm = new GebruikerWijzigenViewModel();
-        vm.PersoneelslidAccountId = id;
-        vm.Emailadres = account.Emailadres;
-        //vm.Disabled = account.Disabled;
-        vm.Voornaam = account.Personeelsleden.First().Voornaam;
-        vm.Familienaam = account.Personeelsleden.First().Familienaam;
-        vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
-        return View(vm);
-    }
+        {
+            var account = await _securityService.GetPersoneelslidaccountAsync(id);
+            if (account == null) return NotFound();
+            var vm = new GebruikerWijzigenViewModel();
+            vm.PersoneelslidAccountId = id;
+            vm.Emailadres = account.Emailadres;
+            //vm.Disabled = account.Disabled;
+            vm.Voornaam = account.Personeelsleden.First().Voornaam;
+            vm.Familienaam = account.Personeelsleden.First().Familienaam;
+            vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
+            return View(vm);
+        }
 
-    [HttpPost]
+        [HttpPost]
     [AuthorizationGroup("Cwebsite")]
     public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
-    {
-        if (this.ModelState.IsValid)
         {
-            var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
-            if (account == null) return NotFound();
-            account.Emailadres = vm.Emailadres;
-            account.Personeelsleden.First().Voornaam = vm.Voornaam;
-            account.Personeelsleden.First().Familienaam = vm.Familienaam;
-            account.Personeelsleden.First().InDienst = vm.InDienst;
-            if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
-            _securityService.UpdateAccount(account);
-            return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
+            if (this.ModelState.IsValid)
+            {
+                var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
+                if (account == null) return NotFound();
+                account.Emailadres = vm.Emailadres;           
+                account.Personeelsleden.First().Voornaam = vm.Voornaam;
+                account.Personeelsleden.First().Familienaam = vm.Familienaam;
+                account.Personeelsleden.First().InDienst = vm.InDienst;
+                if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
+                _securityService.UpdateAccount(account);
+                return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
+            }
+            return View("GebruikerWijzigen",vm);
         }
-        return View("GebruikerWijzigen", vm);
-    }
-
-    [AuthorizationGroup("Cwebsite")]
-    public IActionResult PersoneelToevoegen()
-    {
-        var vm = new PersoneelToevoegenViewModel();
-
-        return View(vm);
-    }
-
-    [HttpPost]
-    [AuthorizationGroup("Cwebsite")]
-    public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
-    {
-        if (ModelState.IsValid)
-        {
-            var account = new Personeelslidaccount();
-            var lid = new Personeelslid();
-            account.Emailadres = vm.Emailadres;
-            account.Paswoord = _securityService.EncrypteerPaswoord(vm.Paswoord);
-            account.Disabled = vm.Disabled;
-
-            lid.Voornaam = vm.Voornaam;
-            lid.Familienaam = vm.Familienaam;
-            lid.InDienst = vm.InDienst;
-            lid.PersoneelslidAccount = account;
-
-            account.Personeelsleden.Add(lid);
-            _securityService.PersoneelslidToevoegen(/*account,*/ lid);
-        }
-        return RedirectToAction("PersoneelsLeden");
     }
 }

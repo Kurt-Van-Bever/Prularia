@@ -36,7 +36,13 @@
 
 <a asp-action="GebruikerWijzigen" asp-route-id="@Model.Id" class="btn btn-secondary">Wijzigen</a>
 
-<a asp-action="PersoneelslidDisabelen" class="btn btn-secondary">Blokkeren</a>
-
-<a asp-action="Personeelsleden" class="btn btn-secondary">Terug</bu></a>
+<form asp-action="PersoneelAccountSetDisabled"
+      asp-route-personeelslidAccountId="@Model.Id"
+      asp-route-disabled="@(!Model.Disabled)"
+      method="post" style="display:inline;">
+    <button type="submit" class="btn btn-secondary">
+        @(Model.Disabled ? "Activeren" : "Blokkeren")
+    </button>
+</form>
+<a asp-action="Personeelsleden"><button class="btn btn-secondary">Terug</button></a>
 
