@@ -44,14 +44,15 @@
         <tr>
             <td><label asp-for="FacturatieAdres"></label></td>
             <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer, @Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam
-                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" class="btn btn-primary" asp-route-type="Facturatie">Wijzig Adres</a>
+
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" asp-route-type="Facturatie" class="btn btn-success text-right">Wijzig Adres</a>
             </td>
         </tr>
 
         <tr>
             <td><label asp-for="LeveringsAdres"></label></td>
             <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer, @Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam
-                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" class="btn btn-primary" asp-route-type="Levering">Wijzig Adres</a>
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" asp-route-type="Levering" class="btn btn-success text-right">Wijzig Adres</a>
             </td>
         </tr>
     </tbody>

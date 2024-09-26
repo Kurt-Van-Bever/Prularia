@@ -110,7 +110,11 @@ public class KlantenController : Controller
         {
             var klant = _klantService.Get(form.KlantId);
             int? plaatsId = _klantService.GetPlaatsId(form.PostCode);
-            if(plaatsId == null) return  View("AdresWijzigenKlant", form);
+            if(plaatsId == null)
+            {
+                ViewBag.PostCode = "Postcode bestaat niet";
+                return View("AdresWijzigenKlant", form);
+            }
             var bestaandAdres =  _klantService.CheckAdres(form.Straat, form.HuisNummer, plaatsId);
             
             if (bestaandAdres == null)

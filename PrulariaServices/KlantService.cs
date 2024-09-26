@@ -65,9 +65,6 @@ public class KlantService
     {
        return  _klantRepo.GetAdres(id);
     }
-}
-
-
 
     public async Task<List<Klant>> searchNatuurlijkePersoonAsync(string searchValue, string sorteerOptie)
     {
@@ -93,8 +90,6 @@ public class KlantService
 
         List<Klant> klanten = await _klantRepo.searchRechtspersonenPersonen(searchValue);
 
-
-
         if (sorteerOptie == "alfabetisch")
         {
             return klanten.OrderBy(klant => klant.Rechtspersoon!.Naam).ToList();
@@ -106,23 +101,7 @@ public class KlantService
 
         return klanten;
     }
-
-
-
 }
-
-
-
-
-
-
-
-
-        //if (sorteerOptie == "status")
-        //{
-
-        //    return Bestellingen.OrderBy(bestelling => bestelling.BestellingsStatus.Naam).ToList();
-        //}
 
 
 
