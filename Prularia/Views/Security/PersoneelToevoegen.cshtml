@@ -34,16 +34,6 @@
         <label asp-for="Disabled" class="control-label"></label>
         <input asp-for="Disabled" type="checkbox" />
     </div>
-    @if (Model.Securitygroepen != null && Model.Securitygroepen.Any())
-    {
-    <div>
-        <label for="Securitygroepen">Selecteer Securitygroep</label>
-        @Html.DropDownListFor(model => model.SelectedSecuritygroepId,
-                 new SelectList(Model.Securitygroepen, "Id", "Name"),
-                 "-- Selecteer Securitygroep --",
-                 new { @class = "form-control" })
-    </div>
-    }
 
     <div>
         <input type="submit" value="Toevoegen" class="btn btn-primary" />
