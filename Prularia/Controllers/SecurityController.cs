@@ -274,5 +274,34 @@ namespace Prularia.Controllers
             }
             return View("GebruikerWijzigen",vm);
         }
+
+        public IActionResult PersoneelToevoegen()
+        {
+            var vm = new PersoneelToevoegenViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = new Personeelslidaccount();
+                var lid = new Personeelslid();
+                account.Emailadres = vm.Emailadres;
+                account.Paswoord = _securityService.EncrypteerPaswoord( vm.Paswoord);
+                account.Disabled = vm.Disabled;
+
+                lid.Voornaam = vm.Voornaam;
+                lid.Familienaam = vm.Familienaam;
+                lid.InDienst = vm.InDienst;
+                lid.PersoneelslidAccount = account;
+
+                account.Personeelsleden.Add(lid); 
+                _securityService.PersoneelslidToevoegen(/*account,*/ lid);
+            }
+            return RedirectToAction("PersoneelsLeden");
+        }
     }
 }
