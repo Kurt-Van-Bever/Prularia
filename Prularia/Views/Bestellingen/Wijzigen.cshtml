@@ -4,37 +4,39 @@
     ViewData["Title"] = "Bestelling wijzigen";
 }
 
-<h2>Bestelling wijzigen</h2>
+<h2 class="mb-3 mt-2">Bestelling wijzigen</h2>
 
-<form class="form" asp-action="WijzigenDoorvoeren" method="post">   
+<form class="form form-responsive" asp-action="WijzigenDoorvoeren" method="post">
     <input asp-for="BestelId" hidden />
-    <div>
+    <div class="form-group">
         <label asp-for="Betaald"></label>
-        <input asp-for="Betaald" />
+        <input asp-for="Betaald" type="checkbox" class="form-check-input" />
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="Bedrijfsnaam"></label>
-        <input asp-for="Bedrijfsnaam" />
+        <input asp-for="Bedrijfsnaam" class="form-control" />
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="BtwNummer"></label>
-        <input asp-for="BtwNummer" />
+        <input asp-for="BtwNummer" class="form-control" />
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="Voornaam"></label>
-        <input asp-for="Voornaam" />
+        <input asp-for="Voornaam" class="form-control" />
     </div>
 
-    <div>
+    <div class="form-group">
         <label asp-for="Familienaam"></label>
-        <input asp-for="Familienaam" />
+        <input asp-for="Familienaam" class="form-control" />
     </div>
 
-    <div>
-        <button type="submit" class="btn btn-primary">Wijzigingen doorvoeren</button>
-        <a asp-action="Details" asp-route-id="@Model.BestelId" class="btn btn-danger">Annuleren</a>
+    <div class="mt-3">
+        <button type="submit" class="btn btn-success">Wijzigingen doorvoeren</button>
+        <a asp-action="Details" asp-route-id="@Model.BestelId" class="btn btn-secondary">Annuleren</a>
     </div>
+
+
 </form>

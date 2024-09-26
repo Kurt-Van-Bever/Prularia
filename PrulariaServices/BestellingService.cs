@@ -36,10 +36,10 @@ public class BestellingService
         await _bestellingRepo.AnnulerenAsync(id);
     }
 
-    public async Task<List<Bestelling>> SearchBestellingAsync(string searchValue, string searchOptie, string sorteerOptie)
+    public async Task<List<Bestelling>> SearchBestellingAsync(string searchValue, string sorteerOptie)
     {
 
-        List<Bestelling> Bestellingen = await _bestellingRepo.SearchBestelling(searchValue, searchOptie);
+        List<Bestelling> Bestellingen = await _bestellingRepo.SearchBestelling(searchValue);
 
 
 

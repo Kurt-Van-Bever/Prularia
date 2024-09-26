@@ -24,6 +24,11 @@ public class SecurityService
         }
     }
 
+    public void UpdateAccount(Personeelslidaccount account)
+    {
+        _securityRepo.UpdateAccount(account);
+    }
+
     public bool VerifyPaswoord(string paswoord, string paswoordHash)
     {
         return BCrypt.Net.BCrypt.Verify(paswoord, paswoordHash);
@@ -57,11 +62,18 @@ public class SecurityService
     public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
     public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
     public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
-        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);
-    public List<Securitygroep> GetAllSecurityGroepen() => _securityRepo.GetAllSecurityGroepen();
-   
+        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);   
     public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
     public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
+    public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id) => _securityRepo.GetAllPersoneelsledenNotInGroup(id);
+    public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        => _securityRepo.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
+    public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        => _securityRepo.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
+    public async Task<Personeelslidaccount?> GetPersoneelslidaccountAsync(int id)
+    {
+        return await _securityRepo.GetAccountAsync(id);
+    }
 
     public void PersoneelslidToevoegen(/*Personeelslidaccount account,*/ Personeelslid lid)
     {
@@ -69,3 +81,4 @@ public class SecurityService
         _securityRepo.AddPersoneelslid(lid);
     }
 }
+

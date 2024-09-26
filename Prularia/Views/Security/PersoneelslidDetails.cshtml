@@ -3,7 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details - @Model.Voornaam @Model.Familienaam</h1>
+<h2 class="mt-2 mb-3">Details - @Model.Voornaam @Model.Familienaam</h2>
 
 <table class="table">
     <tbody>
@@ -28,15 +28,21 @@
             <td>@Model.Email</td>
         </tr>
         <tr>
-            <td><label asp-for="Disabled"></label></td>
+            <td><label asp-for="Disabled">Geblokkeerd</label></td>
             <td>@(Model.Disabled == true ? "ja" : "nee")</td>
         </tr>
     </tbody>
 </table>
 
-<a asp-action="PersoneelslidWijzigen"><button class="btn btn-secondary">Wijzigen</button></a>
+<a asp-action="GebruikerWijzigen" asp-route-id="@Model.Id"><button class="btn btn-secondary">Wijzigen</button></a>
 
-<a asp-action="PersoneelslidDisabelen"><button class="btn btn-secondary">Disable</button></a>
-
+<form asp-action="PersoneelAccountSetDisabled"
+      asp-route-personeelslidAccountId="@Model.Id"
+      asp-route-disabled="@(!Model.Disabled)"
+      method="post" style="display:inline;">
+    <button type="submit" class="btn btn-secondary">
+        @(Model.Disabled ? "Activeren" : "Blokkeren")
+    </button>
+</form>
 <a asp-action="Personeelsleden"><button class="btn btn-secondary">Terug</button></a>
 

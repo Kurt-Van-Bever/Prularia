@@ -12,32 +12,29 @@
 
 
 
-<form class="form" asp-action="PaswoordWijzigen" method="post">
+<form class="form" asp-action="PaswoordWijzigen" method="post" style="display: flex; justify-content: center;">
 
-
-    <div style="width: 50%;"  class="card text-center g-success mb-6" style="max-width: 20rem;">
-        <div class="card-header">Manage Account</div>
+    <div class="card text-center g-success mb-6" style="width: 100%; max-width: 600px; margin: 0 auto;">
+        <div class="card-header">Account</div>
         <div class="card-body text-center">
 
-   
-
-            <div class="inputWijzigen">
-                <label asp-for="OudPaswoord"></label>
-                <input asp-for="OudPaswoord" type="password" id="oudPaswoord"/>
+            <div class="inputWijzigen" style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <label asp-for="OudPaswoord" style="width: 30%; margin-right: 1rem;"></label>
+                <input asp-for="OudPaswoord" type="password" id="oudPaswoord" style="width: 50%;" />
                 <button type="button" class="btn btn-success" onclick="togglePassword('oudPaswoord')">Toon/Verberg</button>
                 <span asp-validation-for="OudPaswoord" class="text-danger"></span>
             </div>
 
-            <div class="inputWijzigen">
-                <label asp-for="NieuwPaswoord"></label>
-                <input asp-for="NieuwPaswoord" type="password" id="nieuwPaswoord" />
+            <div class="inputWijzigen" style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <label asp-for="NieuwPaswoord" style="width: 30%; margin-right: 1rem;"></label>
+                <input asp-for="NieuwPaswoord" type="password" id="nieuwPaswoord" style="width: 50%;" />
                 <button type="button" class="btn btn-success" onclick="togglePassword('nieuwPaswoord')">Toon/Verberg</button>
                 <span asp-validation-for="NieuwPaswoord" class="text-danger"></span>
             </div>
 
-            <div class="inputWijzigen">
-                <label asp-for="NieuwPaswoordConfirmatie"></label>
-                <input asp-for="NieuwPaswoordConfirmatie" type="password" id="nieuwPaswoordConfirmatie" />
+            <div class="inputWijzigen" style="display: flex; align-items: center; justify-content: center; margin-bottom: 1rem;">
+                <label asp-for="NieuwPaswoordConfirmatie" style="width: 30%; margin-right: 1rem;"></label>
+                <input asp-for="NieuwPaswoordConfirmatie" type="password" id="nieuwPaswoordConfirmatie" style="width: 50%;" />
                 <button type="button" class="btn btn-success" onclick="togglePassword('nieuwPaswoordConfirmatie')">Toon/Verberg</button>
                 <span asp-validation-for="NieuwPaswoordConfirmatie" class="text-danger"></span>
             </div>
@@ -47,13 +44,10 @@
                 <a asp-action="Index" class="btn btn-danger">Annuleren</a>
             </div>
 
-
         </div>
-
-
+    </div>
 
 </form>
-
 @section Scripts {
     <script>
         function togglePassword(fieldId) {
