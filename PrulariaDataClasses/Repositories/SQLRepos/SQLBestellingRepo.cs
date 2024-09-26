@@ -73,7 +73,9 @@ public class SQLBestellingRepo : IBestellingRepo
             || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
-         
+            || bestelling.Klant.Rechtspersoon!.Contactpersonen
+            .FirstOrDefault(c => c.Voornaam == bestelling.Voornaam && c.Familienaam == bestelling.Familienaam)!
+            .GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
 
             ).ToListAsync();
             
