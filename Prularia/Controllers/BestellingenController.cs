@@ -78,6 +78,16 @@ public class BestellingenController : Controller
 
             Bestellijnen = b.Bestellijnen
         };
+        if (b.Klant.Natuurlijkepersoon != null)
+        {
+            vm.Email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
+        }
+        else
+        {
+            vm.Email = b.Klant.Rechtspersoon!.Contactpersonen
+                .FirstOrDefault(c => c.Voornaam == vm.Voornaam && c.Familienaam == vm.Familienaam)!
+                .GebruikersAccount.Emailadres;
+        }
 
         return View(vm);
     }

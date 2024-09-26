@@ -37,6 +37,7 @@
             <div>BTW: @Model.BtwNummer</div>
         }
         <div>@Model.Voornaam @Model.Familienaam</div>
+        <div>@Model.Email</div>
         <div id="leveringsadres">
             <div class="fw-bold">Leveringsadres</div>
             <div>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer</div>
@@ -70,9 +71,7 @@
                 <td>@lijn.AantalBesteld</td>
                 <td>@((lijn.Artikel.Prijs * lijn.AantalBesteld).ToString("C", belgianCultureInfo))</td>
             </tr>
-            @{
-                totaal += lijn.Artikel.Prijs * lijn.AantalBesteld;
-            }
+            totaal += lijn.Artikel.Prijs * lijn.AantalBesteld;
         }
     </tbody>
     <tfoot>
