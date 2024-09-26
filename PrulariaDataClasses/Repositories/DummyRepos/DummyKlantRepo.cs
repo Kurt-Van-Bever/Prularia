@@ -69,6 +69,41 @@ public class DummyKlantRepo : IKlantRepo
         throw new NotImplementedException();
     }
 
+    public Task<Adres?> CheckAdresAsync(string straat, string huisNummer, string? bus)
+    {
+        throw new NotImplementedException();
+    }
+
+    public int? GetPlaatsId(string postcode)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void AdresToevoegenTabel(Adres adres)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<Adres?> CheckAdresAsync(string straat, string huisNummer, int plaatsId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Adres? CheckAdres(string straat, string huisNummer, int? plaatsId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void UpdateAdres(Adres adres)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Adres GetAdres(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<Klant>> searchNatuurlijkePersonen(string searchValue)
     {
         throw new NotImplementedException();
