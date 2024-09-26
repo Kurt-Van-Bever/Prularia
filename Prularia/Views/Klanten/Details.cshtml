@@ -4,6 +4,9 @@
 }
 
 <h1>Klant Details</h1>
+<div class="alert alert-success">
+    @TempData["Gelukt"]
+</div>
 <table class="table">
     <tbody>
         @if(Model.Natuurlijkepersoon != null)
@@ -40,12 +43,17 @@
         }
         <tr>
             <td><label asp-for="FacturatieAdres"></label></td>
-            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer, @Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam</td>
+            <td>@Model.FacturatieAdres.Straat  @Model.FacturatieAdres.HuisNummer, @Model.FacturatieAdres.Plaats.Postcode @Model.FacturatieAdres.Plaats.Plaatsnaam
+
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" asp-route-type="Facturatie" class="btn btn-success text-right">Wijzig Adres</a>
+            </td>
         </tr>
 
         <tr>
             <td><label asp-for="LeveringsAdres"></label></td>
-            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer, @Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam</td>
+            <td>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer, @Model.LeveringsAdres.Plaats.Postcode @Model.LeveringsAdres.Plaats.Plaatsnaam
+                <a asp-action="AdresWijzigenKlant" asp-route-id="@Model.KlantId" asp-route-type="Levering" class="btn btn-success text-right">Wijzig Adres</a>
+            </td>
         </tr>
     </tbody>
 </table>
@@ -54,16 +62,16 @@
 {
 
     <!-- Button to trigger the popup -->
-    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Disable</a>
+    <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupDisable(@Model.KlantId)">Blokkeren</a>
     <div class="modal fade" id="disableModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="disableModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant disabelen</h5>
+                    <h5 class="modal-title" id="disableModalLabel-@Model.KlantId">Klant blokkeren</h5>
                     <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">
-                    Weet u zeker dat u deze gebruiker wilt disabelen?
+                    Weet u zeker dat u deze gebruiker wilt blokkeren?
                 </div>
                 <div class="modal-footer">
                     <form asp-action="DisabelenKlantPopup" method="post">
@@ -78,14 +86,14 @@
 }
 @if (Model.Natuurlijkepersoon != null && Model.Natuurlijkepersoon.GebruikersAccount.Disabled == true)
 {
-    <div class="housestyle-warning">Deze klant is gedisabeled</div>
+    <div class="housestyle-warning">Deze klant is geblokkeerd</div>
     <!-- Button to trigger the popup -->
     <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupActivate(@Model.KlantId)">Activeren</a>
     <div class="modal fade" id="activateModal-@Model.KlantId" tabindex="-1" role="dialog" aria-labelledby="activateModalLabel-@Model.KlantId" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Bestelling Annuleren</h5>
+                    <h5 class="modal-title" id="activateModalLabel-@Model.KlantId">Klant activeren</h5>
                     <button type="button" class="btn btn-secondary p-1" data-dismiss="modal" aria-label="Close">X</button>
                 </div>
                 <div class="modal-body">

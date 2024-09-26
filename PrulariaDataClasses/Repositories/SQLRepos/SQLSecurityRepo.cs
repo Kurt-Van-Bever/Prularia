@@ -14,9 +14,7 @@ namespace Prularia.Repositories
 
         public async Task<Personeelslidaccount?> TryGetPersoneelslidAccountAsync(string email)
         {
-            var acc = await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
-            if (acc == null) return null;
-            return acc;
+            return await _context.Personeelslidaccounts.FirstOrDefaultAsync(a => a.Emailadres == email);
         }
 
         public async Task<Personeelslid?> TryGetPersoneelslidFromAccountAsync(Personeelslidaccount account)
@@ -56,6 +54,45 @@ namespace Prularia.Repositories
             return personeelslid;
         }
 
+        public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id)
+        {
+            var groep = _context.Securitygroepen.Find(id);
+
+            var personeelsleden = _context.Personeelsleden
+                .Where(p => !p.SecurityGroepen.Contains(groep!))
+                .Include(p => p.PersoneelslidAccount)
+                .Include(p => p.SecurityGroepen)
+                .ToList();
+
+            return personeelsleden;
+        }
+
+        public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        {
+            var groep = _context.Securitygroepen.Find(groepId);
+            var gebruiker = _context.Personeelsleden.Find(gebruikerId);
+            if (gebruiker != null && groep != null)
+                groep.Personeelsleden.Add(gebruiker);
+            _context.SaveChanges();
+        }
+
+        public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
+        {
+            var groep = _context.Securitygroepen
+                .Include(s => s.Personeelsleden)
+                .FirstOrDefault(s => s.SecurityGroepId == groepId);
+            var gebruiker = _context.Personeelsleden.Find(gebruikerId);
+            if (gebruiker != null && groep != null)
+                groep.Personeelsleden.Remove(gebruiker);
+            _context.SaveChanges();
+        }
+
+        public async Task<Personeelslidaccount?> GetAccountAsync(int id)
+        {
+            return await _context.Personeelslidaccounts
+                .Include(p => p.Personeelsleden)
+                .FirstOrDefaultAsync(p => p.PersoneelslidAccountId == id);
+        }
         public void AddPersoneelslidAccount(Personeelslidaccount account)
         {
             _context.Personeelslidaccounts.Add(account);
@@ -69,5 +106,6 @@ namespace Prularia.Repositories
 
     }
 
+        
+    }    
 
-}

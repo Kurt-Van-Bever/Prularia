@@ -16,6 +16,6 @@ public interface IBestellingRepo
     // Task<Bestelling?> Annuleren(int id);
     public Task<List<Bestelling>> GetBestellingen();
 
-    public Task<List<Bestelling>> SearchBestelling(string searchValue, string ZoekOptie);
+    public Task<List<Bestelling>> SearchBestelling(string searchValue);
      Task<Bestelling?> AnnulerenAsync(int id);
 }
