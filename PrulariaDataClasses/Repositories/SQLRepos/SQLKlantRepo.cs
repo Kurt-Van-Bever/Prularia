@@ -178,6 +178,40 @@ public class SQLKlantRepo : IKlantRepo
         return contactpersoon;
     }
 
+    public  Adres? CheckAdres(string straat, string huisNummer, int? plaatsId)
+    {
+        return  _context.Adressen
+            .FirstOrDefault(a =>
+                a.Straat == straat &&
+                a.HuisNummer == huisNummer &&
+                a.PlaatsId == plaatsId);
+    }
 
+    public int? GetPlaatsId(string postcode)
+    {
+        var plaats = _context.Plaatsen.FirstOrDefault(p => p.Postcode == postcode);
+        return plaats?.PlaatsId;
+    }
+
+
+
+    public void AdresToevoegenTabel(Adres adres)
+    {
+        _context.Adressen.Add(adres);
+        _context.SaveChanges();
+    }
+
+    public void UpdateAdres(Adres adres)
+    {
+        if (adres != null)
+        {
+            _context.SaveChanges();
+        }
+    }
+
+    public Adres? GetAdres(int id)
+    {
+        return _context.Adressen.Find(id);
+    }
 }
 

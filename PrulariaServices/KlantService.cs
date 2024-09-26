@@ -1,4 +1,5 @@
-﻿using Prularia.Models;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Prularia.Models;
 using Prularia.Repositories;
 
 namespace Prularia.Services;
@@ -41,6 +42,30 @@ public class KlantService
         => await _klantRepo.DisableContactpersoonAsync(id);
     public async Task<Contactpersoon?> ActivateContactpersoonAsync(int id) 
         => await _klantRepo.ActivateContactpersoonAsync(id);
+
+    public Adres? CheckAdres(string straat, string huisNummer, int? plaatsId)
+    {
+        return  _klantRepo.CheckAdres(straat, huisNummer, plaatsId);
+    }
+
+
+    public int? GetPlaatsId(string postcode)
+    {
+        return _klantRepo.GetPlaatsId(postcode);
+    } 
+    public void AdresToevoegenTabel(Adres adres)
+    {
+        _klantRepo.AdresToevoegenTabel(adres);
+    }
+    public void UpdateAdres(Adres adres)
+    {
+        _klantRepo.UpdateAdres(adres);
+    }
+    public Adres GetAdres(int id)
+    {
+       return  _klantRepo.GetAdres(id);
+    }
+}
 
 
 

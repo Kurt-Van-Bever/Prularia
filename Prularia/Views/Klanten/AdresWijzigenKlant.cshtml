@@ -1,0 +1,34 @@
+﻿@model AdresWijzigenFormModel
+
+@{
+    ViewData["Title"] = "Adres Wijzigen";
+}
+
+<h2>Adres wijzigen</h2>
+
+<form class="form" asp-action="AdresWijzigenDoorvoeren" method="post">
+    <input asp-for="KlantId" hidden />
+    <input asp-for="Type" hidden />
+    <div>
+        <label asp-for="Straat"></label>
+        <input asp-for="Straat" />
+    </div>
+
+    <div>
+        <label asp-for="HuisNummer"></label>
+        <input asp-for="HuisNummer" />
+    </div>
+    <div>
+        <label asp-for="PostCode"></label>
+        <input asp-for="PostCode" />
+    </div>
+
+    <div>
+        <label asp-for="Bus"></label>
+        <input asp-for="Bus" />
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">Wijzigingen doorvoeren</button>
+    </div>
+</form>
