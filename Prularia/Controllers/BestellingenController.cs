@@ -18,9 +18,6 @@ public class BestellingenController : Controller
     {
         _bestellingService = bestellingService;
         _contextAccessor = httpContextAccessor;
-
-
-
     }
 
     [HttpGet]
@@ -28,32 +25,32 @@ public class BestellingenController : Controller
     {
         var vm = new BestellingenViewModel();
 
-        if(searchValue != null)
+        if (searchValue != null)
         {
             HttpContext.Session.SetString("searchvalue", searchValue);
-        } else
+        }
+        else
         {
             HttpContext.Session.Remove("searchvalue");
 
         }
 
-        
-
-   
-        if(sorteer != null) {
+        if (sorteer != null)
+        {
             HttpContext.Session.SetString("sorteer", sorteer);
-        } else
+        }
+        else
         {
             HttpContext.Session.Remove("sorteer");
         }
-  
-            vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
-            return View(vm);
+
+        vm.BestellingItems = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
+        return View(vm);
 
     }
 
 
-  
+
 
     public async Task<IActionResult> Details(int id)
     {
@@ -84,7 +81,7 @@ public class BestellingenController : Controller
 
         return View(vm);
     }
-    
+
 
     [HttpGet]
     public IActionResult Wijzigen(int id)
@@ -134,5 +131,5 @@ public class BestellingenController : Controller
 
         return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
     }
-	
+
 }
