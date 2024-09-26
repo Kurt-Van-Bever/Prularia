@@ -90,42 +90,7 @@ public class BestellingenController : Controller
         }
 
         return View(vm);
-    }
-
-
-    [HttpGet]
-    public IActionResult Wijzigen(int id)
-    {
-        var bestelling = _bestellingService.Get(id);
-        if (bestelling == null) return NotFound();
-
-        var vm = new BestellingWijzigenViewModel();
-        vm.BestelId = bestelling.BestelId;
-        vm.Betaald = bestelling.Betaald;
-        vm.Bedrijfsnaam = bestelling.Bedrijfsnaam;
-        vm.BtwNummer = bestelling.BtwNummer;
-        vm.Voornaam = bestelling.Voornaam;
-        vm.Familienaam = bestelling.Familienaam;
-
-        return View(vm);
-    }
-
-    [HttpPost]
-    public IActionResult WijzigenDoorvoeren(BestellingWijzigenViewModel vm)
-    {
-        if (this.ModelState.IsValid)
-        {
-            var bestelling = _bestellingService.Get(vm.BestelId);
-            bestelling!.Betaald = vm.Betaald;
-            bestelling.Bedrijfsnaam = vm.Bedrijfsnaam;
-            bestelling.BtwNummer = vm.BtwNummer;
-            bestelling.Voornaam = vm.Voornaam;
-            bestelling.Familienaam = vm.Familienaam;
-            _bestellingService.Update(bestelling);
-            return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
-        }
-        return View("Wijzigen", vm);
-    }
+    }    
 
     [HttpPost]
     public async Task<IActionResult> AnnulerenPopupAsync(int id)

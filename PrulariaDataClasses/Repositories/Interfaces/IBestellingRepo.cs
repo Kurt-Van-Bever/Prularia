@@ -10,9 +10,7 @@ public interface IBestellingRepo
     public Task<List<Bestelling>> GetBestellingenAsync();
     
     Task<Bestelling?> GetAsync(int id);
-    void Update(Bestelling bestelling);
-
-    Bestelling? Get(int id);
+    
     // Task<Bestelling?> Annuleren(int id);
     public Task<List<Bestelling>> GetBestellingen();
 

@@ -43,18 +43,7 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(b => b.LeveringsAdres).ThenInclude(la => la.Plaats)
             .Include(b => b.Bestellijnen).ThenInclude(l => l.Artikel)
             .FirstOrDefaultAsync(b => b.BestelId == id);
-    }
-
-    public void Update(Bestelling bestelling)
-    {
-        if (bestelling != null)
-        {
-            _context.Bestellingen.Update(bestelling);
-            _context.SaveChanges();
-        }
-    }
-
-    public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
+    }   
 
   
     public async Task<List<Bestelling>> SearchBestelling(string searchValue)
