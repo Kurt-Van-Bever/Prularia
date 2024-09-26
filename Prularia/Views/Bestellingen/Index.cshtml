@@ -1,4 +1,4 @@
-﻿@model BestellingenViewModel
+﻿@model IPagedList<BestellingenViewModel>
 @inject IHttpContextAccessor HttpContextAccessor
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
@@ -79,7 +79,7 @@
 
 <br />
 
-@Html.PagedListPager(Model.BestellingItems, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("Index",
             new { page = page, 
                 searchValue = searchvalue,    
                 sorteer = sorteervalue,
@@ -91,7 +91,7 @@
             PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
     })
 
-<select id="actionSelect" asp-items="@Model.pageSizeKeuzes" >
+<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
     
 </select> 
 

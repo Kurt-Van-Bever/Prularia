@@ -3,7 +3,7 @@ using Prularia.Services;
 using Prularia.Models;
 using Prularia.Filters;
 using X.PagedList;
-using X.PagedList.Mvc.Core;
+using Microsoft.AspNetCore.Mvc.Rendering;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -21,9 +21,23 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page, int? pageSize)
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer,
+        int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
     {
-        var vm = new BestellingenViewModel(pageSize ?? PAGINATION_DEFAULT_PAGESIZE);
+        var keuzes = new SelectListItem[] {
+            new SelectListItem() { Text = "3", Value = "3" },
+            new SelectListItem() { Text = "10", Value = "10" },
+            new SelectListItem() { Text = "20", Value = "20" },
+            new SelectListItem() { Text = "30", Value = "30" },
+            new SelectListItem() { Text = "40", Value = "40" },
+            new SelectListItem() { Text = "50", Value = "50" },
+            new SelectListItem() { Text = "100", Value = "100" }
+        };
+
+        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+
+        ViewBag.PageSizeKeuze = keuzes;
+        ViewBag.pageSize = keuzes;
 
         if (searchValue != null)
             HttpContext.Session.SetString("searchvalue", searchValue);
@@ -34,7 +48,7 @@ public class BestellingenController : Controller
             HttpContext.Session.SetString("sorteer", sorteer);
         else
             HttpContext.Session.Remove("sorteer");
-        
+
         var bestellingen = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
         var vm = new List<BestellingenViewModel>();
         string email = string.Empty;
@@ -43,7 +57,7 @@ public class BestellingenController : Controller
             email = string.Empty;
             if (b.Klant.Natuurlijkepersoon != null)
                 email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
-            else 
+            else
                 email = b.Klant.Rechtspersoon!.Contactpersonen
                     .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam)!
                     .GebruikersAccount.Emailadres;
@@ -60,16 +74,8 @@ public class BestellingenController : Controller
                 BestellingsStatus = b.BestellingsStatus,
             });
         }
-
-        var bestellingen = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
-        ViewBag.pageSize = pageSize;
-        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
-            return View(vm);
-
+        return View(vm.ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE)));
     }
-
-
-
 
     public async Task<IActionResult> Details(int id)
     {
