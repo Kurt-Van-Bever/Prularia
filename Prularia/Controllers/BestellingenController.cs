@@ -37,7 +37,7 @@ public class BestellingenController : Controller
         keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
 
         ViewBag.PageSizeKeuze = keuzes;
-        ViewBag.pageSize = keuzes;
+        ViewBag.pageSize = pageSize;
 
         if (searchValue != null)
             HttpContext.Session.SetString("searchvalue", searchValue);
