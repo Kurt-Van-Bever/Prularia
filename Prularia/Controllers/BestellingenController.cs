@@ -2,7 +2,8 @@
 using Prularia.Services;
 using Prularia.Models;
 using Prularia.Filters;
-
+using X.PagedList;
+using X.PagedList.Mvc.Core;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -11,6 +12,8 @@ public class BestellingenController : Controller
     private readonly BestellingService _bestellingService;
     private readonly IHttpContextAccessor _contextAccessor;
 
+    private const int PAGINATION_DEFAULT_PAGESIZE = 50;
+
     public BestellingenController(BestellingService bestellingService, IHttpContextAccessor httpContextAccessor)
     {
         _bestellingService = bestellingService;
@@ -18,8 +21,9 @@ public class BestellingenController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(string? searchValue, string? sorteer)
-    {      
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page, int? pageSize)
+    {
+        var vm = new BestellingenViewModel(pageSize ?? PAGINATION_DEFAULT_PAGESIZE);
 
         if (searchValue != null)
             HttpContext.Session.SetString("searchvalue", searchValue);
@@ -56,7 +60,12 @@ public class BestellingenController : Controller
                 BestellingsStatus = b.BestellingsStatus,
             });
         }
-        return View(vm);
+
+        var bestellingen = await _bestellingService.SearchBestellingAsync(searchValue!, sorteer!);
+        ViewBag.pageSize = pageSize;
+        vm.BestellingItems = new PagedList<Bestelling>(bestellingen, (page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
+            return View(vm);
+
     }
 
 

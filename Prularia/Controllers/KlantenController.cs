@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Prularia.Filters;
 using Prularia.Models;
 using Prularia.Services;
+using X.PagedList;
 
 namespace Prularia.Controllers;
 
@@ -8,16 +11,32 @@ namespace Prularia.Controllers;
 public class KlantenController : Controller
 {
     private readonly KlantService _klantService;
+
+    private const int PAGINATION_DEFAULT_PAGESIZE = 3; //voor de presentatie klein gezet
     public KlantenController(KlantService klantService)
     {
         _klantService = klantService;
     }
 
-    public async Task<IActionResult> Index(string? searchValue, string? sorteer)
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
     {
         string klantType = TempData["KlantType"] as string ?? "natuurlijk";
         TempData.Keep("KlantType");
 
+        var keuzes  =  new SelectListItem[] {
+            new SelectListItem() { Text = "3", Value = "3" },
+            new SelectListItem() { Text = "10", Value = "10" },
+            new SelectListItem() { Text = "20", Value = "20" },
+            new SelectListItem() { Text = "30", Value = "30" },
+            new SelectListItem() { Text = "40", Value = "40" },
+            new SelectListItem() { Text = "50", Value = "50" },
+            new SelectListItem() { Text = "100", Value = "100" }
+        };
+
+        
+        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+
+        ViewBag.PageSizeKeuze = keuzes;
 
 
         if (searchValue != null && klantType == "natuurlijk" )
@@ -56,7 +75,7 @@ public class KlantenController : Controller
                 Achternaam = n.Natuurlijkepersoon.Familienaam,
                 Postcode = n.FacturatieAdres.Plaats.Postcode,
                 Email = n.Natuurlijkepersoon.GebruikersAccount.Emailadres
-            }).ToList();
+            }).ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
 
             return View("NatuurlijkePersonenView", vm);
         }
@@ -69,7 +88,7 @@ public class KlantenController : Controller
                 Naam = r.Rechtspersoon!.Naam,
                 BTWNummer = r.Rechtspersoon.BtwNummer,
                 Postcode = r.FacturatieAdres.Plaats.Postcode,
-            }).ToList();
+            }).ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
 
             return View("RechtspersonenView", vm);
         }

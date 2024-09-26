@@ -3,6 +3,9 @@ using Prularia.Models;
 using Prularia.Services;
 using Prularia.Filters;
 using System.Text.Json;
+using System.Numerics;
+using X.PagedList;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Prularia.Controllers;
 
@@ -12,10 +15,12 @@ public class SecurityController : Controller
     public const string SESSION_LOGGEDIN_USER = "LOGGEDIN_USERID";
     private readonly SecurityService _securityService;
 
-    public SecurityController(SecurityService securityService)
-    {
-        _securityService = securityService;
-    }
+        private const int PAGINATION_DEFAULT_PAGESIZE = 5;
+
+        public SecurityController(SecurityService securityService)
+        {
+            _securityService = securityService;
+        }
 
     [AuthorizationGroup("Cwebsite")]
     public IActionResult Index()
@@ -152,11 +157,26 @@ public class SecurityController : Controller
     }
 
     [AuthorizationGroup("Cwebsite")]
-    public IActionResult PersoneelsLeden()
-    {
-        var personeelsleden = _securityService.GetAllPersoneelsleden();
-        return View(personeelsleden);
-    }
+    public IActionResult PersoneelsLeden( int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
+        {
+            var keuzes = new SelectListItem[] {
+            new SelectListItem() { Text = "5", Value = "5" },
+            new SelectListItem() { Text = "10", Value = "10" },
+            new SelectListItem() { Text = "20", Value = "20" },
+            new SelectListItem() { Text = "30", Value = "30" },
+            new SelectListItem() { Text = "40", Value = "40" },
+            new SelectListItem() { Text = "50", Value = "50" },
+            new SelectListItem() { Text = "100", Value = "100" }
+        };
+
+
+            keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+
+            ViewBag.PageSizeKeuze = keuzes;
+            var personeelsleden = _securityService.GetAllPersoneelsleden()
+                .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
+            return View(personeelsleden);
+        }
 
     [AuthorizationGroup("Cwebsite")]
     public IActionResult AdminPage() { return View(); }
@@ -231,40 +251,67 @@ public class SecurityController : Controller
     {
         _securityService.RemovePersoneelslidToSecuritygroep(gebruikerId, groepId);
 
-        return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
-    }
-    [HttpGet]
-    [AuthorizationGroup("Cwebsite")]
-    public async Task<IActionResult> GebruikerWijzigen(int id)
-    {
-        var account = await _securityService.GetPersoneelslidaccountAsync(id);
-        if (account == null) return NotFound();
-        var vm = new GebruikerWijzigenViewModel();
-        vm.PersoneelslidAccountId = id;
-        vm.Emailadres = account.Emailadres;
-        //vm.Disabled = account.Disabled;
-        vm.Voornaam = account.Personeelsleden.First().Voornaam;
-        vm.Familienaam = account.Personeelsleden.First().Familienaam;
-        vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
-        return View(vm);
-    }
-
-    [HttpPost]
-    [AuthorizationGroup("Cwebsite")]
-    public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
-    {
-        if (this.ModelState.IsValid)
-        {
-            var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
-            if (account == null) return NotFound();
-            account.Emailadres = vm.Emailadres;           
-            account.Personeelsleden.First().Voornaam = vm.Voornaam;
-            account.Personeelsleden.First().Familienaam = vm.Familienaam;
-            account.Personeelsleden.First().InDienst = vm.InDienst;
-            if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
-            _securityService.UpdateAccount(account);
-            return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
+            return RedirectToAction(nameof(SecuritygroepDetails), new { id = groepId });
         }
-        return View("GebruikerWijzigen",vm);
+        [HttpGet] 
+        public async Task<IActionResult> GebruikerWijzigen(int id)
+        {
+            var account = await _securityService.GetPersoneelslidaccountAsync(id);
+            if (account == null) return NotFound();
+            var vm = new GebruikerWijzigenViewModel();
+            vm.PersoneelslidAccountId = id;
+            vm.Emailadres = account.Emailadres;
+            //vm.Disabled = account.Disabled;
+            vm.Voornaam = account.Personeelsleden.First().Voornaam;
+            vm.Familienaam = account.Personeelsleden.First().Familienaam;
+            vm.InDienst = account.Personeelsleden.First().InDienst ?? false;
+            return View(vm);
+        }
+        [HttpPost]
+        public async Task<IActionResult> GebruikerWijzigen(GebruikerWijzigenViewModel vm)
+        {
+            if (this.ModelState.IsValid)
+            {
+                var account = await _securityService.GetPersoneelslidaccountAsync(vm.PersoneelslidAccountId);
+                if (account == null) return NotFound();
+                account.Emailadres = vm.Emailadres;           
+                account.Personeelsleden.First().Voornaam = vm.Voornaam;
+                account.Personeelsleden.First().Familienaam = vm.Familienaam;
+                account.Personeelsleden.First().InDienst = vm.InDienst;
+                if (vm.PaswoordResetten) account.Paswoord = _securityService.EncrypteerPaswoord("Prularia"); //na testen in database terug aanpassen
+                _securityService.UpdateAccount(account);
+                return RedirectToAction(nameof(PersoneelslidDetails), new { id = vm.PersoneelslidAccountId });
+            }
+            return View("GebruikerWijzigen",vm);
+        }
+
+        public IActionResult PersoneelToevoegen()
+        {
+            var vm = new PersoneelToevoegenViewModel();
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public IActionResult Toevoegen(PersoneelToevoegenViewModel vm)
+        {
+            if (ModelState.IsValid)
+            {
+                var account = new Personeelslidaccount();
+                var lid = new Personeelslid();
+                account.Emailadres = vm.Emailadres;
+                account.Paswoord = _securityService.EncrypteerPaswoord( vm.Paswoord);
+                account.Disabled = vm.Disabled;
+
+                lid.Voornaam = vm.Voornaam;
+                lid.Familienaam = vm.Familienaam;
+                lid.InDienst = vm.InDienst;
+                lid.PersoneelslidAccount = account;
+
+                account.Personeelsleden.Add(lid); 
+                _securityService.PersoneelslidToevoegen(/*account,*/ lid);
+            }
+            return RedirectToAction("PersoneelsLeden");
+        }
     }
 }

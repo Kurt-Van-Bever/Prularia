@@ -69,8 +69,8 @@ public class SQLBestellingRepo : IBestellingRepo
             .Where(bestelling => 
             bestelling.Bedrijfsnaam!.ToUpper().StartsWith(searchValue.ToUpper()) 
             || bestelling.BtwNummer!.ToUpper().StartsWith(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon!.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon!.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Klant.Rechtspersoon!.Contactpersonen

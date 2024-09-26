@@ -35,7 +35,7 @@ public class BestellingService
 
 
         if (sorteerOptie == "alfabetisch") {
-            return Bestellingen.OrderBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Voornaam).ThenBy(bestelling => bestelling.Klant.Natuurlijkepersoon?.Familienaam).ToList(); 
+            return Bestellingen.OrderBy(bestelling => bestelling.Voornaam).ThenBy(bestelling => bestelling.Familienaam).ToList(); 
         }
 
         if(sorteerOptie == "datum")

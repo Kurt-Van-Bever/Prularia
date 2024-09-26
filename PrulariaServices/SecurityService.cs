@@ -73,5 +73,11 @@ public class SecurityService
     {
         return await _securityRepo.GetAccountAsync(id);
     }
+
+    public void PersoneelslidToevoegen(/*Personeelslidaccount account,*/ Personeelslid lid)
+    {
+        //_securityRepo.AddPersoneelslidAccount(account);
+        _securityRepo.AddPersoneelslid(lid);
+    }
 }
 
