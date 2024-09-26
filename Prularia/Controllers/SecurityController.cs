@@ -197,15 +197,18 @@ namespace Prularia.Controllers
                 var account = new Personeelslidaccount();
                 var lid = new Personeelslid();
                 account.Emailadres = vm.Emailadres;
-                account.Paswoord = vm.Paswoord;
+                account.Paswoord = _securityService.EncrypteerPaswoord( vm.Paswoord);
                 account.Disabled = vm.Disabled;
 
                 lid.Voornaam = vm.Voornaam;
                 lid.Familienaam = vm.Familienaam;
                 lid.InDienst = vm.InDienst;
-                _securityService.PersoneelslidToevoegen(account, lid);
+                lid.PersoneelslidAccount = account;
+
+                account.Personeelsleden.Add(lid); 
+                _securityService.PersoneelslidToevoegen(/*account,*/ lid);
             }
-            return RedirectToAction("Index");
+            return RedirectToAction("PersoneelsLeden");
         }
     }
 }

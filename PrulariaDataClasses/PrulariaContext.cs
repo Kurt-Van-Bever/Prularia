@@ -739,7 +739,7 @@ public partial class PrulariaContext : DbContext
 
         modelBuilder.Entity<Personeelslidaccount>(entity =>
         {
-            entity.HasKey(e => e.PersoneelslidAccountId).HasName("PRIMARY");
+            entity.HasKey(e => e.PersoneelslidAccountId).HasName("PRIMARY"); 
 
             entity.ToTable("personeelslidaccounts");
 
