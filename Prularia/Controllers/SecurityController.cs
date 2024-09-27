@@ -49,6 +49,9 @@ public class SecurityController : Controller
             if (lid == null)
                 return View(nameof(Login), model);
 
+            HttpContext.Session.SetString("UserName", $"{lid.Voornaam} {lid.Familienaam}");
+            HttpContext.Session.SetString("Email", lid.PersoneelslidAccount.Emailadres);
+
             // found user
             List<string> groups = new List<string>();
             foreach (var group in lid.SecurityGroepen)
@@ -63,6 +66,7 @@ public class SecurityController : Controller
     public IActionResult Logout()
     {
         HttpContext.Session.Remove(SESSION_LOGGEDIN_USER);
+        HttpContext.Session.Clear();
         return RedirectToAction(nameof(Login));
     }
 

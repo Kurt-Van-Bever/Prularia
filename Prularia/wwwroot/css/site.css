@@ -280,3 +280,10 @@ body {
 .totaal{
     text-align:right;
 }
+
+
+
+.btn-tertiary {
+    background-color: #87a687;
+    border-color: white;
+}
