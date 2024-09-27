@@ -1,12 +1,34 @@
 ﻿@model IPagedList<Personeelslid>
 @using X.PagedList.Mvc.Core;
 @using X.PagedList;
+@inject IHttpContextAccessor HttpContextAccessor
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewData["Title"] = "Personeelslid Accounts";
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvaluePersoneel");
 }
 
 <h2 class="mt-2 mb-3">Personeelslid Accounts</h2>
+<div class="formContainer mb-3">
+    <form class="SearchForm" method="get">
+        @{
+            <input name="pageSize" value="@Model!.PageSize" type="hidden" />
+            if (searchvalue != null)
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
+            }
+        }
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+            <option selected>Selecteer sorteer optie</option>
+            <option value="alfabetisch">Alfabetisch</option>
+        </select>
+        <button class="btn btn-success">zoeken</button>
+    </form>
+</div>
 
 <table class="table table-hover">
     <thead>
