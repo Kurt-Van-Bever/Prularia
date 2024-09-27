@@ -61,7 +61,7 @@ public class BestellingenController : Controller
         }
         else
         {
-            bestellingen = await getMockData(searchValue);           
+            bestellingen = await getMockData(searchValue, sorteer);           
         }
         ViewBag.useMock = _useMock.ToString();
         var vm = new List<BestellingenViewModel>();
@@ -153,7 +153,7 @@ public class BestellingenController : Controller
 
 
     //enkel voor presentatie
-    private async Task<List<Bestelling>> getMockData(string? searchValue)
+    private async Task<List<Bestelling>> getMockData(string? searchValue, string? sorteerOptie)
     {
         if (string.IsNullOrEmpty(searchValue))
             searchValue = string.Empty;
@@ -172,6 +172,9 @@ public class BestellingenController : Controller
             {
                 if (string.IsNullOrEmpty(waarde))
                     return false;
+                // opsiepoepsie spelfoutje gemaakt
+                if (waardes[7] == "Geanuleerd")
+                    waardes[7] = "Geannuleerd";
                 if (waarde.ToString().ToUpper().StartsWith(searchValue.ToUpper()))
                     return true;
                 else return
@@ -187,10 +190,14 @@ public class BestellingenController : Controller
                 bestelling.BestelId = Convert.ToInt32(waardes[0]);
                 bestelling.Besteldatum = Convert.ToDateTime(waardes[1]);
                 bestelling.Klant.Natuurlijkepersoon.Voornaam = waardes[2];
+                bestelling.Voornaam = waardes[2];
                 bestelling.Klant.Natuurlijkepersoon.Familienaam = waardes[3];
+                bestelling.Familienaam = waardes[3];
                 bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres = waardes[4];
                 bestelling.Bedrijfsnaam = waardes[5];
                 bestelling.BtwNummer = waardes[6];
+                    
+                           
                 bestelling.BestellingsStatus.Naam = waardes[7];
                 return bestelling;
 
@@ -198,7 +205,23 @@ public class BestellingenController : Controller
             return null;
         }
         mockList.RemoveAll(item => item == null);
-        return (List<Bestelling>)mockList;
+            if (sorteerOptie == "alfabetisch")
+            {
+                return mockList.OrderBy(bestelling => bestelling.Voornaam).ThenBy(bestelling => bestelling.Familienaam).ToList();
+            }
+
+            if (sorteerOptie == "datum")
+            {
+
+                return mockList.OrderByDescending(bestelling => bestelling.Besteldatum).ToList();
+            }
+
+            if (sorteerOptie == "status")
+            {
+
+                return mockList.OrderBy(bestelling => bestelling.BestellingsStatus.Naam).ToList();
+            }
+            return (List<Bestelling>)mockList;
         }
         catch
         {
