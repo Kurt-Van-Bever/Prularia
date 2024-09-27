@@ -4,6 +4,7 @@ using Prularia.Models;
 using Prularia.Filters;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -106,12 +107,17 @@ public class BestellingenController : Controller
 
             Bestellijnen = b.Bestellijnen
         };
+        var email = string.Empty;
         if (b.Klant.Natuurlijkepersoon != null)
-            vm.Email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
+            email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
         else
-            vm.Email = b.Klant.Rechtspersoon!.Contactpersonen
-                .FirstOrDefault(c => c.Voornaam == vm.Voornaam && c.Familienaam == vm.Familienaam)!
-                .GebruikersAccount.Emailadres;
+        {
+            var contactpersoon = b.Klant.Rechtspersoon!.Contactpersonen
+                .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam);
+            if (contactpersoon != null)
+                email = contactpersoon.GebruikersAccount.Emailadres;
+        }
+        vm.Email = email;
 
 
         return View(vm);
