@@ -58,9 +58,12 @@ public class BestellingenController : Controller
             if (b.Klant.Natuurlijkepersoon != null)
                 email = b.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres;
             else
-                email = b.Klant.Rechtspersoon!.Contactpersonen
-                    .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam)!
-                    .GebruikersAccount.Emailadres;
+            {
+                var contactpersoon = b.Klant.Rechtspersoon!.Contactpersonen
+                    .FirstOrDefault(c => c.Voornaam == b.Voornaam && c.Familienaam == b.Familienaam);
+                if (contactpersoon != null)
+                    email = contactpersoon.GebruikersAccount.Emailadres;
+            }
 
             vm.Add(new BestellingenViewModel
             {
