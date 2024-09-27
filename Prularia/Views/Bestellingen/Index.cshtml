@@ -7,14 +7,29 @@
     ViewBag.Title = "Bestellingen";
     string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalue");
     string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
+    string useMock = ViewBag.useMock;
 }
 
 <h2 class="mb-3 mt-2">Bestellingen</h2>
 
+@if (ViewBag.useMock == "1")
+{
+    <a asp-action="Index" asp-route-useMock="0" class="btn btn-success">gebruik database</a>
+}
+@if (ViewBag.useMock == "0")
+{
+    <a asp-action="Index" asp-route-useMock="1" class="btn btn-success">gebruik presentatie data</a>
+}
+
 <div class="formContainer mb-3">
     <form class="SearchForm" method="get">
         @{
-            <input name="pageSize" value="ViewBag.pageSize" type="hidden" />
+            <input name="pageSize" value="@ViewBag.pageSize" type="hidden" />
+
+            //enkel voor presentatie
+            <input name="useMock" value="@ViewBag.useMock" type="hidden" />
+            //
+
             if(searchvalue != null)
             {
                 <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
@@ -84,7 +99,8 @@
             new { page = page, 
                 searchValue = searchvalue,    
                 sorteer = sorteervalue,
-                pageSize = ViewBag.pageSize
+                pageSize = ViewBag.pageSize,
+                useMock = ViewBag.useMock
                 }),
         new PagedListRenderOptions
     {
