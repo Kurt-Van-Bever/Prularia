@@ -21,7 +21,7 @@
     <a asp-action="Index" asp-route-useMock="1" class="btn btn-success">gebruik presentatie data</a>
 }
 
-<div class="formContainer mb-3">
+<div class="formContainer">
     <form class="SearchForm" method="get">
         @{
             <input name="pageSize" value="@ViewBag.pageSize" type="hidden" />
@@ -75,7 +75,14 @@
                                 <td>@bestelling.Emailadres</td>
                                 <td>@bestelling.Bedrijfsnaam</td>
                                 <td>@bestelling.BtwNummer</td>
-                                <td>@bestelling.BestellingsStatus.Naam</td>
+
+                                <td>
+                                    <span class="status-label-bolletje kleur-status-@bestelling.BestellingsStatus.Naam">
+                                        
+                                    </span>
+                                    @bestelling.BestellingsStatus.Naam
+                                </td>
+
                                 <td>
                                     <a asp-action="Details" asp-route-id="@bestelling.BestelId">
                                         <button class="btn btn-success">Ga naar bestelling</button>
@@ -88,46 +95,46 @@
                 </tbody>
             </table>
         }
-        }
+    }
 
-    
+
 </div>
 
-<br />
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-            new { page = page, 
-                searchValue = searchvalue,    
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+            new
+            {
+                page = page,
+                searchValue = searchvalue,
                 sorteer = sorteervalue,
                 pageSize = ViewBag.pageSize,
                 useMock = ViewBag.useMock
                 }),
         new PagedListRenderOptions
     {
-        LiElementClasses = new string[] {"page-item" /* "pagelist-item" */ },
-            PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+        LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+        PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
     })
 
-<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
-    
-</select> 
+    <select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+    </select>
 
-@section Scripts{
-    <script>
-        document.getElementById("actionSelect").onchange = function () {
-            var selectedValue = this.value;
+    @section Scripts {
+        <script>
+            document.getElementById("actionSelect").onchange = function () {
+                var selectedValue = this.value;
 
-            
-            if (selectedValue) {                
-                var currentUrl = window.location.href;                
-                var url = new URL(currentUrl);                
-                var params = url.searchParams;                
-                params.set('pageSize', selectedValue);
-                params.set('page', "1");
-                url.search = params.toString();                
-                window.location.href = url.toString();
+
+                if (selectedValue) {
+                    var currentUrl = window.location.href;
+                    var url = new URL(currentUrl);
+                    var params = url.searchParams;
+                    params.set('pageSize', selectedValue);
+                    params.set('page', "1");
+                    url.search = params.toString();
+                    window.location.href = url.toString();
+                }
             }
-        }
-    </script>
-}
-
+        </script>
+    }
+</div>
