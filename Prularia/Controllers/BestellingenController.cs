@@ -5,6 +5,8 @@ using Prularia.Filters;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages.Manage;
+using System.Buffers;
+using System.IO;
 namespace Prularia.Controllers;
 
 [AuthorizationGroup("Cwebsite")]
@@ -138,4 +140,49 @@ public class BestellingenController : Controller
         return RedirectToAction(nameof(Details), new { id = bestelling.BestelId });
     }
 
+    private async Task<List<Bestelling>> getMockData(string? searchValue)
+    {
+        if (string.IsNullOrEmpty(searchValue))
+            searchValue = string.Empty;
+
+        var csvData = File.ReadAllLines("MOCK_DATA.csv");
+        List<Bestelling?> mockList = csvData
+                                            .Skip(1)
+                                            .Select(x => selecteerData(x))
+                                            .ToList();
+        Bestelling? selecteerData(string csvLine)
+        {
+            string[] waardes = csvLine.Split(',');
+            if (Array.Exists(waardes, waarde =>
+            {
+                if (string.IsNullOrEmpty(waarde))
+                    return false;
+                if (waarde.ToString().ToUpper().StartsWith(searchValue.ToUpper()))
+                    return true;
+                else return
+                        false;
+            }))
+            {
+                var bestelling = new Bestelling();
+                bestelling.Klant = new Klant();
+                bestelling.Klant.Natuurlijkepersoon = new Natuurlijkepersoon();
+                bestelling.Klant.Natuurlijkepersoon.GebruikersAccount = new Gebruikersaccount();
+                bestelling.BestellingsStatus = new Bestellingsstatus();
+
+                bestelling.BestelId = Convert.ToInt32(waardes[0]);
+                bestelling.Besteldatum = Convert.ToDateTime(waardes[1]);
+                bestelling.Klant.Natuurlijkepersoon.Voornaam = waardes[2];
+                bestelling.Klant.Natuurlijkepersoon.Familienaam = waardes[3];
+                bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres = waardes[4];
+                bestelling.Bedrijfsnaam = waardes[5];
+                bestelling.BtwNummer = waardes[6];
+                bestelling.BestellingsStatus.Naam = waardes[7];
+                return bestelling;
+
+            }
+            return null;
+        }
+        mockList.RemoveAll(item => item == null);
+        return (List<Bestelling>)mockList;
+    }
 }
