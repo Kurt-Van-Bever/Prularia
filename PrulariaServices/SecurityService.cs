@@ -80,22 +80,5 @@ public class SecurityService
         //_securityRepo.AddPersoneelslidAccount(account);
         _securityRepo.AddPersoneelslid(lid);
     }
-
-    public async Task<List<Personeelslid>> SearchPersoneelslid(string searchValue, string sorteerOptie)
-    {
-
-        List<Personeelslid> personeelsleden = await _securityRepo.SearchPersoneelsLid(searchValue);
-
-
-
-        if (sorteerOptie == "alfabetisch")
-        {
-            return personeelsleden.OrderBy(personeel => personeel.Voornaam).ThenBy(personeel => personeel.Familienaam).ToList();
-        }
-
-
-        return personeelsleden;
-    }
-
 }
 

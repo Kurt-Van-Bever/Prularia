@@ -27,7 +27,7 @@ namespace Prularia.Controllers
                 return RedirectToAction(nameof(Login));
 
 
-            ViewBag.Email = _securityService.GetAccount(GetSession_LoggedInUser(HttpContext)!.UserId)!.Emailadres;
+            ViewBag.Email = _securityService.GetAccount(GetSession_LoggedInUser(HttpContext).UserId).Emailadres;
             return View();
         }
 
@@ -154,20 +154,8 @@ namespace Prularia.Controllers
             return View(vm);
         }
 
-        public async Task<IActionResult> PersoneelsLeden(string? searchValue, string? sorteer, int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
+        public IActionResult PersoneelsLeden( int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
         {
-
-            if (searchValue != null)
-            {
-                HttpContext.Session.SetString("searchvaluePersoneel", searchValue);
-            }
-            else
-            {
-                HttpContext.Session.Remove("searchvaluePersoneel");
-
-            }
-
-
             var keuzes = new SelectListItem[] {
             new SelectListItem() { Text = "5", Value = "5" },
             new SelectListItem() { Text = "10", Value = "10" },
@@ -179,28 +167,13 @@ namespace Prularia.Controllers
         };
 
 
-
-
-
             keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
 
             ViewBag.PageSizeKeuze = keuzes;
             ViewBag.pageSize = pageSize;
-
-
-            var personeelsleden = await _securityService.SearchPersoneelslid(searchValue!, sorteer!);
-                
-                //.ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
-
-           
-            return View(new PagedList<Personeelslid>(personeelsleden, (page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE)));
-
-
-
-
-
-
-
+            var personeelsleden = _securityService.GetAllPersoneelsleden()
+                .ToPagedList((page ?? 1), (pageSize ?? PAGINATION_DEFAULT_PAGESIZE));
+            return View(personeelsleden);
         }
         public IActionResult AdminPage() { return View(); }
 

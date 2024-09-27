@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
 
 namespace Prularia.Repositories
@@ -105,22 +104,6 @@ namespace Prularia.Repositories
             _context.SaveChanges();
         }
 
-        public async Task<List<Personeelslid>> SearchPersoneelsLid(string searchValue)
-        {
-
-            if (searchValue.IsNullOrEmpty())
-            {
-                return  GetAllPersoneelsleden();
-            }
-
-            return await _context.Personeelsleden
-                 .Include(acc => acc.PersoneelslidAccount)
-
-                 .Where(personeelslid => personeelslid.PersoneelslidId.ToString().StartsWith(searchValue)
-                    || personeelslid.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
-                    || personeelslid.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
-                    || personeelslid.PersoneelslidAccount.Emailadres.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
-        }
     }
 
 
