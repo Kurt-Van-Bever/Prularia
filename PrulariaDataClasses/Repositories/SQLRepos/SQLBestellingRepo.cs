@@ -1,10 +1,6 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
-using System.Buffers;
-using System.Globalization;
-using System.Numerics;
 
 namespace Prularia.Repositories;
 
@@ -22,6 +18,10 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
+            .Include(b => b.Klant)
+            .ThenInclude(k => k.Rechtspersoon)
+            .ThenInclude(rp => rp.Contactpersonen)
+            .ThenInclude(cp => cp.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .ToListAsync();
     }
@@ -33,22 +33,17 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(b => b.BestellingsStatus)
             .Include(b => b.Betaalwijze)
             .Include(b => b.Klant)
+            .ThenInclude(k => k.Natuurlijkepersoon)
+            .ThenInclude(np => np.GebruikersAccount)
+            .Include(b => b.Klant)
+            .ThenInclude(k => k.Rechtspersoon)
+            .ThenInclude(rp => rp.Contactpersonen)
+            .ThenInclude(cp => cp.GebruikersAccount)
             .Include(b => b.FacturatieAdres).ThenInclude(fa => fa.Plaats)
             .Include(b => b.LeveringsAdres).ThenInclude(la => la.Plaats)
             .Include(b => b.Bestellijnen).ThenInclude(l => l.Artikel)
             .FirstOrDefaultAsync(b => b.BestelId == id);
-    }
-
-    public void Update(Bestelling bestelling)
-    {
-        if (bestelling != null)
-        {
-            _context.Bestellingen.Update(bestelling);
-            _context.SaveChanges();
-        }
-    }
-
-    public Bestelling? Get(int id) => _context.Bestellingen.Find(id);
+    }   
 
   
     public async Task<List<Bestelling>> SearchBestelling(string searchValue)
@@ -66,6 +61,10 @@ public class SQLBestellingRepo : IBestellingRepo
             .Include(bestelling => bestelling.Klant)
             .ThenInclude(bestelling => bestelling.Natuurlijkepersoon)
             .ThenInclude(bestelling => bestelling!.GebruikersAccount)
+            .Include(b => b.Klant)
+            .ThenInclude(k => k.Rechtspersoon)
+            .ThenInclude(rp => rp.Contactpersonen)
+            .ThenInclude(cp => cp.GebruikersAccount)
             .Include(bestelling => bestelling.BestellingsStatus)
             .Where(bestelling => 
             bestelling.Bedrijfsnaam!.ToUpper().StartsWith(searchValue.ToUpper()) 
@@ -73,8 +72,10 @@ public class SQLBestellingRepo : IBestellingRepo
             || bestelling.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
             || bestelling.BestellingsStatus.Naam!.ToUpper().StartsWith(searchValue.ToUpper())
-            || bestelling.Klant.Natuurlijkepersoon!.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
-         
+            || bestelling.Klant.Natuurlijkepersoon.GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
+            || bestelling.Klant.Rechtspersoon!.Contactpersonen
+            .FirstOrDefault(c => c.Voornaam == bestelling.Voornaam && c.Familienaam == bestelling.Familienaam)!
+            .GebruikersAccount.Emailadres!.ToUpper().StartsWith(searchValue.ToUpper())
 
             ).ToListAsync();
             

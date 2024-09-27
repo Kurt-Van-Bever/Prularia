@@ -19,8 +19,9 @@
                 <td>@securitygroep.SecurityGroepId</td>
                 <td>@securitygroep.Naam</td>
                 <td>
-                    <a asp-action="SecuritygroepDetails" asp-route-id="@securitygroep.SecurityGroepId">
-                        <button class="btn btn-success">Details</button>
+                    <a asp-action="SecuritygroepDetails" asp-route-id="@securitygroep.SecurityGroepId"
+                       class="btn btn-success">
+                        Details
                     </a>
                 </td>
             </tr>
@@ -28,4 +29,4 @@
     </tbody>
 </table>
 
-<a asp-action="AdminPage"><button class="btn btn-secondary">Terug</button></a>
+<a asp-action="AdminPage" class="btn btn-secondary">Terug</a>

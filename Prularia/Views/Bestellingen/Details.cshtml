@@ -1,19 +1,16 @@
 ﻿@model BestellingDetailViewModel
 @{
     ViewData["Title"] = "Details";
+    decimal totaal = 0m;
+    var belgianCultureInfo = new System.Globalization.CultureInfo("nl-BE");
 }
 
 <div class="detailstitel mb-3 mt-2">
     <h2>Bestelling # @Model.BestelId</h2>
     <h2 class="status-label kleur-status-@Model.BestellingsStatus.Naam">
-            @Model.BestellingsStatus.Naam
+        @Model.BestellingsStatus.Naam
     </h2>
 </div>
-
-
-   
-
-
 
 <div class="detailsoverzicht">
     <div id="bestellingsgegevens">
@@ -23,18 +20,19 @@
         <div>Betaalcode: @Model.Betalingscode</div>
         <div>Actiecode: @(Model.ActiecodeGebruikt == true ? "Ja" : "Neen")</div>
         <div></div>
-        @if ( Model.Annulatiedatum != null && Model.Annulatie == true)
+        @if (Model.Annulatiedatum != null && Model.Annulatie == true)
         {
             <div class="housestyle-warning">Deze bestelling werd geannuleerd op @(((DateTime)Model.Annulatiedatum).ToShortDateString())</div>
         }
     </div>
     <div id="contactgegevens">
-        @if(Model.Bedrijfsnaam != null)
+        @if (Model.Bedrijfsnaam != null)
         {
             <div class="fw-bold">@Model.Bedrijfsnaam</div>
             <div>BTW: @Model.BtwNummer</div>
         }
         <div>@Model.Voornaam @Model.Familienaam</div>
+        <div>@Model.Email</div>
         <div id="leveringsadres">
             <div class="fw-bold">Leveringsadres</div>
             <div>@Model.LeveringsAdres.Straat @Model.LeveringsAdres.HuisNummer</div>
@@ -51,22 +49,32 @@
 <h2>Bestellijnen</h2>
 <table class="table table-striped">
     <thead>
-        <th>Id</th>
-        <th>Naam</th>
-        <th>Prijs</th>
-        <th>Aantal</th>
+    <th>Id</th>
+    <th>Naam</th>
+    <th>Prijs per stuk</th>
+    <th>Aantal</th>
+    <th>Prijs</th>
+
     </thead>
     <tbody>
-        @foreach(Bestellijn lijn in Model.Bestellijnen)
+        @foreach (Bestellijn lijn in Model.Bestellijnen)
         {
             <tr>
                 <td>@lijn.BestellijnId</td>
                 <td>@lijn.Artikel.Naam</td>
-                <td>@lijn.Artikel.Prijs.ToString("C", new System.Globalization.CultureInfo("nl-NL"))</td>
+                <td>@lijn.Artikel.Prijs.ToString("C", belgianCultureInfo)</td>
                 <td>@lijn.AantalBesteld</td>
+                <td>@((lijn.Artikel.Prijs * lijn.AantalBesteld).ToString("C", belgianCultureInfo))</td>
             </tr>
+            totaal += lijn.Artikel.Prijs * lijn.AantalBesteld;
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" class="totaal">Totaal:</th>
+            <th>@totaal.ToString("C", belgianCultureInfo)</th>
+        </tr>
+    </tfoot>
 </table>
 
 
@@ -76,27 +84,27 @@
     <a class="btn btn-success" href="javascript:void(0);" onclick="showModalPopupAnnuleren()">Annuleren</a>
 }
 
-<a asp-action="Wijzigen" asp-route-id="@Model.BestelId" class="btn btn-success">Wijzig</a><a asp-action="Index" class="btn btn-success">Terug naar alle bestellingen</a>
+<a asp-action="Index" class="btn btn-success">Terug</a>
 
 <!-- Modal HTML (using Bootstrap) -->
-    
-    <div class="modal fade" id="annulerenModal" tabindex="-1" role="dialog" aria-labelledby="annulerenModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="annulerenModalLabel">Annuleren Bestelling</h5>
-                    <button type="button" class="btn btn-secondary p-1" data-dismiss="modal">X</button>
-                </div>
-                <div class="modal-body">
-                    Weet u zeker dat u de bestelling wilt annuleren?
-                </div>
-                <div class="modal-footer">
+
+<div class="modal fade" id="annulerenModal" tabindex="-1" role="dialog" aria-labelledby="annulerenModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="annulerenModalLabel">Annuleren Bestelling</h5>
+                <button type="button" class="btn btn-secondary p-1" data-dismiss="modal">X</button>
+            </div>
+            <div class="modal-body">
+                Weet u zeker dat u de bestelling wilt annuleren?
+            </div>
+            <div class="modal-footer">
                 <form asp-action="AnnulerenPopup" method="post">
                     <input type="hidden" name="id" value="@Model.BestelId" />
                     <button type="submit" class="btn btn-success">Ja</button>
                 </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Nee</button>
-                </div>
             </div>
         </div>
     </div>
+</div>

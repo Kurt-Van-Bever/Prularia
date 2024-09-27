@@ -22,7 +22,9 @@ namespace Prularia.Repositories
             return await _context.Personeelsleden.Include(l => l.SecurityGroepen).FirstOrDefaultAsync(l => l.PersoneelslidAccountId == account.PersoneelslidAccountId);
         }
 
-        public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts.Find(id);
+        public Personeelslidaccount? GetAccount(int id) => _context.Personeelslidaccounts
+            .Include(p => p.Personeelsleden)
+            .FirstOrDefault(p => p.PersoneelslidAccountId == id);
         public void UpdateAccount(Personeelslidaccount account)
         {
             _context.Update(account);
@@ -104,8 +106,10 @@ namespace Prularia.Repositories
             _context.SaveChanges();
         }
 
+
+
     }
 
 
 }
-
+        

@@ -4,12 +4,13 @@
 @using X.PagedList;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
-<h2 class="mb-3 mt-2">Natuurlijke Personen</h2>
-
 @{
+    ViewBag.Title = "Natuurlijke personen";
     string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueKlant");
     //string? sorteervalue = @HttpContextAccessor.HttpContext?.Session.GetString("sorteer");
 }
+
+<h2 class="mb-3 mt-2">Natuurlijke Personen</h2>
 
 <form asp-action="ToggleKlantType" method="post" class="mb-3">
     <input type="hidden" name="huidigType" value="natuurlijk" />
@@ -35,11 +36,11 @@
             <option value="alfabetisch">Alfabetisch</option>
             <option value="postcode">Postcode</option>
         </select>
-        <button class="btn btn-success">zoeken</button>
+        <button class="btn btn-success">Zoeken</button>
     </form>
 </div>
 
-@if(Model.Count > 0)
+@if (Model.Count > 0)
 {
     <table class="table table-hover">
         <thead>
@@ -67,7 +68,7 @@
             }
         </tbody>
     </table>
-} 
+}
 else
 {
     <h2>Niks gevonden</h2>
@@ -76,18 +77,18 @@ else
 <br />
 
 @Html.PagedListPager(Model, page => Url.Action("Index",
-                        new
-                        {
-                            page = page,
-                            searchValue = searchvalue,
-                            // sorteer = sorteervalue,
-                            pageSize = ViewBag.pageSize
-                        }),
-                    new PagedListRenderOptions
-                {
-                    LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
-                    PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
-                })
+                            new
+                            {
+                                page = page,
+                                searchValue = searchvalue,
+                                // sorteer = sorteervalue,
+                                pageSize = ViewBag.pageSize
+                            }),
+                        new PagedListRenderOptions
+                    {
+                        LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+                        PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+                    })
 
 <select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
 </select>

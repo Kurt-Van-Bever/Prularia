@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PrulariaDataClasses\PrulariaModels.csproj" />
+    <ProjectReference Include="..\PrulariaDataClasses\PrulariaData.csproj" />
     <ProjectReference Include="..\PrulariaServices\PrulariaServices.csproj" />
   </ItemGroup>
 

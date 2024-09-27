@@ -7,7 +7,7 @@ using X.PagedList;
 
 namespace Prularia.Controllers;
 
-//[AuthorizationGroup("Cwebsite")]
+[AuthorizationGroup("Cwebsite")]
 public class KlantenController : Controller
 {
     private readonly KlantService _klantService;
@@ -18,7 +18,8 @@ public class KlantenController : Controller
         _klantService = klantService;
     }
 
-    public async Task<IActionResult> Index(string? searchValue, string? sorteer, int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
+    public async Task<IActionResult> Index(string? searchValue, string? sorteer,
+        int? page, int? pageSize = PAGINATION_DEFAULT_PAGESIZE)
     {
         string klantType = TempData["KlantType"] as string ?? "natuurlijk";
         TempData.Keep("KlantType");
@@ -32,23 +33,19 @@ public class KlantenController : Controller
             new SelectListItem() { Text = "50", Value = "50" },
             new SelectListItem() { Text = "100", Value = "100" }
         };
-
         
         keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
 
         ViewBag.PageSizeKeuze = keuzes;
 
 
-        if (searchValue != null && klantType == "natuurlijk" )
+        if (searchValue != null && klantType == "natuurlijk")
         {
             HttpContext.Session.SetString("searchvalueKlant", searchValue);
-           // HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
         }
-        else if(searchValue != null)
+        else if (searchValue != null)
         {
             HttpContext.Session.SetString("searchvalueKlantRechtspersoon", searchValue);
-            //HttpContext.Session.Remove("searchvalueKlant");
-
         }
 
         if(searchValue == null)
@@ -56,17 +53,9 @@ public class KlantenController : Controller
             HttpContext.Session.Remove("searchvalueKlantRechtspersoon");
             HttpContext.Session.Remove("searchvalueKlant");
         }
-
         
-
-
-  
-
         if (klantType == "natuurlijk")
         {
-
-
-
             var natuurlijkePersonen = await _klantService.searchNatuurlijkePersoonAsync(searchValue!, sorteer!);
             var vm = natuurlijkePersonen.Select(n => new NatuurlijkePersoonViewModel
             {
