@@ -25,9 +25,21 @@
             <button class="toggle-button ml-2" onclick="toggleSidebar()">☰</button>
         </div>
 
-        <!-- Logout Button on the Right -->
-        <div>
-            <a asp-controller="Security" asp-action="Logout" class="btn btn-danger">Uitloggen</a>
+        <!-- Account Dropdown Button on the Right -->
+        <div class="dropdown">
+            <button class="toggle-button dropdown-toggle" type="button" id="accountDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                @(Context.Session.GetString("UserName") ?? "niet ingelogd") <!-- Naam van het ingelogde account -->
+            </button>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="accountDropdown">
+                <!-- Account info zoals e-mail en securitygroepen -->
+                <div class="px-3 py-2">
+                    <p class="mb-1"><strong>Email:</strong> @(Context.Session.GetString("Email") ?? "niet ingelogd")</p>
+                </div>
+                <div class="dropdown-divider"></div>
+                <!-- Links naar accountbeheer en uitloggen -->
+                <a class="dropdown-item btn btn-success" asp-controller="Security" asp-action="Index">Accountbeheer</a>
+                <a class="dropdown-item" style="color: red" asp-controller="Security" asp-action="Logout">Uitloggen</a>
+            </div>
         </div>
     </header>
 
@@ -37,7 +49,6 @@
             <a class="nav-link text-light" asp-area="" asp-controller="Bestellingen" asp-action="Index">Bestellingen</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Klanten" asp-action="Index">Klanten</a>
             <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="AdminPage">Admin</a>
-            <a class="nav-link text-light" asp-area="" asp-controller="Security" asp-action="Index">Accountbeheer</a>
         </div>
     </div>
 
@@ -63,7 +74,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="~/js/site.js"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

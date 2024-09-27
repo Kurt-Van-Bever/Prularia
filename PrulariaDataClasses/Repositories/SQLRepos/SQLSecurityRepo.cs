@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Prularia.Models;
+using System.Text.RegularExpressions;
 
 namespace Prularia.Repositories
 {
@@ -42,6 +43,29 @@ namespace Prularia.Repositories
                 .Include(p => p.PersoneelslidAccount)
                 .Include(p => p.SecurityGroepen)
                 .ToList();
+
+
+        public async Task<List<Personeelslid>> SearchGetPersoneelsledenBySecuritygroepId(string searchValue, int id)
+        {
+
+
+
+
+            if (searchValue.IsNullOrEmpty())
+            {
+                return GetPersoneelsledenBySecuritygroepId(id);
+            }
+
+
+            return await _context.Personeelsleden
+                .Where(p => p.SecurityGroepen.Any(g => g.SecurityGroepId == id))
+                .Include(p => p.PersoneelslidAccount)
+                .Include(p => p.SecurityGroepen)
+                .Where(p => p.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
+                || p.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
+                || p.PersoneelslidAccount.Emailadres.ToUpper().StartsWith(searchValue.ToUpper())
+                || p.PersoneelslidAccount.Disabled.ToString().ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+        }
         public List<Personeelslid> GetAllPersoneelsleden()
                 => _context.Personeelsleden
                         .Include(acc => acc.PersoneelslidAccount)
@@ -57,6 +81,10 @@ namespace Prularia.Repositories
             return personeelslid;
         }
 
+
+        
+
+
         public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id)
         {
             var groep = _context.Securitygroepen.Find(id);
@@ -68,6 +96,30 @@ namespace Prularia.Repositories
                 .ToList();
 
             return personeelsleden;
+        }
+
+        public async Task<List<Personeelslid>> SearchAllPersoneelsLedenNotInGroep(int id, string searchValue)
+        {
+            if (searchValue.IsNullOrEmpty())
+            {
+                return GetAllPersoneelsledenNotInGroup(id);
+              
+
+            }
+
+            var groep = _context.Securitygroepen.Find(id);
+
+            var personeelsleden = await _context.Personeelsleden
+             .Where(p => !p.SecurityGroepen.Contains(groep!))
+             .Include(p => p.PersoneelslidAccount)
+             .Include(p => p.SecurityGroepen)
+             .Where(p => p.Voornaam.ToUpper().StartsWith(searchValue.ToUpper())
+             || p.Familienaam.ToUpper().StartsWith(searchValue.ToUpper())
+             || p.PersoneelslidAccount.Disabled.ToString().ToUpper().StartsWith(searchValue.ToUpper())
+             || p.PersoneelslidAccount.Emailadres.ToUpper().StartsWith(searchValue.ToUpper())).ToListAsync();
+
+            return personeelsleden;
+
         }
 
         public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)

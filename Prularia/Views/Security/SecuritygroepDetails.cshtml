@@ -1,6 +1,8 @@
 ﻿@model SecuritygroepDetailsViewModel
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewData["Title"] = "Securitygroep Details";
+    string? searchvalue = @HttpContextAccessor.HttpContext?.Session.GetString("searchvalueDetailsSecurity");
 }
 
 <h2 class="mb-3 mt-2">Details Securitygroep - @Model.Naam</h2>
@@ -11,6 +13,29 @@
 
 
 <h3>Gebruikers</h3>
+
+<div class="formContainer mb-3">
+    <form class="SearchForm" method="get">
+        @{
+            <input name="pageSize" value="ViewBag.pageSize" type="hidden" />
+            if (searchvalue != null)
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" value="@searchvalue">
+            }
+            else
+            {
+                <input name="searchValue" type="text" class="form-control" id="inputSearch" placeholder="Vul hier een zoekterm in">
+            }
+        }
+        <select name="sorteer" class="selectOrder form-select" aria-label="selecteer zoek optie">
+            <option selected>Selecteer sorteer optie</option>
+            <option value="alfabetisch">Alfabetisch</option>
+            <option value="geblokkeerd">geblokkeerd</option>
+        </select>
+        <button class="btn btn-success">zoeken</button>
+    </form>
+</div>
+
 
 <table class="table">
     <thead>
