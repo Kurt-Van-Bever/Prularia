@@ -225,26 +225,34 @@ body {
 }
 
 .kleur-status-Lopend {
-    background-color: #efbe7d;
+    background-color: #ff9600;
 }
 .kleur-status-Betaald {
-    background-color: #6ea554;
+    background-color: #00ff21;
 }
 .kleur-status-Klaarmaken,
 .kleur-status-Onderweg,
 .kleur-status-Geleverd {
-    background-color: #b1a2ca;
+    background-color: #009eff;
 }
 .kleur-status-Geannuleerd,
 .kleur-status-Beschadigd,
 .kleur-status-Retour,
 .kleur-status-RetourInStock,
 .kleur-status-Verloren{
-    background-color: #ff6d6a;
+    background-color: #ff1300;
 }
 
 .status-label {
-    padding: 0.5em;
+    padding: 0.2em;
+}
+
+.status-label-bolletje {
+    display: inline-block;
+    width: 0.8em; 
+    height: 0.8em; 
+    border-radius: 50%;
+    margin-right: 0.1em;
 }
 
 .custom-width {

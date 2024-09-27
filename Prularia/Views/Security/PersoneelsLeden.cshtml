@@ -58,25 +58,33 @@
     </tbody>
 </table>
 
-<a asp-action="PersoneelToevoegen"><button class="btn btn-secondary">Nieuw personeelslid aanmaken</button></a>
+
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("PersoneelsLeden",
+            new
+            {
+                page = page,
+                // searchValue = searchvalue,
+                // sorteer = sorteervalue,
+                pageSize = ViewBag.pageSize
+            }),
+            new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+        PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+    })
+
+    <select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+    </select>
+</div>
+
 <br />
 
-@Html.PagedListPager(Model, page => Url.Action("PersoneelsLeden",
-                        new
-                        {
-                            page = page,
-                            // searchValue = searchvalue,
-                            // sorteer = sorteervalue,
-                            pageSize = ViewBag.pageSize
-                        }),
-                    new PagedListRenderOptions
-                {
-                    LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
-                    PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
-                })
+<div>
+    <a asp-action="PersoneelToevoegen" class="btn btn-secondary">Nieuw personeelslid aanmaken</a>
+    <a asp-action="AdminPage"><button class="btn btn-secondary">Terug</button></a>
+</div>
 
-<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
-</select>
 
 @section Scripts {
     <script>
@@ -96,4 +104,3 @@
         }
     </script>
 }
-<a asp-action="AdminPage"><button class="btn btn-secondary">Terug</button></a>

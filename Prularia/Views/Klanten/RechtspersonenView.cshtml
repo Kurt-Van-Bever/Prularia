@@ -17,7 +17,7 @@
 </form>
 
 <div class="formContainer">
-   <form class="SearchForm mb-3" method="get">
+    <form class="SearchForm" method="get">
         @{
             <input name="pageSize" value="@Model.PageSize" type="hidden" />
             if (searchvalue != null)
@@ -35,11 +35,11 @@
             <option value="postcode">Postcode</option>
         </select>
 
-    <button class="btn btn-success">Zoeken</button>
-        </form>
+        <button class="btn btn-success">Zoeken</button>
+    </form>
+</div>
 
-
-@if(Model.Count > 0)
+@if (Model.Count > 0)
 {
     <table class="table table-hover">
         <thead>
@@ -66,47 +66,48 @@
             }
         </tbody>
     </table>
-} 
+}
 else
 {
     <h2>niks gevonden</h2>
 }
 
 
-<br />
-
-@Html.PagedListPager(Model, page => Url.Action("Index",
-                    new
-                    {
-                        page = page,
-                        searchValue = searchvalue,
-                        // sorteer = sorteervalue,
-                        pageSize = ViewBag.pageSize
-                    }),
-                new PagedListRenderOptions
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index",
+            new
             {
-                LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
-                PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
-            })
+                page = page,
+                searchValue = searchvalue,
+                // sorteer = sorteervalue,
+                pageSize = ViewBag.pageSize
+            }),
+            new PagedListRenderOptions
+    {
+        LiElementClasses = new string[] { "page-item" /* "pagelist-item" */ },
+        PageClasses = new string[] { "page-link" /* "pagelist-item" */ }
+    })
 
-<select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
-</select>
+    <select id="actionSelect" asp-items="ViewBag.PageSizeKeuze">
+    </select>
 
-@section Scripts {
-    <script>
-        document.getElementById("actionSelect").onchange = function () {
-            var selectedValue = this.value;
+    @section Scripts {
+        <script>
+            document.getElementById("actionSelect").onchange = function () {
+                var selectedValue = this.value;
 
 
-            if (selectedValue) {
-                var currentUrl = window.location.href;
-                var url = new URL(currentUrl);
-                var params = url.searchParams;
-                params.set('pageSize', selectedValue);
-                params.set('page', "1");
-                url.search = params.toString();
-                window.location.href = url.toString();
+                if (selectedValue) {
+                    var currentUrl = window.location.href;
+                    var url = new URL(currentUrl);
+                    var params = url.searchParams;
+                    params.set('pageSize', selectedValue);
+                    params.set('page', "1");
+                    url.search = params.toString();
+                    window.location.href = url.toString();
+                }
             }
-        }
-    </script>
-}
+        </script>
+    }
+</div>
+
