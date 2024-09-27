@@ -6,6 +6,7 @@ using System.Text.Json;
 using System.Numerics;
 using X.PagedList;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Buffers;
 
 namespace Prularia.Controllers;
 
@@ -127,10 +128,21 @@ public class SecurityController : Controller
     }
 
     [AuthorizationGroup("Cwebsite")]
-    public IActionResult SecuritygroepDetails(int id)
+    public async Task<IActionResult> SecuritygroepDetails(int id, string? searchValue, string? sorteer)
     {
         var securitygroep = _securityService.GetSecuritygroep(id);
-        var members = _securityService.GetPersoneelsledenBySecuritygroepId(id);
+        var members = await _securityService.GetPersoneelsledenBySecuritygroepId(searchValue!, sorteer!,  id);
+
+        if (searchValue != null)
+        {
+            HttpContext.Session.SetString("searchvalueDetailsSecurity", searchValue);
+        }
+        else
+        {
+            HttpContext.Session.Remove("searchvalueDetailsSecurity");
+
+        }
+
         if (securitygroep == null) return NotFound();
 
         var vm = new SecuritygroepDetailsViewModel()
@@ -182,7 +194,7 @@ public class SecurityController : Controller
         };
 
 
-        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString())!.Selected = true;
 
         ViewBag.PageSizeKeuze = keuzes;
         ViewBag.pageSize = pageSize;
@@ -268,14 +280,28 @@ public class SecurityController : Controller
 
     [HttpGet]
     [AuthorizationGroup("Cwebsite")]
-    public IActionResult PersoneelslidToevoegen(int id)
+    public async Task<IActionResult> PersoneelslidToevoegen(int id, string? searchValue, string? sorteer)
     {
-        var personeelsleden = _securityService.GetAllPersoneelsledenNotInGroup(id);
+
+
+        if (searchValue != null)
+        {
+            HttpContext.Session.SetString("searchvaluePersoneelToevoegenAdmin", searchValue);
+        }
+        else
+        {
+            HttpContext.Session.Remove("searchvaluePersoneelToevoegenAdmin");
+
+        }
+
+
+        var personeelsleden = await _securityService.GetAllPersoneelsledenNotInGroup(id, searchValue!, sorteer!);
         var vm = new PersoneelslidToevoegenAanGroepViewModel
         {
             SecuritygroepNaam = _securityService.GetSecuritygroep(id)!.Naam,
             SecuritygroepId = id
         };
+
         foreach (var p in personeelsleden)
         {
             vm.Personeelsleden.Add(new PersoneelslidAccountViewModel
@@ -288,6 +314,7 @@ public class SecurityController : Controller
                 Disabled = p.PersoneelslidAccount.Disabled
             });
         }
+
 
         return View(vm);
     }

@@ -18,8 +18,11 @@ namespace Prularia.Repositories
         void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId);
         void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId);
         void AddPersoneelslidAccount(Personeelslidaccount account);
+        Task<List<Personeelslid>> SearchPersoneelsLid(string searchValue);
         void AddPersoneelslid(Personeelslid account);
 
-        Task<List<Personeelslid>> SearchPersoneelsLid(string searchValue);
+        Task<List<Personeelslid>> SearchGetPersoneelsledenBySecuritygroepId(string searchValue, int id);
+
+        Task<List<Personeelslid>> SearchAllPersoneelsLedenNotInGroep(int id, string searchValue);
     }      
 }

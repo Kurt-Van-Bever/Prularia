@@ -1,5 +1,8 @@
-﻿using Prularia.Models;
+﻿using Google.Protobuf.WellKnownTypes;
+using Prularia.Models;
 using Prularia.Repositories;
+using System.Buffers;
+using System.Globalization;
 
 namespace Prularia.Services;
 
@@ -60,11 +63,43 @@ public class SecurityService
 
     public List<Securitygroep> GetAllSecuritygroepen() => _securityRepo.GetAllSecurityGroepen();
     public Securitygroep? GetSecuritygroep(int id) => _securityRepo.GetSecuritygroep(id);
-    public List<Personeelslid> GetPersoneelsledenBySecuritygroepId(int id) 
-        => _securityRepo.GetPersoneelsledenBySecuritygroepId(id);   
+    public async Task<List<Personeelslid>> GetPersoneelsledenBySecuritygroepId(string searchValue, string? sorteer, int id)
+    {
+
+        
+
+        
+        var personeel = await _securityRepo.SearchGetPersoneelsledenBySecuritygroepId(searchValue, id);
+
+        if(sorteer == "alfabetisch") {
+            return personeel.OrderBy(p => p.Voornaam).ThenBy(p => p.Familienaam).ToList();
+        }
+
+        if(sorteer == "geblokkeerd")
+        {
+            return personeel.OrderBy(p => p.PersoneelslidAccount.Disabled).ToList();
+        }
+
+        return personeel;
+    }
+       
     public List<Personeelslid> GetAllPersoneelsleden() => _securityRepo.GetAllPersoneelsleden();
     public Personeelslid? GetPersoneelslid(int id) => _securityRepo.GetPersoneelslid(id);
-    public List<Personeelslid> GetAllPersoneelsledenNotInGroup(int id) => _securityRepo.GetAllPersoneelsledenNotInGroup(id);
+    public async Task<List<Personeelslid>> GetAllPersoneelsledenNotInGroup(int id, string searchValue, string sorteer) {
+        var personeel = await _securityRepo.SearchAllPersoneelsLedenNotInGroep(id, searchValue);
+
+        if (sorteer == "alfabetisch")
+        {
+            return personeel.OrderBy(p => p.Voornaam).ThenBy(p => p.Familienaam).ToList();
+        }
+
+        if (sorteer == "geblokkeerd")
+        {
+            return personeel.OrderBy(p => p.PersoneelslidAccount.Disabled).ToList();
+        }
+
+        return personeel;
+    }
     public void AddPersoneelslidToSecuritygroep(int gebruikerId, int groepId)
         => _securityRepo.AddPersoneelslidToSecuritygroep(gebruikerId, groepId);
     public void RemovePersoneelslidToSecuritygroep(int gebruikerId, int groepId)
@@ -78,6 +113,7 @@ public class SecurityService
     {
         //_securityRepo.AddPersoneelslidAccount(account);
         _securityRepo.AddPersoneelslid(lid);
+
     }
 
 

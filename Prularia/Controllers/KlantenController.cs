@@ -34,7 +34,7 @@ public class KlantenController : Controller
             new SelectListItem() { Text = "100", Value = "100" }
         };
         
-        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString()).Selected = true;
+        keuzes.FirstOrDefault(p => p.Value == pageSize.ToString())!.Selected = true;
 
         ViewBag.PageSizeKeuze = keuzes;
 
